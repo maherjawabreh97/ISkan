@@ -1,0 +1,17 @@
+
+> websites@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.5 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.13:3000
+✓ Ready in 1007ms
+✓ Running next.config.ts took 220ms
+
+○ Compiling /[lang] ...
+ GET /ar 200 in 10.5s (next.js: 7.4s, proxy.ts: 10ms, generate-params: 1549ms, application-code: 1489ms)
+ GET /ar 200 in 595ms (next.js: 63ms, proxy.ts: 21ms, generate-params: 22ms, application-code: 489ms)
+ GET /en 200 in 157ms (next.js: 15ms, proxy.ts: 8ms, generate-params: 8ms, application-code: 126ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /ar 200 in 101ms (next.js: 9ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 81ms)
+ GET /ar 200 in 226ms (next.js: 13ms, proxy.ts: 5ms, generate-params: 15ms, application-code: 193ms)
