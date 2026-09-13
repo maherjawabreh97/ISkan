@@ -97,8 +97,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Khalid Al-Otaibi", ar: "خالد العتيبي" },
       role: "senior-consultant",
-      phone: "+966551234001",
-      email: "khalid@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -133,8 +133,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Sara Al-Shammari", ar: "سارة الشمري" },
       role: "property-manager",
-      phone: "+966551234002",
-      email: "sara@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -168,8 +168,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Mohammed Al-Harbi", ar: "محمد الحربي" },
       role: "senior-consultant",
-      phone: "+966551234003",
-      email: "mohammed@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -204,8 +204,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Noura Al-Shehri", ar: "نورة الشهري" },
       role: "commercial-advisor",
-      phone: "+966551234004",
-      email: "noura@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -239,8 +239,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Ahmed Al-Qahtani", ar: "أحمد القحطاني" },
       role: "luxury-consultant",
-      phone: "+966551234005",
-      email: "ahmed@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -275,8 +275,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Abdullah Al-Malki", ar: "عبدالله المالكي" },
       role: "property-manager",
-      phone: "+966551234006",
-      email: "abdullah@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -310,8 +310,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Fahad Al-Dossari", ar: "فهد الدوسري" },
       role: "senior-consultant",
-      phone: "+966551234007",
-      email: "fahad@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -344,8 +344,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Layla Al-Rashidi", ar: "ليلى الرشيدي" },
       role: "land-specialist",
-      phone: "+966551234008",
-      email: "layla@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -379,8 +379,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Omar Al-Ghamdi", ar: "عمر الغامدي" },
       role: "residential-advisor",
-      phone: "+966551234009",
-      email: "omar@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -415,8 +415,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Fatima Al-Zahrani", ar: "فاطمة الزهراني" },
       role: "luxury-consultant",
-      phone: "+966551234010",
-      email: "fatima@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -450,8 +450,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Bandar Al-Otaibi", ar: "بندر العتيبي" },
       role: "senior-consultant",
-      phone: "+966551234011",
-      email: "bandar@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
   {
@@ -486,8 +486,8 @@ export const properties: Property[] = [
     agent: {
       name: { en: "Hind Al-Qassim", ar: "هند القاسم" },
       role: "commercial-advisor",
-      phone: "+966551234012",
-      email: "hind@iskan-estate.com",
+      phone: "+905432466309",
+      email: "Iskanrealestatetr@gmail.com",
     },
   },
 ]

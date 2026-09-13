@@ -107,11 +107,11 @@ export function LegalPage({
               </Link>
             </div>
             <a
-              href="mailto:hello@iskan-estate.com"
+              href="mailto:Iskanrealestatetr@gmail.com"
               className="inline-flex items-center gap-2 text-sm font-extrabold text-brand-700 transition hover:text-brand-600"
             >
               <Mail className="size-4" />
-              hello@iskan-estate.com
+              Iskanrealestatetr@gmail.com
             </a>
           </div>
         </div>

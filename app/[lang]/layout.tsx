@@ -1,5 +1,6 @@
 import { Cairo } from "next/font/google"
 import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
@@ -12,6 +13,14 @@ import {
   type Locale,
 } from "@/lib/i18n"
 import "../globals.css"
+
+export const metadata: Metadata = {
+  icons: {
+    icon: "/iskan-icon.png",
+    shortcut: "/iskan-icon.png",
+    apple: "/apple-touch-icon.png",
+  },
+}
 
 const cairo = Cairo({
   variable: "--font-cairo",

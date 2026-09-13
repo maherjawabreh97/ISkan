@@ -397,7 +397,7 @@ export default async function HomePage({
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a
-                  href="mailto:hello@iskan-estate.com"
+                  href="mailto:Iskanrealestatetr@gmail.com"
                   className="btn-gold inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-extrabold"
                 >
                   {dict.sections.ctaButton}
