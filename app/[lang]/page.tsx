@@ -293,42 +293,6 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== WHY US ========================== */}
-      <section className="bg-ink-950 py-16 text-white lg:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-500/20 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-gold-300 ring-1 ring-gold-500/30">
-              {dict.sections.whyTitle}
-            </span>
-            <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">
-              {dict.sections.whyTitle}
-            </h2>
-            <p className="mt-2 text-sm text-white/60 sm:text-base">
-              {dict.sections.whySubtitle}
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {reasons.map(({ icon: Icon, title, desc }, index) => (
-              <Reveal key={title} delay={index * 0.06}>
-                <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur transition duration-300 hover:border-gold-400/40 hover:bg-white/[0.08]">
-                  <span className="pointer-events-none absolute -end-12 -top-12 size-28 rounded-full bg-gold-400/10 blur-2xl" />
-                  <span className="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-gold-400/30 to-gold-600/20 text-gold-300 ring-1 ring-gold-400/25 transition group-hover:from-gold-400 group-hover:to-gold-600 group-hover:text-ink-950">
-                    <Icon className="size-6" />
-                  </span>
-                  <h3 className="mt-5 text-lg font-extrabold text-white">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/60">
-                    {desc}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ========================== LATEST ========================== */}
       <section className="py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -375,6 +339,42 @@ export default async function HomePage({
         title={dict.sections.testimonialsTitle}
         subtitle={dict.sections.testimonialsSubtitle}
       />
+
+      {/* ========================== WHY US ========================== */}
+      <section className="bg-ink-950 py-16 text-white lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-500/20 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-gold-300 ring-1 ring-gold-500/30">
+              {dict.sections.whyTitle}
+            </span>
+            <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">
+              {dict.sections.whyTitle}
+            </h2>
+            <p className="mt-2 text-sm text-white/60 sm:text-base">
+              {dict.sections.whySubtitle}
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {reasons.map(({ icon: Icon, title, desc }, index) => (
+              <Reveal key={title} delay={index * 0.06}>
+                <div className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur transition duration-300 hover:border-gold-400/40 hover:bg-white/[0.08]">
+                  <span className="pointer-events-none absolute -end-12 -top-12 size-28 rounded-full bg-gold-400/10 blur-2xl" />
+                  <span className="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-gold-400/30 to-gold-600/20 text-gold-300 ring-1 ring-gold-400/25 transition group-hover:from-gold-400 group-hover:to-gold-600 group-hover:text-ink-950">
+                    <Icon className="size-6" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-extrabold text-white">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">
+                    {desc}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ========================== CTA ========================== */}
       <section className="relative overflow-hidden py-6 pb-20">
