@@ -3,7 +3,7 @@ export const site = {
   phoneHref: "+905432466309",
   email: "Iskanrealestatetr@gmail.com",
   address: {
-    en: "Riyadh, Saudi Arabia",
-    ar: "الرياض، المملكة العربية السعودية",
+    en: "Istanbul, Turkey",
+    ar: "إسطنبول، تركيا",
   },
 } as const
