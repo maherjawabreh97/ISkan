@@ -1,5 +1,6 @@
 import { Cairo } from "next/font/google"
 import { notFound } from "next/navigation"
+import { Analytics } from "@/components/analytics"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { ScrollTop } from "@/components/scroll-top"
@@ -36,6 +37,9 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} dir={directionOf(locale)} className={cairo.variable}>
+      <head>
+        <Analytics />
+      </head>
       <body className="flex min-h-dvh flex-col bg-sand-50 font-sans text-ink-900 antialiased">
         <SiteHeader locale={locale} dict={dict} />
         <main className="flex-1 pt-16">{children}</main>
