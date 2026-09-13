@@ -35,6 +35,7 @@ export type AmenityKey =
 export interface Dictionary {
   brand: {
     name: string
+    officeName: string
     tagline: string
   }
   nav: {
@@ -98,6 +99,11 @@ export interface Dictionary {
     properties: string
     browseNow: string
     locationOnMap: string
+    all: string
+    favorites: string
+    save: string
+    saved: string
+    whatsapp: string
   }
   sections: {
     featuredTitle: string
@@ -111,6 +117,15 @@ export interface Dictionary {
     ctaTitle: string
     ctaSubtitle: string
     ctaButton: string
+    testimonialsTitle: string
+    testimonialsSubtitle: string
+  }
+  testimonials: {
+    items: {
+      quote: string
+      name: string
+      role: string
+    }[]
   }
   why: {
     oneTitle: string
@@ -133,11 +148,30 @@ export interface Dictionary {
     contactTitle: string
     rights: string
     madeWith: string
+    exploreTitle: string
+    legalTitle: string
+    privacy: string
+    cookies: string
+    backHome: string
+  }
+  legal: {
+    privacyTitle: string
+    privacyIntro: string
+    privacyDate: string
+    privacySections: { heading: string; body: string }[]
+    cookiesTitle: string
+    cookiesIntro: string
+    cookiesDate: string
+    cookiesSections: { heading: string; body: string }[]
   }
   meta: {
     homeTitle: string
     homeDescription: string
     propertiesTitle: string
     propertiesDescription: string
+    privacyTitle: string
+    privacyDescription: string
+    cookiesTitle: string
+    cookiesDescription: string
   }
 }

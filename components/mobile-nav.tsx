@@ -25,7 +25,7 @@ export function MobileNav({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="grid size-10 place-items-center rounded-full border border-white/15 text-white transition hover:bg-white/10"
+        className="grid size-10 place-items-center rounded-full border border-white/12 bg-white/[0.05] text-white transition hover:border-gold-400/40 hover:bg-white/10"
         aria-label="Open menu"
       >
         <Menu className="size-5" />

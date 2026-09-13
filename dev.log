@@ -5,13 +5,912 @@
 ▲ Next.js 16.3.5 (Turbopack)
 - Local:         http://localhost:3000
 - Network:       http://192.168.1.13:3000
-✓ Ready in 1007ms
-✓ Running next.config.ts took 220ms
+✓ Ready in 1241ms
+✓ Running next.config.ts took 80ms
 
-○ Compiling /[lang] ...
- GET /ar 200 in 10.5s (next.js: 7.4s, proxy.ts: 10ms, generate-params: 1549ms, application-code: 1489ms)
- GET /ar 200 in 595ms (next.js: 63ms, proxy.ts: 21ms, generate-params: 22ms, application-code: 489ms)
- GET /en 200 in 157ms (next.js: 15ms, proxy.ts: 8ms, generate-params: 8ms, application-code: 126ms)
+ GET /ar 200 in 1681ms (next.js: 173ms, proxy.ts: 219ms, generate-params: 686ms, application-code: 603ms)
+ GET /ar 200 in 670ms (next.js: 20ms, proxy.ts: 12ms, generate-params: 18ms, application-code: 619ms)
+ GET /ar 200 in 565ms (next.js: 29ms, proxy.ts: 16ms, generate-params: 0.1ms, application-code: 521ms)
+ GET /ar 200 in 412ms (next.js: 15ms, proxy.ts: 7ms, generate-params: 10ms, application-code: 381ms)
+✓ Compiled in 51ms
+ GET /ar 200 in 170ms (next.js: 17ms, proxy.ts: 39ms, generate-params: 6ms, application-code: 107ms)
+✓ Compiled in 200ms
+✓ Compiled in 48ms
+ GET /ar 200 in 154ms (next.js: 19ms, proxy.ts: 40ms, generate-params: 5ms, application-code: 90ms)
+✓ Compiled in 51ms
+ GET /ar 200 in 164ms (next.js: 22ms, proxy.ts: 34ms, generate-params: 7ms, application-code: 101ms)
+✓ Compiled in 52ms
+✓ Compiled in 43ms
+✓ Compiled in 48ms
+✓ Compiled in 49ms
+✓ Compiled in 53ms
+✓ Compiled in 103ms
+✓ Compiled in 243ms
+ GET /ar 200 in 229ms (next.js: 56ms, proxy.ts: 11ms, generate-params: 10ms, application-code: 151ms)
+✓ Compiled in 106ms
+ GET /ar 200 in 429ms (next.js: 56ms, proxy.ts: 12ms, generate-params: 0.1ms, application-code: 361ms)
+✓ Compiled in 234ms
+ GET /ar 200 in 234ms (next.js: 44ms, proxy.ts: 16ms, generate-params: 12ms, application-code: 162ms)
+ GET /ar 200 in 143ms (next.js: 22ms, proxy.ts: 6ms, generate-params: 8ms, application-code: 108ms)
+ GET /ar 200 in 212ms (next.js: 31ms, proxy.ts: 9ms, generate-params: 12ms, application-code: 159ms)
+✓ Compiled in 122ms
+✓ Compiled in 65ms
+✓ Compiled in 65ms
+✓ Compiled in 94ms
+✓ Compiled in 69ms
+ GET /ar 200 in 110ms (next.js: 18ms, proxy.ts: 4ms, generate-params: 6ms, application-code: 82ms)
+ GET /ar 200 in 166ms (next.js: 30ms, proxy.ts: 9ms, generate-params: 9ms, application-code: 116ms)
+ GET /ar 200 in 86ms (next.js: 16ms, proxy.ts: 5ms, generate-params: 5ms, application-code: 60ms)
+ GET /ar 200 in 113ms (next.js: 22ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 79ms)
+✓ Compiled in 1279ms
+ GET /ar 200 in 208ms (next.js: 35ms, proxy.ts: 10ms, generate-params: 11ms, application-code: 152ms)
+✓ Compiled in 159ms
+ GET /ar 200 in 119ms (next.js: 22ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 84ms)
+ GET /ar 200 in 100ms (next.js: 16ms, proxy.ts: 4ms, generate-params: 6ms, application-code: 74ms)
+✓ Compiled in 173ms
+ GET /ar 200 in 164ms (next.js: 27ms, proxy.ts: 7ms, generate-params: 9ms, application-code: 121ms)
+ GET /ar 200 in 115ms (next.js: 33ms, proxy.ts: 10ms, generate-params: 5ms, application-code: 66ms)
+✓ Compiled in 43ms
+ GET /ar 200 in 85ms (next.js: 17ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 59ms)
+ GET /ar 200 in 96ms (next.js: 16ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 70ms)
+ GET /ar 200 in 514ms (next.js: 9ms, proxy.ts: 4ms, generate-params: 7ms, application-code: 494ms)
+ GET /en/properties 200 in 2.4s (next.js: 1042ms, proxy.ts: 7ms, generate-params: 1098ms, application-code: 253ms)
+ GET /ar/properties?favorites=1 200 in 156ms (next.js: 13ms, proxy.ts: 6ms, generate-params: 8ms, application-code: 129ms)
+ GET /ar 200 in 840ms (next.js: 44ms, proxy.ts: 11ms, generate-params: 18ms, application-code: 767ms)
+ GET /ar/properties 200 in 56ms (next.js: 14ms, proxy.ts: 5ms, generate-params: 5ms, application-code: 31ms)
 [browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
- GET /ar 200 in 101ms (next.js: 9ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 81ms)
- GET /ar 200 in 226ms (next.js: 13ms, proxy.ts: 5ms, generate-params: 15ms, application-code: 193ms)
+ GET /ar/properties 200 in 353ms (next.js: 25ms, proxy.ts: 12ms, generate-params: 0.1ms, application-code: 316ms)
+ GET /ar/properties?q=%D8%A7%D8%B3%D8%B7%D9%86%D8%A8%D9%88%D9%84 200 in 52ms (next.js: 9ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 34ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /ar/properties?q=%D8%A7%D8%B3%D8%B7%D9%86%D8%A8%D9%88%D9%84 200 in 44ms (next.js: 8ms, proxy.ts: 3ms, generate-params: 5ms, application-code: 28ms)
+ GET /ar/properties?q=%D8%A7%D9%84%D8%AF 200 in 81ms (next.js: 16ms, proxy.ts: 8ms, generate-params: 8ms, application-code: 49ms)
+ GET /ar/properties 200 in 70ms (next.js: 13ms, proxy.ts: 5ms, generate-params: 7ms, application-code: 44ms)
+ GET /ar/properties?q=%D8%AA%D8%B1 200 in 54ms (next.js: 12ms, proxy.ts: 5ms, generate-params: 0.0ms, application-code: 37ms)
+ GET /ar/properties 200 in 85ms (next.js: 13ms, proxy.ts: 8ms, generate-params: 10ms, application-code: 54ms)
+ GET /ar/properties?q=%D8%AA%D8%B1 200 in 72ms (next.js: 14ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 51ms)
+ GET /ar/properties?q=%D8%A7%D8%B3 200 in 63ms (next.js: 12ms, proxy.ts: 5ms, generate-params: 7ms, application-code: 38ms)
+ GET /ar/properties 200 in 94ms (next.js: 17ms, proxy.ts: 7ms, generate-params: 12ms, application-code: 58ms)
+ GET /ar/properties/emirates-hills-estate 200 in 1851ms (next.js: 730ms, proxy.ts: 4ms, generate-params: 1051ms, application-code: 66ms)
+[browser] In HTML, <button> cannot be a descendant of <button>.
+This will cause a hydration error.
+
+  ...
+    <LoadingBoundary name="emirates-h..." loading={null}>
+      <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+        <RedirectBoundary>
+          <RedirectErrorBoundary router={{...}}>
+            <InnerLayoutRouter url="/ar/proper..." tree={[...]} params={{lang:"ar", ...}} cacheNode={{rsc:{...}, ...}} ...>
+              <SegmentViewNode type="page" pagePath="[lang]/pro...">
+                <SegmentTrieNode>
+                <PropertyDetailPage>
+                  <section>
+                  <section className="py-10 lg:p...">
+                    <div className="mx-auto ma...">
+                      <div className="grid gap-1...">
+                        <div className="space-y-10">
+                          <PropertyGallery images={[...]} slug="emirates-h..." name="فيلا إمارا..." locale="ar">
+                            <div className="overflow-h...">
+>                             <button
+>                               type="button"
+>                               onClick={function onClick}
+>                               className="relative block aspect-[16/10] w-full cursor-zoom-in"
+>                               aria-label="Open fullscreen"
+>                             >
+                                <img>
+                                <ImagePreload>
+                                <div>
+                                <FavoriteButton slug="emirates-h..." className="absolute e...">
+>                                 <button
+>                                   type="button"
+>                                   onClick={function onClick}
+>                                   aria-pressed={false}
+>                                   aria-label="Save to favorites"
+>                                   className="grid size-10 place-items-center rounded-full backdrop-blur transition a..."
+>                                 >
+                                ...
+                              ...
+                          ...
+                        ...
+                  ...
+              ...
+            ...
+ 
+[browser] <button> cannot contain a nested <button>.
+See this log for the ancestor stack trace. 
+ GET /ar 200 in 229ms (next.js: 14ms, proxy.ts: 7ms, generate-params: 6ms, application-code: 201ms)
+ GET /ar 200 in 417ms (next.js: 32ms, proxy.ts: 9ms, generate-params: 14ms, application-code: 361ms)
+✓ Compiled in 483ms
+✓ Compiled in 708ms
+ GET /ar 200 in 489ms (next.js: 79ms, proxy.ts: 22ms, generate-params: 29ms, application-code: 359ms)
+✓ Compiled in 202ms
+⨯ ReferenceError: Sparkles is not defined
+    at HomePage (app\[lang]\page.tsx:136:16)
+  134 |           <Reveal>
+  135 |             <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-white/[0.06] px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-gold-300 backdrop-blur ring-inset-gold">
+> 136 |               <Sparkles className="size-3.5" />
+      |                ^
+  137 |               {dict.hero.badge}
+  138 |             </span>
+  139 |           </Reveal> {
+  digest: '1730615128'
+}
+ GET /ar 200 in 220ms (next.js: 38ms, proxy.ts: 13ms, generate-params: 12ms, application-code: 156ms)
+ GET /ar 200 in 1216ms (next.js: 168ms, proxy.ts: 14ms, generate-params: 22ms, application-code: 1012ms)
+✓ Compiled in 520ms
+ GET /ar 200 in 344ms (next.js: 60ms, proxy.ts: 16ms, generate-params: 38ms, application-code: 229ms)
+✓ Compiled in 710ms
+ GET /ar 200 in 626ms (next.js: 178ms, proxy.ts: 34ms, generate-params: 25ms, application-code: 390ms)
+✓ Compiled in 342ms
+ GET /ar 200 in 278ms (next.js: 51ms, proxy.ts: 14ms, generate-params: 15ms, application-code: 199ms)
+ GET /ar 200 in 165ms (next.js: 25ms, proxy.ts: 9ms, generate-params: 13ms, application-code: 118ms)
+ GET /ar 200 in 225ms (next.js: 32ms, proxy.ts: 12ms, generate-params: 11ms, application-code: 170ms)
+✓ Compiled in 165ms
+ GET /ar 200 in 239ms (next.js: 45ms, proxy.ts: 9ms, generate-params: 12ms, application-code: 173ms)
+✓ Compiled in 167ms
+ GET /ar 200 in 271ms (next.js: 44ms, proxy.ts: 14ms, generate-params: 16ms, application-code: 197ms)
+✓ Compiled in 196ms
+ GET /ar 200 in 257ms (next.js: 41ms, proxy.ts: 15ms, generate-params: 13ms, application-code: 189ms)
+ GET /ar 200 in 252ms (next.js: 44ms, proxy.ts: 8ms, generate-params: 13ms, application-code: 186ms)
+✓ Compiled in 159ms
+ GET /ar 200 in 197ms (next.js: 31ms, proxy.ts: 10ms, generate-params: 11ms, application-code: 146ms)
+ GET /ar 200 in 220ms (next.js: 29ms, proxy.ts: 7ms, generate-params: 12ms, application-code: 172ms)
+⨯ ReferenceError: MessageCircle is not defined
+    at HomePage (app\[lang]\page.tsx:412:20)
+  410 |                   className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-8 py-3.5 text-sm font-extrabold text-white backdrop-blur transition hover:bg-white/20"
+  411 |                 >
+> 412 |                   <MessageCircle className="size-4 text-gold-300" />
+      |                    ^
+  413 |                   {dict.common.whatsapp}
+  414 |                 </a>
+  415 |               </div> {
+  digest: '1648838792'
+}
+ GET /ar 200 in 240ms (next.js: 41ms, proxy.ts: 14ms, generate-params: 18ms, application-code: 166ms)
+ GET /ar 200 in 929ms (next.js: 36ms, proxy.ts: 11ms, generate-params: 8ms, application-code: 874ms)
+✓ Compiled in 209ms
+ GET /ar 200 in 382ms (next.js: 40ms, proxy.ts: 15ms, generate-params: 19ms, application-code: 309ms)
+✓ Compiled in 199ms
+ GET /ar 200 in 266ms (next.js: 45ms, proxy.ts: 20ms, generate-params: 12ms, application-code: 189ms)
+ GET /ar 200 in 452ms (next.js: 48ms, proxy.ts: 17ms, generate-params: 23ms, application-code: 363ms)
+ GET /ar 200 in 467ms (next.js: 24ms, proxy.ts: 12ms, generate-params: 17ms, application-code: 414ms)
+ GET /ar 200 in 564ms (next.js: 21ms, proxy.ts: 9ms, generate-params: 0.0ms, application-code: 534ms)
+ GET /ar/properties 200 in 63ms (next.js: 19ms, proxy.ts: 4ms, generate-params: 6ms, application-code: 33ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /ar/properties 200 in 45ms (next.js: 10ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 26ms)
+ GET /ar 200 in 62ms (next.js: 8ms, proxy.ts: 3ms, generate-params: 5ms, application-code: 46ms)
+ GET /ar/properties?favorites=1 200 in 61ms (next.js: 11ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 38ms)
+ GET /ar/properties?favorites=1 200 in 64ms (next.js: 16ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 42ms)
+ GET /en/properties?favorites=1 200 in 57ms (next.js: 8ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 39ms)
+ GET /en/properties?favorites=1 200 in 37ms (next.js: 8ms, proxy.ts: 4ms, generate-params: 0.0ms, application-code: 24ms)
+ GET /ar/properties?favorites=1 200 in 59ms (next.js: 9ms, proxy.ts: 3ms, generate-params: 5ms, application-code: 41ms)
+ GET /ar/properties?favorites=1 200 in 47ms (next.js: 10ms, proxy.ts: 4ms, generate-params: 0.0ms, application-code: 32ms)
+ GET /ar 200 in 76ms (next.js: 9ms, proxy.ts: 4ms, generate-params: 6ms, application-code: 58ms)
+✓ Compiled in 838ms
+ GET /ar 200 in 560ms (next.js: 95ms, proxy.ts: 16ms, generate-params: 14ms, application-code: 435ms)
+ GET /ar 200 in 272ms (next.js: 38ms, proxy.ts: 21ms, generate-params: 0.1ms, application-code: 213ms)
+ GET /ar 200 in 794ms (next.js: 111ms, proxy.ts: 29ms, generate-params: 19ms, application-code: 635ms)
+✓ Compiled in 66ms
+ GET /ar 200 in 272ms (next.js: 18ms, proxy.ts: 76ms, generate-params: 6ms, application-code: 173ms)
+ GET /ar 200 in 112ms (next.js: 11ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 94ms)
+✓ Compiled in 58ms
+ GET /ar 200 in 317ms (next.js: 31ms, proxy.ts: 84ms, generate-params: 9ms, application-code: 193ms)
+ GET /ar 200 in 102ms (next.js: 13ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 82ms)
+✓ Compiled in 87ms
+ GET /ar 200 in 509ms (next.js: 37ms, proxy.ts: 131ms, generate-params: 15ms, application-code: 326ms)
+ GET /ar 200 in 175ms (next.js: 23ms, proxy.ts: 11ms, generate-params: 0.0ms, application-code: 142ms)
+✓ Compiled in 61ms
+ GET /ar 200 in 283ms (next.js: 16ms, proxy.ts: 59ms, generate-params: 6ms, application-code: 202ms)
+ GET /ar 200 in 149ms (next.js: 14ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 129ms)
+✓ Compiled in 112ms
+✓ Compiled in 145ms
+⚠ Fast Refresh had to perform a full reload when ./node_modules/next/dist/client/image-component.js changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload when ./node_modules/next/dist/client/image-component.js changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /ar 200 in 961ms (next.js: 125ms, proxy.ts: 99ms, generate-params: 6ms, application-code: 731ms)
+ GET /ar 200 in 1034ms (next.js: 237ms, proxy.ts: 10ms, generate-params: 0.0ms, application-code: 787ms)
+ GET /ar 200 in 1403ms (next.js: 612ms, proxy.ts: 30ms, generate-params: 0.1ms, application-code: 761ms)
+ GET /ar 200 in 1272ms (next.js: 75ms, proxy.ts: 177ms, generate-params: 0.1ms, application-code: 1019ms)
+✓ Compiled in 256ms
+ GET /ar 200 in 395ms (next.js: 127ms, proxy.ts: 9ms, generate-params: 7ms, application-code: 252ms)
+ GET /ar 200 in 133ms (next.js: 19ms, proxy.ts: 9ms, generate-params: 0.0ms, application-code: 104ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:Promise, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <header>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div>
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:Promise, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <header>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div>
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Image with src "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1600&q=80" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /ar 200 in 336ms (next.js: 11ms, proxy.ts: 4ms, generate-params: 7ms, application-code: 314ms)
+ GET /ar/privacy 200 in 1222ms (next.js: 418ms, proxy.ts: 5ms, generate-params: 678ms, application-code: 121ms)
+ GET /en/cookies 200 in 1279ms (next.js: 271ms, proxy.ts: 5ms, generate-params: 880ms, application-code: 123ms)
+ GET /ar 200 in 369ms (next.js: 17ms, proxy.ts: 10ms, generate-params: 11ms, application-code: 331ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <header>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div>
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at Logo (components\logo.tsx:14:5)
+    at SiteFooter (components\site-footer.tsx:75:15)
+    at RootLayout (app\[lang]\layout.tsx:42:9)
+  12 | }) {
+  13 |   return (
+> 14 |     <Link
+     |     ^
+  15 |       href={`/${locale}`}
+  16 |       onClick={onClick}
+  17 |       aria-label={name}
+ GET /ar 200 in 265ms (next.js: 10ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 245ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <header>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div>
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at Logo (components\logo.tsx:14:5)
+    at SiteFooter (components\site-footer.tsx:75:15)
+    at RootLayout (app\[lang]\layout.tsx:42:9)
+  12 | }) {
+  13 |   return (
+> 14 |     <Link
+     |     ^
+  15 |       href={`/${locale}`}
+  16 |       onClick={onClick}
+  17 |       aria-label={name}
+ GET /ar/properties?type=apartment 200 in 62ms (next.js: 21ms, proxy.ts: 4ms, generate-params: 6ms, application-code: 30ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /ar/properties?type=apartment 200 in 49ms (next.js: 12ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 31ms)
+ GET /ar 200 in 93ms (next.js: 26ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 56ms)
+✓ Compiled in 493ms
+ GET /ar 200 in 228ms (next.js: 21ms, proxy.ts: 8ms, generate-params: 5ms, application-code: 194ms)
+ GET /ar 200 in 120ms (next.js: 19ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 94ms)
+✓ Compiled in 56ms
+ GET /ar 200 in 234ms (next.js: 21ms, proxy.ts: 7ms, generate-params: 5ms, application-code: 201ms)
+ GET /ar 200 in 137ms (next.js: 12ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 118ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 52ms
+ GET /ar 200 in 536ms (next.js: 31ms, proxy.ts: 10ms, generate-params: 7ms, application-code: 488ms)
+ GET /ar 200 in 442ms (next.js: 28ms, proxy.ts: 19ms, generate-params: 0.1ms, application-code: 396ms)
+ GET /ar 200 in 270ms (next.js: 26ms, proxy.ts: 7ms, generate-params: 8ms, application-code: 229ms)
+ GET /ar 200 in 129ms (next.js: 17ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 105ms)
+✓ Compiled in 171ms
+ GET /ar 200 in 258ms (next.js: 23ms, proxy.ts: 8ms, generate-params: 8ms, application-code: 220ms)
+ GET /ar 200 in 118ms (next.js: 15ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 95ms)
+✓ Compiled in 61ms
+ GET /ar 200 in 324ms (next.js: 17ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 295ms)
+ GET /ar 200 in 204ms (next.js: 27ms, proxy.ts: 9ms, generate-params: 0.1ms, application-code: 168ms)
+✓ Compiled in 55ms
+ GET /ar 200 in 264ms (next.js: 21ms, proxy.ts: 8ms, generate-params: 7ms, application-code: 229ms)
+ GET /ar 200 in 126ms (next.js: 15ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 104ms)
+ GET /ar 200 in 239ms (next.js: 20ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 208ms)
+ GET /ar 200 in 121ms (next.js: 16ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 97ms)
+✓ Compiled in 240ms
+ GET /ar 200 in 235ms (next.js: 34ms, proxy.ts: 5ms, generate-params: 7ms, application-code: 189ms)
+ GET /ar 200 in 116ms (next.js: 14ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 96ms)
+✓ Compiled in 52ms
+ GET /ar 200 in 202ms (next.js: 19ms, proxy.ts: 6ms, generate-params: 7ms, application-code: 170ms)
+ GET /ar 200 in 97ms (next.js: 10ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 80ms)
+ GET /ar 200 in 415ms (next.js: 11ms, proxy.ts: 6ms, generate-params: 8ms, application-code: 391ms)
+ GET /ar 200 in 551ms (next.js: 27ms, proxy.ts: 12ms, generate-params: 0.1ms, application-code: 512ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <SiteHeader>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div className="md:max-w-sm">
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at Logo (components\logo.tsx:16:5)
+    at SiteFooter (components\site-footer.tsx:111:15)
+    at RootLayout (app\[lang]\layout.tsx:42:9)
+  14 | }) {
+  15 |   return (
+> 16 |     <Link
+     |     ^
+  17 |       href={`/${locale}`}
+  18 |       onClick={onClick}
+  19 |       aria-label={name}
+ GET /ar/properties 200 in 64ms (next.js: 22ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 32ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /ar/properties 200 in 65ms (next.js: 12ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 46ms)
+ GET /ar 200 in 120ms (next.js: 12ms, proxy.ts: 7ms, generate-params: 8ms, application-code: 93ms)
+ GET /ar 200 in 46ms (next.js: 23ms, proxy.ts: 4ms, generate-params: 6ms, application-code: 12ms)
+ GET /ar 200 in 73ms (next.js: 9ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 58ms)
+ GET /ar 200 in 27ms (next.js: 10ms, proxy.ts: 3ms, generate-params: 5ms, application-code: 10ms)
+ GET /ar 200 in 74ms (next.js: 10ms, proxy.ts: 4ms, generate-params: 0.1ms, application-code: 59ms)
+ GET /ar/.well-known/appspecific/com.chrome.devtools.json 404 in 568ms (next.js: 495ms, proxy.ts: 5ms, application-code: 68ms)
+ GET /ar 200 in 328ms (next.js: 37ms, proxy.ts: 10ms, generate-params: 5ms, application-code: 276ms)
+ GET /ar 200 in 201ms (next.js: 14ms, proxy.ts: 5ms, generate-params: 0.0ms, application-code: 182ms)
+ GET /ar 200 in 114ms (next.js: 16ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 90ms)
+ GET /ar 200 in 388ms (next.js: 17ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 359ms)
+ GET /ar 200 in 229ms (next.js: 19ms, proxy.ts: 10ms, generate-params: 0.1ms, application-code: 200ms)
+ GET /ar 200 in 126ms (next.js: 15ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 102ms)
+ GET /ar/.well-known/appspecific/com.chrome.devtools.json 404 in 74ms (next.js: 16ms, proxy.ts: 6ms, application-code: 52ms)
+✓ Compiled in 125ms
+ GET /ar 200 in 365ms (next.js: 28ms, proxy.ts: 9ms, generate-params: 7ms, application-code: 320ms)
+ GET /ar 200 in 243ms (next.js: 16ms, proxy.ts: 10ms, generate-params: 0.0ms, application-code: 216ms)
+ GET /ar 200 in 133ms (next.js: 18ms, proxy.ts: 11ms, generate-params: 0.0ms, application-code: 105ms)
+ GET /ar 200 in 332ms (next.js: 16ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 304ms)
+ GET /ar 200 in 210ms (next.js: 16ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 186ms)
+ GET /ar 200 in 122ms (next.js: 16ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 97ms)
+ GET /ar 200 in 568ms (next.js: 103ms, proxy.ts: 14ms, generate-params: 14ms, application-code: 438ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <SiteHeader>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div className="md:max-w-sm">
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at Logo (components\logo.tsx:16:5)
+    at SiteFooter (components\site-footer.tsx:109:15)
+    at RootLayout (app\[lang]\layout.tsx:42:9)
+  14 | }) {
+  15 |   return (
+> 16 |     <Link
+     |     ^
+  17 |       href={`/${locale}`}
+  18 |       onClick={onClick}
+  19 |       aria-label={name}
+ GET /ar 200 in 766ms (next.js: 31ms, proxy.ts: 8ms, generate-params: 11ms, application-code: 717ms)
+ GET /ar 200 in 591ms (next.js: 21ms, proxy.ts: 10ms, generate-params: 0.1ms, application-code: 560ms)
+ GET /ar 200 in 440ms (next.js: 25ms, proxy.ts: 11ms, generate-params: 0.1ms, application-code: 404ms)
+ GET /ar 200 in 285ms (next.js: 23ms, proxy.ts: 11ms, generate-params: 0.1ms, application-code: 250ms)
+ GET /en 200 in 94ms (next.js: 9ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 75ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /ar 200 in 103ms (next.js: 10ms, proxy.ts: 7ms, generate-params: 5ms, application-code: 81ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <SiteHeader>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div>
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at Logo (components\logo.tsx:14:5)
+    at SiteFooter (components\site-footer.tsx:75:15)
+    at RootLayout (app\[lang]\layout.tsx:42:9)
+  12 | }) {
+  13 |   return (
+> 14 |     <Link
+     |     ^
+  15 |       href={`/${locale}`}
+  16 |       onClick={onClick}
+  17 |       aria-label={name}
+ GET /ar/.well-known/appspecific/com.chrome.devtools.json 404 in 73ms (next.js: 14ms, proxy.ts: 3ms, application-code: 56ms)
+✓ Compiled in 81ms
+ GET /ar 200 in 749ms (next.js: 45ms, proxy.ts: 342ms, generate-params: 11ms, application-code: 351ms)
+ GET /ar 200 in 247ms (next.js: 15ms, proxy.ts: 6ms, generate-params: 0.0ms, application-code: 226ms)
+ GET /ar 200 in 149ms (next.js: 20ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 121ms)
+✓ Compiled in 189ms
+ GET /ar 200 in 411ms (next.js: 23ms, proxy.ts: 85ms, generate-params: 0.0ms, application-code: 304ms)
+ GET /ar 200 in 220ms (next.js: 11ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 203ms)
+ GET /ar 200 in 136ms (next.js: 14ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 114ms)
+[browser] In HTML, <a> cannot be a descendant of <a>.
+This will cause a hydration error.
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/ar" tree={[...]} params={{lang:"ar"}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="layout" pagePath="[lang]/lay...">
+            <SegmentTrieNode>
+            <link>
+            <script>
+            <script>
+            <script>
+            <RootLayout>
+              <html lang="ar" dir="rtl" className="cairo_ac73...">
+                <body className="flex min-h...">
+                  <SiteHeader>
+                  <main>
+                  <SiteFooter>
+                    <footer className="relative o...">
+                      <div>
+                      <div>
+                      <div>
+                      <div>
+                      <div className="relative m...">
+                        <div className="grid gap-1...">
+                          <div>
+                            <LinkComponent>
+                              <LinkComponent href="/ar" className="inline-block">
+>                               <a
+>                                 className="inline-block"
+>                                 ref={function}
+>                                 onClick={function onClick}
+>                                 onMouseEnter={function onMouseEnter}
+>                                 onTouchStart={function onTouchStart}
+>                                 href="/ar"
+>                               >
+                                  <Logo>
+                                    <LinkComponent>
+                                      <LinkComponent href="/ar" aria-label="إسكان" className="group flex...">
+>                                       <a
+>                                         aria-label="إسكان"
+>                                         className="group flex shrink-0 items-center"
+>                                         ref={function}
+>                                         onClick={function onClick}
+>                                         onMouseEnter={function onMouseEnter}
+>                                         onTouchStart={function onTouchStart}
+>                                         href="/ar"
+>                                       >
+                            ...
+                          ...
+                        ...
+                  ...
+        ...
+ 
+[browser] <a> cannot contain a nested <a>.
+See this log for the ancestor stack trace. 
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at Logo (components\logo.tsx:14:5)
+    at SiteFooter (components\site-footer.tsx:75:15)
+    at RootLayout (app\[lang]\layout.tsx:42:9)
+  12 | }) {
+  13 |   return (
+> 14 |     <Link
+     |     ^
+  15 |       href={`/${locale}`}
+  16 |       onClick={onClick}
+  17 |       aria-label={name}
+✓ Compiled in 104ms
+ GET /ar 200 in 653ms (next.js: 24ms, proxy.ts: 95ms, generate-params: 0.0ms, application-code: 533ms)
+ GET /ar 200 in 413ms (next.js: 18ms, proxy.ts: 8ms, generate-params: 0.1ms, application-code: 388ms)
+ GET /ar 200 in 264ms (next.js: 20ms, proxy.ts: 11ms, generate-params: 0.1ms, application-code: 234ms)
+✓ Compiled in 250ms
+ GET /ar 200 in 877ms (next.js: 60ms, proxy.ts: 133ms, generate-params: 0.1ms, application-code: 685ms)
+ GET /ar 200 in 515ms (next.js: 19ms, proxy.ts: 12ms, generate-params: 0.0ms, application-code: 484ms)
+ GET /ar 200 in 326ms (next.js: 35ms, proxy.ts: 16ms, generate-params: 0.1ms, application-code: 274ms)
+ GET /ar 200 in 266ms (next.js: 16ms, proxy.ts: 5ms, generate-params: 6ms, application-code: 239ms)
+ GET /ar 200 in 175ms (next.js: 13ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 154ms)
+ GET /ar 200 in 92ms (next.js: 13ms, proxy.ts: 7ms, generate-params: 0.0ms, application-code: 72ms)
+✓ Compiled in 61ms
+ GET /ar 200 in 389ms (next.js: 18ms, proxy.ts: 76ms, generate-params: 0.0ms, application-code: 294ms)
+ GET /ar 200 in 224ms (next.js: 20ms, proxy.ts: 8ms, generate-params: 0.0ms, application-code: 196ms)
+ GET /ar 200 in 110ms (next.js: 15ms, proxy.ts: 9ms, generate-params: 5ms, application-code: 80ms)
+ GET /ar 200 in 256ms (next.js: 8ms, proxy.ts: 6ms, generate-params: 5ms, application-code: 237ms)
+ GET /ar 200 in 389ms (next.js: 23ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 354ms)
+ GET /ar 200 in 270ms (next.js: 17ms, proxy.ts: 10ms, generate-params: 0.0ms, application-code: 243ms)
+ GET /ar 200 in 160ms (next.js: 20ms, proxy.ts: 10ms, generate-params: 0.1ms, application-code: 129ms)
+ GET /ar 200 in 319ms (next.js: 9ms, proxy.ts: 5ms, generate-params: 5ms, application-code: 300ms)
+ GET /ar 200 in 404ms (next.js: 15ms, proxy.ts: 4ms, generate-params: 5ms, application-code: 380ms)
+ GET /ar 200 in 321ms (next.js: 15ms, proxy.ts: 7ms, generate-params: 0.1ms, application-code: 299ms)
+ GET /ar 200 in 192ms (next.js: 34ms, proxy.ts: 11ms, generate-params: 0.0ms, application-code: 146ms)

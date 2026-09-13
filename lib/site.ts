@@ -1,7 +1,7 @@
 export const site = {
-  phone: "+966 55 123 4567",
-  phoneHref: "+966551234567",
-  email: "hello@arakan-estate.com",
+  phone: "+90 543 246 63 09",
+  phoneHref: "+905432466309",
+  email: "hello@iskan-estate.com",
   address: {
     en: "Riyadh, Saudi Arabia",
     ar: "الرياض، المملكة العربية السعودية",

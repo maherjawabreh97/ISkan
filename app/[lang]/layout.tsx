@@ -2,6 +2,7 @@ import { Cairo } from "next/font/google"
 import { notFound } from "next/navigation"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { ScrollTop } from "@/components/scroll-top"
 import {
   directionOf,
   getDictionary,
@@ -39,6 +40,7 @@ export default async function RootLayout({
         <SiteHeader locale={locale} dict={dict} />
         <main className="flex-1 pt-16">{children}</main>
         <SiteFooter locale={locale} dict={dict} />
+        <ScrollTop />
       </body>
     </html>
   )

@@ -13,10 +13,12 @@ import {
   Layers,
   Mail,
   MapPin,
+  MessageCircle,
   Phone,
   Ruler,
 } from "lucide-react"
 import { PropertyGallery } from "@/components/property-gallery"
+import { StickyActions } from "@/components/sticky-actions"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import { getProperty, properties } from "@/lib/properties"
@@ -95,6 +97,10 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     },
   ].filter((item): item is Feature => Boolean(item))
 
+  const whatsappHref = `https://wa.me/905432466309?text=${encodeURIComponent(
+    `Hello Iskan! I'm interested in: ${name}, ${property.address[locale]}`,
+  )}`
+
   const related = [
     ...properties.filter(
       (p) =>
@@ -166,7 +172,12 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
             <div className="space-y-10">
-              <PropertyGallery images={property.images} name={name} locale={locale} />
+              <PropertyGallery
+                images={property.images}
+                slug={property.slug}
+                name={name}
+                locale={locale}
+              />
 
               {/* Features */}
               <div>
@@ -226,7 +237,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
             {/* Agent / contact card */}
             <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-3xl bg-white p-6 ring-1 ring-slate-200/70">
+              <div className="relative overflow-hidden rounded-3xl bg-white p-6 ring-1 ring-slate-200/70 shadow-soft">
+                <span className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 via-gold-400 to-brand-500" />
                 <div className="flex items-center gap-4">
                   <span className="grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-lg font-black text-white shadow-lg">
                     {property.agent.name[locale].charAt(0)}
@@ -272,6 +284,15 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   >
                     <Mail className="size-4 text-brand-600" />
                     {dict.common.emailNow}
+                  </a>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-emerald-600/20 transition hover:bg-[#1fc75a]"
+                  >
+                    <MessageCircle className="size-4" />
+                    {dict.common.whatsapp}
                   </a>
                 </div>
               </div>
@@ -325,6 +346,13 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      <StickyActions
+        locale={locale}
+        dict={dict}
+        slug={property.slug}
+        name={name}
+      />
     </>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState, type FormEvent } from "react"
-import { Search } from "lucide-react"
+import { Search, Sparkles } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 
@@ -28,19 +28,17 @@ export function SearchBox({
     router.push(`/${locale}/properties${query ? `?${query}` : ""}`)
   }
 
-  const fieldCls =
-    "h-full w-full bg-transparent text-sm font-semibold text-white outline-none placeholder:text-white/50"
-  const pillCls =
-    "flex items-center gap-2 rounded-2xl bg-white/10 px-4 ring-1 ring-white/15"
-  const selectCls = `${fieldCls} cursor-pointer appearance-none`
+  const fieldCls = "w-full bg-transparent text-sm font-bold text-white outline-none placeholder:text-white/45"
+  const selectCls = `${fieldCls} cursor-pointer appearance-none pr-6`
   const selectOptionCls = "bg-ink-900 text-white"
+  const fieldWrap = "flex items-center gap-2.5 border-white/12 bg-white/[0.06] px-4 transition focus-within:border-gold-400/60 focus-within:bg-white/10 focus-within:ring-2 focus-within:ring-gold-400/30"
 
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-2.5 rounded-3xl border border-white/15 bg-white/10 p-3 shadow-2xl shadow-ink-950/30 backdrop-blur-xl sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]"
+      className="hero-panel-shadow mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-0 overflow-hidden rounded-3xl border border-white/15 p-2.5 glass-dark sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:gap-0"
     >
-      <label className={pillCls}>
+      <label className={`${fieldWrap} rounded-2xl py-3`}>
         <Search className="size-4 shrink-0 text-gold-300" />
         <input
           value={q}
@@ -50,7 +48,7 @@ export function SearchBox({
         />
       </label>
 
-      <label className={pillCls}>
+      <label className={`${fieldWrap} mt-px rounded-2xl py-3 lg:mt-0 lg:ms-px`}>
         <select
           value={city}
           onChange={(event) => setCity(event.target.value)}
@@ -68,7 +66,7 @@ export function SearchBox({
         </select>
       </label>
 
-      <label className={pillCls}>
+      <label className={`${fieldWrap} mt-px rounded-2xl py-3 lg:mt-0 lg:ms-px`}>
         <select
           value={type}
           onChange={(event) => setType(event.target.value)}
@@ -88,10 +86,10 @@ export function SearchBox({
 
       <button
         type="submit"
-        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gold-500 px-6 py-3 text-sm font-extrabold text-ink-950 shadow-lg shadow-gold-600/20 transition hover:bg-gold-400"
+        className="btn-gold mt-px inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-3.5 text-sm font-extrabold md:mt-1 lg:mt-0 lg:ms-2"
       >
+        <Sparkles className="size-4" />
         {dict.hero.searchButton}
-        <Search className="size-4" />
       </button>
     </form>
   )
