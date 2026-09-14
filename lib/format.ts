@@ -1,2 +1,2 @@
 export const formatPrice = (value: number): string =>
-  `$${value.toLocaleString("en-US")}`
+  `\u20BA${value.toLocaleString("tr-TR")}`

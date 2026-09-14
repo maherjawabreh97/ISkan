@@ -1,12 +1,12 @@
 export type LocalizedString = Record<"en" | "ar", string>
 
 export type CityKey =
-  | "riyadh"
-  | "jeddah"
-  | "dammam"
-  | "mecca"
-  | "dubai"
-  | "abu-dhabi"
+  | "kadikoy"
+  | "besiktas"
+  | "bakirkoy"
+  | "fatih"
+  | "beyoglu"
+  | "sisli"
 
 export type PropertyTypeKey =
   | "apartment"

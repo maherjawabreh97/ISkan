@@ -1,24 +1,32 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Home } from "lucide-react"
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex max-w-xl flex-col items-center px-4 py-28 text-center">
-      <p className="text-8xl font-black text-brand-700">404</p>
-      <h1 className="mt-4 text-2xl font-extrabold text-ink-900">404</h1>
-      <p className="mt-2 text-base font-bold text-slate-500" dir="rtl">
-        الصفحة غير موجودة
-      </p>
-      <p className="mt-1 text-sm text-slate-400" dir="ltr">
-        Page not found
-      </p>
-      <Link
-        href="/ar"
-        className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-brand-700/20 transition hover:bg-brand-500"
-      >
-        العودة للرئيسية
-        <ArrowUpRight className="size-4 rtl:-scale-x-100" />
-      </Link>
+    <div className="relative overflow-hidden bg-ink-950 py-24 text-white">
+      <div className="bg-grid-dark absolute inset-0 opacity-50" />
+      <div className="absolute -end-24 top-0 size-72 rounded-full bg-brand-600/20 blur-3xl" />
+      <div className="absolute -start-20 bottom-0 size-72 rounded-full bg-gold-500/15 blur-3xl" />
+      <div className="relative mx-auto flex max-w-lg flex-col items-center px-4 text-center">
+        <span className="inline-flex size-20 shrink-0 place-items-center rounded-full bg-brand-600/20 text-6xl font-black text-brand-400">
+          404
+        </span>
+        <h1 className="mt-6 text-3xl font-black">
+          الصفحة غير موجودة
+        </h1>
+        <p className="mt-3 text-base font-semibold text-white/60">
+          الصفحة التي تبحث عنها غير موجودة أو تم نقلها.
+        </p>
+        <div className="mt-8 flex items-center gap-3">
+          <Link
+            href="/ar"
+            className="btn-gold inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold"
+          >
+            <Home className="size-4" />
+            العودة للرئيسية
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

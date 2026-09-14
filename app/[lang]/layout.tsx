@@ -20,6 +20,31 @@ export const metadata: Metadata = {
     shortcut: "/iskan-icon.png",
     apple: "/apple-touch-icon.png",
   },
+  title: {
+    default: "Iskan \u2014 Real Estate in Istanbul",
+    template: "%s | Iskan",
+  },
+  description: "Discover luxury apartments, villas and offices across Istanbul's finest districts. Transparent pricing, verified listings.",
+  metadataBase: new URL("https://iskan.musamimweb.com"),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: "ar_TR",
+    siteName: "Iskan",
+    title: "Iskan \u2014 Real Estate in Istanbul",
+    description: "Discover luxury apartments, villas and offices across Istanbul's finest districts.",
+    images: ["/iskan-icon.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Iskan \u2014 Real Estate in Istanbul",
+    description: "Discover luxury apartments, villas and offices across Istanbul's finest districts.",
+    images: ["/iskan-icon.png"],
+    creator: "@iskan",
+  },
+  verification: {
+    google: "G-G8H7V5Q24S",
+  },
 }
 
 const cairo = Cairo({
@@ -48,6 +73,8 @@ export default async function RootLayout({
     <html lang={lang} dir={directionOf(locale)} className={cairo.variable}>
       <head>
         <Analytics />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body className="flex min-h-dvh flex-col bg-sand-50 font-sans text-ink-900 antialiased">
         <SiteHeader locale={locale} dict={dict} />

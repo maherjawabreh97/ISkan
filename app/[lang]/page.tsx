@@ -26,7 +26,7 @@ import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { properties } from "@/lib/properties"
 
 const heroImage =
-  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2600&q=80"
+  "https://images.unsplash.com/photo-1772436938086-0b3224b69483?auto=format&fit=crop&w=2600&q=80"
 
 const typeIcons: Record<PropertyTypeKey, typeof Building2> = {
   apartment: Building2,
