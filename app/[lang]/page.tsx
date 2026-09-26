@@ -61,14 +61,16 @@ export default async function HomePage({
   const locale: Locale = lang
   const dict = await getDictionary(locale)
 
-  const featured = properties.filter((property) => property.featured).slice(0, 6)
+  const byNewest = [...properties].sort(
+    (a, b) =>
+      new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
+  )
 
-  const latest = [...properties]
-    .sort(
-      (a, b) =>
-        new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
-    )
-    .slice(0, 3)
+  const featured = properties.some((property) => property.featured)
+    ? properties.filter((property) => property.featured).slice(0, 6)
+    : byNewest.slice(0, 6)
+
+  const latest = byNewest.slice(0, 3)
 
   const typeCounts = properties.reduce<Record<string, number>>((acc, p) => {
     acc[p.type] = (acc[p.type] ?? 0) + 1

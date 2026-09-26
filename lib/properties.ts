@@ -68,7 +68,7 @@ export const properties: Property[] = [
     floorLabel: { en: "Ground floor (garden)", ar: "طابق حديقة" },
     citizenshipEligible: false,
     city: "kayashehir",
-    featured: false,
+    featured: true,
     dateAdded: "2026-09-26",
     name: {
       en: "Mavera 3 — 3.5+1 Garden Floor Apartment",
