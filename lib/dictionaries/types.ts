@@ -7,6 +7,7 @@ export type CityKey =
   | "fatih"
   | "beyoglu"
   | "sisli"
+  | "kayashehir"
 
 export type PropertyTypeKey =
   | "apartment"
@@ -94,6 +95,9 @@ export interface Dictionary {
     yearBuilt: string
     parking: string
     floor: string
+    netArea: string
+    citizenshipTitle: string
+    citizenshipNotEligible: string
     price: string
     cityLabel: string
     properties: string

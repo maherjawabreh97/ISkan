@@ -16,6 +16,7 @@ import {
   MessageCircle,
   Phone,
   Ruler,
+  ShieldAlert,
 } from "lucide-react"
 import { PropertyGallery } from "@/components/property-gallery"
 import { StickyActions } from "@/components/sticky-actions"
@@ -80,6 +81,11 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       label: dict.common.area,
       value: `${property.area} ${dict.common.sqm}`,
     },
+    property.netArea !== undefined && {
+      icon: Ruler,
+      label: dict.common.netArea,
+      value: `${property.netArea} ${dict.common.sqm}`,
+    },
     property.parking > 0 && {
       icon: Car,
       label: dict.common.parking,
@@ -90,7 +96,12 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       label: dict.common.yearBuilt,
       value: `${property.yearBuilt}`,
     },
-    property.floor !== undefined && {
+    property.floorLabel && {
+      icon: Layers,
+      label: dict.common.floor,
+      value: property.floorLabel[locale],
+    },
+    (!property.floorLabel && property.floor !== undefined) && {
       icon: Layers,
       label: dict.common.floor,
       value: `${property.floor}`,
@@ -160,11 +171,27 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                 {dict.common.price}
               </p>
               <p className="mt-1 text-3xl font-black text-brand-700">
-                {formatPrice(property.price)}
+                {formatPrice(property.price, property.currency)}
                 <span className="text-base font-bold text-slate-500">{perMonth}</span>
               </p>
             </div>
           </div>
+
+          {property.citizenshipEligible === false && (
+            <div className="mt-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-start">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-red-500/10 text-red-600">
+                <ShieldAlert className="size-5" />
+              </span>
+              <div>
+                <p className="text-sm font-extrabold text-red-700">
+                  {dict.common.citizenshipTitle}
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-red-600/90">
+                  {dict.common.citizenshipNotEligible}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

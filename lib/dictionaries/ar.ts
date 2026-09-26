@@ -64,6 +64,10 @@ const ar = {
     yearBuilt: "سنة البناء",
     parking: "مواقف",
     floor: "الدور",
+    netArea: "المساحة الصافية",
+    citizenshipTitle: "ملاحظة مهمة",
+    citizenshipNotEligible:
+      "هذه الشقة غير مناسبة للحصول على الجنسية التركية عن طريق الاستثمار العقاري.",
     price: "السعر",
     cityLabel: "المدينة",
     properties: "عقار",
@@ -146,6 +150,7 @@ const ar = {
     fatih: "الفاتح",
     beyoglu: "بي أوغلو",
     sisli: "شيشلي",
+    kayashehir: "كاياهشيهر",
   },
   amenities: {
     pool: "مسبح",

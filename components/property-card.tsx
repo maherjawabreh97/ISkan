@@ -64,7 +64,7 @@ export function PropertyCard({
                 {dict.common.price}
               </p>
               <p className="mt-0.5 text-2xl font-extrabold leading-none text-white drop-shadow-lg">
-                {formatPrice(property.price)}
+                {formatPrice(property.price, property.currency)}
                 <span className="ms-1 text-xs font-bold text-white/70">
                   {perMonth}
                 </span>

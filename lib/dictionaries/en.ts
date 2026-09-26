@@ -62,8 +62,12 @@ const en = {
     relatedProperties: "Similar properties",
     backToListings: "Back to listings",
     yearBuilt: "Year built",
-    parking: "Parking spots",
+    parking: "Parking",
     floor: "Floor",
+    netArea: "Net area",
+    citizenshipTitle: "Important note",
+    citizenshipNotEligible:
+      "This property is not eligible for Turkish citizenship through property investment.",
     price: "Price",
     cityLabel: "District",
     properties: "properties",
@@ -147,6 +151,7 @@ const en = {
     fatih: "Fatih",
     beyoglu: "Beyoglu",
     sisli: "Sisli",
+    kayashehir: "Kayashehir",
   },
   amenities: {
     pool: "Swimming pool",
