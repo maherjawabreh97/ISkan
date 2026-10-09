@@ -95,6 +95,12 @@ const en = {
     ctaButton: "Contact us",
     testimonialsTitle: "What our clients say",
     testimonialsSubtitle: "Trusted by hundreds of families and investors",
+    purposeTitle: "Looking to buy or rent?",
+    purposeSubtitle: "Pick what fits you and start browsing instantly",
+    purposeSaleDesc:
+      "Apartments, villas and offices for sale across Istanbul's top districts.",
+    purposeRentDesc:
+      "Move-in ready homes for monthly rent, furnished and unfurnished.",
   },
   testimonials: {
     items: [

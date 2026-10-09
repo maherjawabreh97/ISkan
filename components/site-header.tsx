@@ -1,7 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Phone, Home, Building2, Mail, Plus } from "lucide-react"
+import {
+  Phone,
+  Home,
+  Building2,
+  Mail,
+  Plus,
+  BadgeDollarSign,
+  House,
+} from "lucide-react"
 import Link from "next/link"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -31,6 +39,16 @@ export function SiteHeader({
   const navItems = [
     { icon: Home, label: dict.nav.home, href: `/${locale}` },
     { icon: Building2, label: dict.nav.properties, href: `/${locale}/properties` },
+    {
+      icon: BadgeDollarSign,
+      label: dict.common.forSale,
+      href: `/${locale}/properties?purpose=sale`,
+    },
+    {
+      icon: House,
+      label: dict.common.forRent,
+      href: `/${locale}/properties?purpose=rent`,
+    },
   ]
 
   return (

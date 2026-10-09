@@ -19,6 +19,10 @@ export function MobileNav({
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.properties, href: `/${locale}/properties` },
   ]
+  const purposeLinks = [
+    { label: dict.common.forSale, href: `/${locale}/properties?purpose=sale` },
+    { label: dict.common.forRent, href: `/${locale}/properties?purpose=rent` },
+  ]
 
   return (
     <div className="md:hidden">
@@ -55,6 +59,23 @@ export function MobileNav({
                 {link.label}
               </Link>
             ))}
+
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {purposeLinks.map((link, index) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`rounded-2xl border px-4 py-5 text-center text-lg font-extrabold transition ${
+                    index === 0
+                      ? "border-gold-400/40 bg-gold-400/15 text-gold-200 hover:bg-gold-400 hover:text-ink-950"
+                      : "border-brand-400/40 bg-brand-400/15 text-brand-100 hover:bg-brand-500 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </nav>
           <p className="mt-auto text-sm text-white/50">{dict.brand.tagline}</p>
         </div>

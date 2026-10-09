@@ -94,6 +94,12 @@ const ar = {
     ctaButton: "تواصل معنا",
     testimonialsTitle: "ماذا يقول عملاؤنا",
     testimonialsSubtitle: "يثق بنا مئات العائلات والمستثمرين",
+    purposeTitle: "هل تبحث عن الشراء أم الإيجار؟",
+    purposeSubtitle: "اختر ما يناسبك وابدأ تصفّح العقارات فوراً",
+    purposeSaleDesc:
+      "شقق وفيلات ومكاتب معروضة للبيع في أبرز أحياء إسطنبول.",
+    purposeRentDesc:
+      "عقارات جاهزة للسكن والإيجار الشهري بخيارات مفروشة متنوّعة.",
   },
   testimonials: {
     items: [
