@@ -80,9 +80,6 @@ export default async function HomePage({
     return acc
   }, {})
 
-  const saleCount = properties.filter((p) => p.purpose === "sale").length
-  const rentCount = properties.filter((p) => p.purpose === "rent").length
-
   const stats = [
     { value: properties.length, suffix: "", label: dict.hero.statProperties },
     { value: 12, suffix: "", label: dict.hero.statCities },
@@ -94,33 +91,6 @@ export default async function HomePage({
     { icon: Award, title: dict.why.twoTitle, desc: dict.why.twoDesc },
     { icon: BadgeDollarSign, title: dict.why.threeTitle, desc: dict.why.threeDesc },
     { icon: Headphones, title: dict.why.fourTitle, desc: dict.why.fourDesc },
-  ]
-
-  const purposeCards = [
-    {
-      key: "sale" as const,
-      href: `/${locale}/properties?purpose=sale`,
-      label: dict.common.forSale,
-      desc: dict.sections.purposeSaleDesc,
-      count: saleCount,
-      icon: BadgeDollarSign,
-      glow: "from-gold-400 to-gold-600",
-      iconWrap: "bg-gradient-to-br from-gold-400 to-gold-600 text-ink-950",
-      ring: "hover:border-gold-400/60",
-      countColor: "text-gold-600",
-    },
-    {
-      key: "rent" as const,
-      href: `/${locale}/properties?purpose=rent`,
-      label: dict.common.forRent,
-      desc: dict.sections.purposeRentDesc,
-      count: rentCount,
-      icon: House,
-      glow: "from-brand-500 to-brand-800",
-      iconWrap: "bg-gradient-to-br from-brand-500 to-brand-800 text-white",
-      ring: "hover:border-brand-400/60",
-      countColor: "text-brand-700",
-    },
   ]
 
   return (
@@ -233,62 +203,6 @@ export default async function HomePage({
               </p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* ========================= BUY OR RENT ========================= */}
-      <section className="bg-white py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-500/15 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-gold-600 ring-1 ring-gold-500/25">
-              {dict.common.purpose}
-            </span>
-            <h2 className="mt-3 text-2xl font-black text-ink-900 sm:text-3xl">
-              {dict.sections.purposeTitle}
-            </h2>
-            <p className="mt-2 text-sm text-slate-500 sm:text-base">
-              {dict.sections.purposeSubtitle}
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            {purposeCards.map((card, index) => {
-              const Icon = card.icon
-              return (
-                <Reveal key={card.key} delay={index * 0.08}>
-                  <Link
-                    href={card.href}
-                    className={`card-raised group relative flex h-full items-center gap-6 overflow-hidden rounded-3xl border border-slate-200/70 bg-gradient-to-br from-white to-sand-50 p-7 ${card.ring}`}
-                  >
-                    <span
-                      className={`pointer-events-none absolute -end-12 -top-12 size-40 rounded-full bg-gradient-to-br ${card.glow} opacity-10 blur-2xl transition duration-500 group-hover:opacity-25`}
-                    />
-                    <span
-                      className={`relative grid size-16 shrink-0 place-items-center rounded-2xl shadow-lg ring-1 ring-white/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${card.iconWrap}`}
-                    >
-                      <Icon className="size-7" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-xl font-black text-ink-900">
-                        {card.label}
-                      </h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-slate-500">
-                        {card.desc}
-                      </p>
-                      <p
-                        className={`mt-3 text-[13px] font-extrabold uppercase tracking-wider ${card.countColor}`}
-                      >
-                        {card.count} {dict.common.properties}
-                      </p>
-                    </div>
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-slate-400 ring-1 ring-slate-200 transition-all duration-300 group-hover:bg-ink-900 group-hover:text-white group-hover:ring-ink-900">
-                      <ArrowUpRight className="size-4 rtl:-scale-x-100" />
-                    </span>
-                  </Link>
-                </Reveal>
-              )
-            })}
-          </div>
         </div>
       </section>
 

@@ -124,10 +124,6 @@ export interface Dictionary {
     ctaButton: string
     testimonialsTitle: string
     testimonialsSubtitle: string
-    purposeTitle: string
-    purposeSubtitle: string
-    purposeSaleDesc: string
-    purposeRentDesc: string
   }
   testimonials: {
     items: {

@@ -17,7 +17,6 @@ export function SearchBox({
   const [q, setQ] = useState("")
   const [city, setCity] = useState("all")
   const [type, setType] = useState("all")
-  const [purpose, setPurpose] = useState<"sale" | "rent">("sale")
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault()
@@ -25,15 +24,9 @@ export function SearchBox({
     if (q.trim()) params.set("q", q.trim())
     if (city && city !== "all") params.set("city", city)
     if (type && type !== "all") params.set("type", type)
-    params.set("purpose", purpose)
     const query = params.toString()
     router.push(`/${locale}/properties${query ? `?${query}` : ""}`)
   }
-
-  const purposeOptions = [
-    { key: "sale" as const, label: dict.common.forSale },
-    { key: "rent" as const, label: dict.common.forRent },
-  ]
 
   const fieldCls = "w-full bg-transparent text-sm font-bold text-white outline-none placeholder:text-white/45"
   const selectCls = `${fieldCls} cursor-pointer appearance-none pr-6`
@@ -45,28 +38,6 @@ export function SearchBox({
       onSubmit={onSubmit}
       className="hero-panel-shadow mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-0 overflow-hidden rounded-3xl border border-white/15 p-2.5 glass-dark sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:gap-0"
     >
-      <div className="col-span-full mb-1 flex justify-center">
-        <div className="inline-flex rounded-full border border-white/15 bg-white/[0.06] p-1">
-          {purposeOptions.map((option) => {
-            const active = purpose === option.key
-            return (
-              <button
-                key={option.key}
-                type="button"
-                onClick={() => setPurpose(option.key)}
-                className={`rounded-full px-6 py-2 text-sm font-extrabold transition ${
-                  active
-                    ? "bg-gold-400 text-ink-950 shadow-lg shadow-gold-500/25"
-                    : "text-white/65 hover:text-white"
-                }`}
-              >
-                {option.label}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
       <label className={`${fieldWrap} rounded-2xl py-3`}>
         <Search className="size-4 shrink-0 text-gold-300" />
         <input
