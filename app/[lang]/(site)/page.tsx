@@ -23,7 +23,9 @@ import { Counter } from "@/components/counter"
 import { Testimonials } from "@/components/testimonials"
 import type { PropertyTypeKey } from "@/lib/dictionaries/types"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
-import { properties } from "@/lib/properties"
+import { getProperties } from "@/lib/properties-store"
+
+export const dynamic = "force-dynamic"
 
 const heroImage =
   "https://images.unsplash.com/photo-1772436938086-0b3224b69483?auto=format&fit=crop&w=2600&q=80"
@@ -60,6 +62,7 @@ export default async function HomePage({
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
   const dict = await getDictionary(locale)
+  const properties = await getProperties()
 
   const byNewest = [...properties].sort(
     (a, b) =>

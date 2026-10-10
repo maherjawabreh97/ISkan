@@ -54,6 +54,7 @@ const ar = {
     features: "المواصفات",
     amenities: "الخدمات",
     description: "الوصف",
+    requirements: "المتطلبات",
     agent: "المستشار العقاري",
     phone: "الهاتف",
     email: "البريد الإلكتروني",

@@ -12,6 +12,9 @@ function getLocale(request: NextRequest): string {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // API routes and uploaded media are not localized.
+  if (pathname.startsWith("/api/")) return
+
   const pathnameHasLocale = (locales as readonly string[]).some(
     (locale) =>
       pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,

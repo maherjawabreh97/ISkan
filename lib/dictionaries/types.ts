@@ -85,6 +85,7 @@ export interface Dictionary {
     features: string
     amenities: string
     description: string
+    requirements: string
     agent: string
     phone: string
     email: string

@@ -29,6 +29,7 @@ export interface Property {
   name: LocalizedString
   address: LocalizedString
   description: LocalizedString
+  requirements?: LocalizedString
   amenities: AmenityKey[]
   images: string[]
   agent: {
@@ -44,7 +45,7 @@ const maveraImages = Array.from(
   (_, index) => `/properties/mavera-3/${String(index + 1).padStart(2, "0")}.jpg`,
 )
 
-const office = {
+export const office = {
   name: { en: "Iskan Real Estate", ar: "إسكان العقارية" },
   role: "real-estate",
   phone: "+905432466309",
@@ -83,6 +84,45 @@ export const properties: Property[] = [
       ar: "شقة 3.5+1 واسعة في الطابق الأرضي من مشروع ماڤيرا 3 في كاياشهر، باشاكشهر — أحد أسرع أحياء إسطنبول نمواً. توفر الشقة مساحة إجمالية 160 م² بمساحة صافية 126 م²، مع حديقة خاصة وثلاث غرف نوم وصالة. السعر 390.000 دولار أمريكي. تنبيه: هذه العقار غير مناسب للحصول على الجنسية التركية عن طريق الاستثمار العقاري.",
     },
     amenities: ["garden"],
+    images: maveraImages,
+    agent: office,
+  },
+  {
+    slug: "mavera-3-furnished-rental",
+    type: "apartment",
+    purpose: "rent",
+    price: 35000,
+    currency: "TRY",
+    pricePerMonth: true,
+    area: 160,
+    netArea: 126,
+    bedrooms: 3,
+    bathrooms: 1,
+    parking: 1,
+    yearBuilt: 0,
+    floor: 0,
+    floorLabel: { en: "Ground floor (garden)", ar: "طابق حديقة" },
+    citizenshipEligible: false,
+    city: "kayashehir",
+    featured: false,
+    dateAdded: "2026-10-09",
+    name: {
+      en: "Mavera 3 — 3.5+1 Furnished Rental",
+      ar: "ماڤيرا 3 — شقة 3.5+1 مفروشة للإيجار",
+    },
+    address: {
+      en: "Mavera 3, Kayashehir, Basaksehir, Istanbul",
+      ar: "ماڤيرا 3، كاياشهر، باشاكشهر، إسطنبول",
+    },
+    description: {
+      en: "A fully furnished 3.5+1 apartment with a private garden in the Mavera 3 project, Kayashehir. 160 m² total / 126 m² net, three bedrooms, a living room and one bathroom. Available for long-term rent.",
+      ar: "شقة 3.5+1 مفروشة بالكامل مع حديقة خاصة في مشروع ماڤيرا 3، كاياشهر. مساحة إجمالية 160 م² وصافية 126 م²، ثلاث غرف نوم وصالة وحمّام واحد. متاحة للإيجار طويل الأمد.",
+    },
+    requirements: {
+      en: "Monthly rent 35,000 ₺. Two-month security deposit. Suitable for families; no smoking indoors. Utilities are paid separately.",
+      ar: "الإيجار الشهري 35.000 ₺. تأمين شهرين. مناسب للعائلات؛ يُمنع التدخين داخل الشقة. الفواتير تُدفع بشكل منفصل.",
+    },
+    amenities: ["furnished", "garden", "parking", "elevator"],
     images: maveraImages,
     agent: office,
   },

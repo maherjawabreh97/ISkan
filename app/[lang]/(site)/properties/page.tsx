@@ -4,7 +4,9 @@ import { notFound } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { ListingsView } from "@/components/listings-view"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
-import { properties } from "@/lib/properties"
+import { getProperties } from "@/lib/properties-store"
+
+export const dynamic = "force-dynamic"
 
 type PageProps = {
   params: Promise<{ lang: string }>
@@ -25,6 +27,7 @@ export default async function PropertiesPage({ params }: PageProps) {
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
   const dict = await getDictionary(locale)
+  const properties = await getProperties()
 
   return (
     <>

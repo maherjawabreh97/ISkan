@@ -22,20 +22,18 @@ import { PropertyGallery } from "@/components/property-gallery"
 import { StickyActions } from "@/components/sticky-actions"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
-import { getProperty, properties } from "@/lib/properties"
+import { getProperties, getStoredProperty } from "@/lib/properties-store"
+
+export const dynamic = "force-dynamic"
 
 type PageProps = {
   params: Promise<{ lang: string; slug: string }>
 }
 
-export function generateStaticParams() {
-  return properties.map((property) => ({ slug: property.slug }))
-}
-
 export async function generateMetadata({ params }: PageProps) {
   const { lang, slug } = await params
   const locale = hasLocale(lang) ? lang : "ar"
-  const property = getProperty(slug)
+  const property = await getStoredProperty(slug)
   const dict = await getDictionary(locale)
   return {
     title: property ? `${property.name[locale]} — ${dict.brand.name}` : dict.meta.propertiesTitle,
@@ -48,7 +46,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
   const locale: Locale = lang
   const dict = await getDictionary(locale)
 
-  const property = getProperty(slug)
+  const property = await getStoredProperty(slug)
   if (!property) notFound()
 
   const name = property.name[locale]
@@ -112,13 +110,15 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     `Hello Iskan! I'm interested in: ${name}, ${property.address[locale]}`,
   )}`
 
+  const allProperties = await getProperties()
+
   const related = [
-    ...properties.filter(
+    ...allProperties.filter(
       (p) =>
         p.slug !== slug &&
         (p.city === property.city || p.type === property.type),
     ),
-    ...properties.filter(
+    ...allProperties.filter(
       (p) => p.slug !== slug && p.city !== property.city && p.type !== property.type,
     ),
   ].slice(0, 3)
@@ -242,6 +242,18 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   {property.description[locale]}
                 </p>
               </div>
+
+              {/* Requirements */}
+              {property.requirements && (
+                <div>
+                  <h2 className="text-xl font-extrabold text-ink-900">
+                    {dict.common.requirements}
+                  </h2>
+                  <p className="mt-4 max-w-3xl whitespace-pre-line text-[15px] leading-8 text-slate-600">
+                    {property.requirements[locale]}
+                  </p>
+                </div>
+              )}
 
               {/* Amenities */}
               <div>

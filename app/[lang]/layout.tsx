@@ -2,12 +2,8 @@ import { Cairo } from "next/font/google"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { ScrollTop } from "@/components/scroll-top"
 import {
   directionOf,
-  getDictionary,
   hasLocale,
   locales,
   type Locale,
@@ -67,8 +63,6 @@ export default async function RootLayout({
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
 
-  const dict = await getDictionary(locale)
-
   return (
     <html lang={lang} dir={directionOf(locale)} className={cairo.variable}>
       <head>
@@ -77,10 +71,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body className="flex min-h-dvh flex-col bg-sand-50 font-sans text-ink-900 antialiased">
-        <SiteHeader locale={locale} dict={dict} />
-        <main className="flex-1 pt-16">{children}</main>
-        <SiteFooter locale={locale} dict={dict} />
-        <ScrollTop />
+        {children}
       </body>
     </html>
   )

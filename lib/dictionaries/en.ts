@@ -54,6 +54,7 @@ const en = {
     features: "Features",
     amenities: "Amenities",
     description: "Description",
+    requirements: "Requirements",
     agent: "Property consultant",
     phone: "Phone",
     email: "Email",
