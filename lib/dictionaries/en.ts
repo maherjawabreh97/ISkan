@@ -192,8 +192,6 @@ const en = {
   propertyTypes: {
     apartment: "Apartment",
     villa: "Villa",
-    penthouse: "Penthouse",
-    townhouse: "Townhouse",
     office: "Office",
     land: "Land",
     tourist_apartment: "Tourist Apartment",
@@ -201,8 +199,6 @@ const en = {
   propertyTypeDescriptions: {
     apartment: "Modern living across Istanbul's best districts",
     villa: "Spacious homes with private outdoor space",
-    penthouse: "Sky-high living with panoramic views",
-    townhouse: "Comfortable multi-level family homes",
     office: "Professional workspaces across the city",
     land: "Prime plots for your next development",
     tourist_apartment: "Furnished apartment for daily or weekly tourist rental",
