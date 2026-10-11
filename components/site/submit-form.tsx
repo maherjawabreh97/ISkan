@@ -2,7 +2,6 @@ import Link from "next/link"
 import { Send } from "lucide-react"
 import { submitListingAction } from "@/app/[lang]/(site)/submit/actions"
 import { ImageInput } from "@/components/admin/image-input"
-import { TurnstileWidget } from "@/components/admin/turnstile-widget"
 import type {
   CityKey,
   Dictionary,
@@ -32,11 +31,9 @@ function Section({
 export function SubmitForm({
   locale,
   dict,
-  siteKey,
 }: {
   locale: Locale
   dict: Dictionary
-  siteKey: string
 }) {
   const t = dict.submit
 
@@ -266,29 +263,38 @@ export function SubmitForm({
           </div>
 
           <div className="sm:col-span-2">
-            <label className={labelCls} htmlFor="sf-address">
-              {t.address}
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-sand-100 px-3.5 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-slate-200">
+              <input
+                type="checkbox"
+                name="furnished"
+                className="size-4 accent-brand-600"
+              />
+              {t.furnished}
             </label>
-            <input
-              id="sf-address"
-              name="address"
-              placeholder={t.addressPlaceholder}
-              className={inputCls}
-            />
           </div>
 
           <div className="sm:col-span-2">
-            <label className={labelCls} htmlFor="sf-description">
-              {t.description}
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-sand-100 px-3.5 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-slate-200">
+              <input
+                type="text"
+                name="address"
+                placeholder={t.addressPlaceholder}
+                className={inputCls}
+              />
             </label>
-            <textarea
-              id="sf-description"
-              name="description"
-              required
-              rows={5}
-              placeholder={t.descriptionPlaceholder}
-              className={inputCls}
-            />
+          </div>
+
+          <div className="sm:col-span-2">
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-sand-100 px-3.5 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-slate-200">
+              <input
+                type="textarea"
+                name="description"
+                required
+                rows={5}
+                placeholder={t.descriptionPlaceholder}
+                className={inputCls}
+              />
+            </label>
           </div>
         </div>
       </Section>
@@ -320,8 +326,6 @@ export function SubmitForm({
           </Link>
         </span>
       </label>
-
-      {siteKey && <TurnstileWidget siteKey={siteKey} theme="light" />}
 
       <button
         type="submit"

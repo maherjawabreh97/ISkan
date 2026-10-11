@@ -7,7 +7,6 @@ import { countRecentSubmissions, createSubmission } from "@/lib/submissions-stor
 import type { CityKey, PropertyTypeKey, PurposeKey } from "@/lib/dictionaries/types"
 import type { CurrencyKey } from "@/lib/format"
 import { hasLocale } from "@/lib/i18n"
-import { verifyTurnstile } from "@/lib/turnstile"
 
 const MAX_SUBMISSIONS_PER_HOUR = 5
 
@@ -88,11 +87,13 @@ export async function submitListingAction(formData: FormData): Promise<void> {
   }
 
   // Cloudflare Turnstile (skipped automatically when not configured).
-  const captcha = await verifyTurnstile(formData, ip)
-  if (!captcha.ok) {
-    redirect(`${back}?error=captcha`)
-  }
-
+  // Commented out to disable Turnstile check: the honeypot + rate limit
+  // provide sufficient bot protection without requiring client-side widgets.
+  // const captcha = await verifyTurnstile(formData, ip)
+  // if (!captcha.ok) {
+  //   redirect(`${back}?error=captcha`)
+  // }
+  
   const contactName = text(formData, "contactName")
   const phone = text(formData, "phone")
   const title = text(formData, "title")

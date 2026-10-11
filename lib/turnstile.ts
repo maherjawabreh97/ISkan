@@ -9,6 +9,9 @@
  * Create a free widget at https://dash.cloudflare.com/?to=/:account/turnstile
  */
 
+import { headers } from "next/headers"
+import { logEvent } from "@/lib/security-store"
+
 export function turnstileConfigured(): boolean {
   return Boolean(process.env.TURNSTILE_SECRET_KEY && process.env.TURNSTILE_SITE_KEY)
 }
@@ -29,7 +32,17 @@ export async function verifyTurnstile(
   ip: string,
 ): Promise<TurnstileResult> {
   const secret = process.env.TURNSTILE_SECRET_KEY
-  if (!secret || !process.env.TURNSTILE_SITE_KEY) {
+  const siteKey = process.env.TURNSTILE_SITE_KEY
+  
+  // If secrets are not configured, skip verification but log the event
+  if (!secret || !siteKey) {
+    const ip = await (await headers()).get("cf-connecting-ip")?.trim() || "unknown"
+    await logEvent({
+      type: "turnstile_misconfigured",
+      ip,
+      at: Date.now(),
+      detail: "Turnstile keys not fully configured",
+    })
     return { ok: true, skipped: true }
   }
 

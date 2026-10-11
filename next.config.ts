@@ -5,10 +5,15 @@ const securityHeaders = [
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   // Stop browsers from MIME-sniffing responses.
   { key: "X-Content-Type-Options", value: "nosniff" },
+  // Control referrer information.
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  // Restrict browser features (camera, mic, geolocation).
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  // Content Security Policy — limits script/stylesheet sources.
   {
-    key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=()",
+    key: "Content-Security-Policy",
+    value:
+      "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://wirqjuezrnhjiblhbzvg.supabase.com https://supabase.co; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';",
   },
 ];
 

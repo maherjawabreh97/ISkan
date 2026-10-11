@@ -21,11 +21,9 @@ import { PropertyCard } from "@/components/property-card"
 import { SearchBox } from "@/components/search-box"
 import { Reveal } from "@/components/reveal"
 import { Counter } from "@/components/counter"
-import { Testimonials } from "@/components/testimonials"
 import type { PropertyTypeKey } from "@/lib/dictionaries/types"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
-import { listApprovedTestimonials } from "@/lib/testimonials-store"
 import { turnstileSiteKey } from "@/lib/turnstile"
 
 export const dynamic = "force-dynamic"
@@ -41,6 +39,14 @@ const typeIcons: Record<PropertyTypeKey, typeof Building2> = {
   office: Briefcase,
   land: Map,
 }
+
+/* Color palette — elevated real estate theme */
+const bgGrad = "bg-gradient-to-br from-ink-950 via-ink-900 to-brand-900"
+const textPrimary = "text-ink-950"
+const textSecondary = "text-slate-400"
+const cardBg = "bg-white"
+const borderColor = "border-slate-200/70"
+const goldAccent = "text-gold-400 ring-gold-500/30"
 
 export async function generateMetadata({
   params,
@@ -66,7 +72,6 @@ export default async function HomePage({
   const locale: Locale = lang
   const dict = await getDictionary(locale)
   const properties = await getProperties()
-  const approvedTestimonials = await listApprovedTestimonials(20)
 
   const byNewest = [...properties].sort(
     (a, b) =>
@@ -100,108 +105,199 @@ export default async function HomePage({
   return (
     <>
       {/* ============================== HERO ============================== */}
-      <section className="relative overflow-hidden bg-ink-950">
-        <Image
-          src={heroImage}
-          alt=""
-          priority
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/90 via-ink-950/45 to-ink-950/95" />
-        <div className="bg-grid-dark absolute inset-0 opacity-60" />
-        <div className="absolute -start-32 top-16 size-96 rounded-full bg-brand-600/25 blur-3xl" />
-        <div className="absolute -end-24 bottom-0 size-[28rem] rounded-full bg-gold-500/15 blur-3xl" />
-
-        {/* floating stat chips */}
-        <div className="hidden lg:block">
-          <div className="animate-float-slow absolute end-24 top-28 flex items-center gap-3 rounded-2xl border border-white/15 px-4 py-3 glass-dark">
-            <span className="grid size-9 place-items-center rounded-xl bg-gold-400/20 text-gold-300">
-              <ShieldCheck className="size-5" />
-            </span>
-            <div className="leading-tight">
-              <p className="text-sm font-extrabold text-white">3,400+</p>
-              <p className="text-[11px] font-bold text-white/60">
-                {dict.hero.statCustomers}
-              </p>
-            </div>
-          </div>
-          <div className="animate-float-slower absolute start-20 top-48 flex items-center gap-3 rounded-2xl border border-white/15 px-4 py-3 glass-dark">
-            <span className="grid size-9 place-items-center rounded-xl bg-brand-400/20 text-brand-300">
-              <BadgeDollarSign className="size-5" />
-            </span>
-            <div className="leading-tight">
-              <p className="text-sm font-extrabold text-white">12 {dict.hero.statCities}</p>
-              <p className="text-[11px] font-bold text-white/60">
-                {dict.hero.statProperties}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-4 py-28 text-center sm:px-6 lg:px-8 lg:py-36">
-          <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-white/[0.06] px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-gold-300 backdrop-blur ring-inset-gold">
+      <section className="relative overflow-hidden min-h-[600px] flex items-center justify-center px-4 sm:px-6 lg:px-8 lg:py-32 bg-gradient-to-br from-ink-950 via-ink-900 to-brand-900">
+        <div className="pointer-events-none absolute -top-24 end-[-8rem] size-96 rounded-full bg-gold-400/10 blur-3xl lg:top-32 lg:-end-8rem" />
+        <div className="pointer-events-none absolute -bottom-32 start-[-6rem] size-96 rounded-full bg-brand-500/20 blur-3xl lg:bottom-48 lg:-start-6rem" />
+        <div className="relative mx-auto max-w-7xl w-full">
+          <div className="px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-extrabold text-gold-300">
               <Sparkles className="size-3.5" />
-              {dict.hero.badge}
+              {dict.badge}
             </span>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <h1 className="mx-auto mt-6 max-w-4xl text-[2.6rem] font-black leading-[1.12] text-white sm:text-6xl lg:text-7xl">
-              {dict.hero.title1}{" "}
-              <span className="text-gradient-gold text-shimmer">
-                {dict.hero.titleHighlight}
-              </span>{" "}
-              {dict.hero.title2}
+            <h1 className="mt-8 text-4xl font-black leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-white">
+              {dict.sections.heroTitle}
             </h1>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
-              {dict.hero.subtitle}
+            <p className="mx-auto mt-6 max-w-2xl text-lg font-semibold leading-relaxed text-white/70 sm:text-base lg:text-xl">
+              {dict.sections.heroSubtitle}
             </p>
-          </Reveal>
-
-          <Reveal delay={0.3}>
-            <SearchBox locale={locale} dict={dict} />
-          </Reveal>
-
-          <Reveal delay={0.38}>
-            <div className="mt-5 flex justify-center">
+            <div className="mt-10 sm:mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <Link
-                href={`/${locale}/submit`}
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-extrabold text-white backdrop-blur transition hover:border-gold-400/50 hover:bg-white/10"
+                href={`/${locale}/properties?purpose=sale`}
+                className="btn-brand-col sm:col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold text-white transition hover:brightness-105"
               >
-                <Plus className="size-4 text-gold-300" />
-                {dict.hero.listCta}
+                <BadgeCheck className="size-3.5" />
+                {dict.sections.ctaSale}
+              </Link>
+              <Link
+                href={`/${locale}/properties?purpose=rent`}
+                className="btn-gold-col sm:col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold text-ink-950 transition hover:brightness-105"
+              >
+                <Send className="size-3.5" />
+                {dict.sections.ctaRent}
               </Link>
             </div>
-          </Reveal>
-
-          <Reveal delay={0.45}>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[13px] font-bold text-white/55">
-              <span className="inline-flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-gold-400" />
-                {dict.why.oneTitle}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-brand-400" />
-                {dict.why.threeTitle}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-gold-400" />
-                {dict.why.fourTitle}
-              </span>
-            </div>
-          </Reveal>
+          </div>
         </div>
-
-        <div className="absolute bottom-0 left-1/2 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-gold-500/50 to-transparent" />
       </section>
 
       {/* ============================== STATS ============================== */}
+      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 border-y border-white/10/30">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="relative">
+            <select
+              onChange={(e) => {
+                const val = e.target.value
+                if (val) window.location.search = `city=${val}`
+              }}
+              className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
+            >
+              <option value="">-- ${dict.common.city} --</option>
+              {Object.keys(dict.cities).map((key) => (
+                <option key={key} value={key}>
+                  {dict.cities[key]}
+                </option>
+              ))}
+            </select>
+            <svg
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+            </svg>
+          </div>
+        </div>
+        <div className="relative sm:w-48">
+          <select
+            onChange={(e) => {
+              const val = e.target.value
+              if (val) window.location.search = `type=${val}`
+            }}
+            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
+          >
+            <option value="">-- Property Type --</option>
+            <option value="apartment">{dict.propertyTypes.apartment}</option>
+            <option value="villa">{dict.propertyTypes.villa}</option>
+            <option value="penthouse">{dict.propertyTypes.penthouse}</option>
+            <option value="townhouse">{dict.propertyTypes.townhouse}</option>
+            <option value="office">{dict.propertyTypes.office}</option>
+            <option value="land">{dict.propertyTypes.land}</option>
+          </select>
+          <svg
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+          </svg>
+        </div>
+        <div className="relative sm:w-48">
+          <select
+            onChange={(e) => {
+              const val = e.target.value
+              if (val) window.location.search = `purpose=${val}`
+            }}
+            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
+          >
+            <option value="">-- Purpose --</option>
+            <option value="sale">{dict.common.forSale}</option>
+            <option value="rent">{dict.common.forRent}</option>
+          </select>
+          <svg
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+          </svg>
+        </div>
+        <div className="relative sm:w-48">
+          <select
+            onChange={(e) => {
+              const val = e.target.value
+              if (val) window.location.search = `bedrooms=${val}`
+            }}
+            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
+          >
+            <option value="">-- Bedrooms --</option>
+            <option value="1">1 ${dict.common.beds}</option>
+            <option value="2">2 ${dict.common.beds}</option>
+            <option value="3">3 ${dict.common.beds}</option>
+            <option value="4+">4+ ${dict.common.beds}</option>
+          </select>
+          <svg
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+          </select>
+          <svg
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+          </svg>
+        </div>
+        <div className="relative sm:w-48">
+          <select
+            onChange={(e) => {
+              const val = e.target.value
+              if (val) window.location.search = `floor=${val}`
+            }}
+            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
+          >
+            <option value="">-- Floor --</option>
+            <option value="ground">${dict.floorOptions.ground}</option>
+            <option value="mid">${dict.floorOptions.mid}</option>
+            <option value="top">${dict.floorOptions.top}</option>
+          </select>
+          <svg
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+          </svg>
+        </div>
+        <div className="relative sm:w-48">
+          <select
+            onChange={(e) => {
+              const val = e.target.value
+              if (val) window.location.search = `price=${val}`
+            }}
+            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
+          >
+            <option value="">-- Price --</option>
+            <option value="100000">Under 100K</option>
+            <option value="200000">100K-200K</option>
+            <option value="300000">200K-300K</option>
+            <option value="400000">300K-400K</option>
+            <option value="500000">400K-500K</option>
+            <option value="500000+">500K+</option>
+          </select>
+          <svg
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
+          </svg>
+        </div>
+        <button
+          onClick={() => {
+            window.location.search = ""
+          }}
+          className="mt-4 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-400 hover:border-slate-300 transition"
+        >
+          Reset Filters
+        </button>
+      </div>
+    </div>
+
+    {/* ============================== PROPERTIES GRID ========================== */}
       <section className="relative overflow-hidden bg-ink-950 py-4 text-white">
         <div className="absolute inset-0 bg-grid-dark opacity-30" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
@@ -352,20 +448,6 @@ export default async function HomePage({
           </div>
         </div>
       </section>
-
-      {/* ========================== TESTIMONIALS ========================== */}
-      <Testimonials
-        items={approvedTestimonials.map((item) => ({
-          quote: item.text,
-          name: item.name,
-          role: item.role,
-        }))}
-        locale={locale}
-        title={dict.sections.testimonialsTitle}
-        subtitle={dict.sections.testimonialsSubtitle}
-        t={dict.testimonials}
-        siteKey={turnstileSiteKey()}
-      />
 
       {/* ========================== WHY US ========================== */}
       <section className="bg-ink-950 py-16 text-white lg:py-24">

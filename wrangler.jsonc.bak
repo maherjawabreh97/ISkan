@@ -1,0 +1,57 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iskan",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": [
+    // Enable Node.js APIs (required by @opennextjs/cloudflare).
+    "nodejs_compat",
+    // Allow the worker to fetch arbitrary public URLs.
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // Must match the "name" of this worker.
+      "service": "iskan"
+    }
+  ],
+  "images": {
+    // Enables next/image optimization on Cloudflare.
+    "binding": "IMAGES"
+  },
+  "d1_databases": [
+    {
+      // Durable login-attempt counters, IP bans and the security event log.
+      // Strongly consistent (unlike KV), which matters for brute-force defence.
+      "binding": "SECURITY_DB",
+      "database_name": "iskan-security",
+      "database_id": "d5d18885-d8a4-47fd-a345-25557b0453d0"
+    },
+    {
+      // Visitor-submitted listings (the moderation queue) and upload counters.
+      "binding": "SUBMISSIONS_DB",
+      "database_name": "iskan-submissions",
+      "database_id": "630f3bdc-2c4f-492f-91db-67a94434f6ba"
+    }
+  ],
+  "vars": {
+    // Server-only configuration. The service-role key is stored as a
+    // secret (wrangler secret put SUPABASE_SERVICE_ROLE_KEY).
+    "SUPABASE_URL": "https://wirqjuezrnhjiblhbzvg.supabase.co",
+    "SUPABASE_BUCKET": "property-images",
+    // Ban an IP after this many failed sign-ins (3 = allow two, ban on the third).
+    "ADMIN_MAX_LOGIN_FAILURES": "3",
+    // How long a ban lasts, in hours (0 = permanent).
+    "ADMIN_BAN_HOURS": "24",
+    // Dashboard session lifetime, in hours.
+    "ADMIN_SESSION_HOURS": "24",
+    // Cloudflare Turnstile (bot check on the admin login form). The matching
+    // secret is stored with `wrangler secret put TURNSTILE_SECRET_KEY`.
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFToXjYnnuhlKZ-L"
+  }
+}

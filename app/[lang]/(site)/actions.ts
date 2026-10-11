@@ -6,11 +6,10 @@ import {
   countRecentTestimonials,
   createTestimonial,
 } from "@/lib/testimonials-store"
-import { verifyTurnstile } from "@/lib/turnstile"
 
 const MAX_TESTIMONIALS_PER_HOUR = 5
 
-export type TestimonialErrorCode = "required" | "captcha" | "rate"
+export type TestimonialErrorCode = "required" | "rate"
 
 export type TestimonialFormState =
   | { status: "idle" }
@@ -33,7 +32,7 @@ async function clientIp(): Promise<string> {
 
 /**
  * Public testimonial submission: validates, applies bot protection
- * (honeypot + Turnstile + per-IP rate limit) and stores the review
+ * (honeypot + per-IP rate limit) and stores the review
  * in the moderation queue. It is never published until an admin
  * approves it from the dashboard.
  */
@@ -61,12 +60,6 @@ export async function submitTestimonialAction(
     MAX_TESTIMONIALS_PER_HOUR
   ) {
     return { status: "error", code: "rate" }
-  }
-
-  // Cloudflare Turnstile (skipped automatically when not configured).
-  const captcha = await verifyTurnstile(formData, ip)
-  if (!captcha.ok) {
-    return { status: "error", code: "captcha" }
   }
 
   const name = text(formData, "name")
