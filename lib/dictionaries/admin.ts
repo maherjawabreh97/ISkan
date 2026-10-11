@@ -12,6 +12,8 @@ export interface AdminDict {
     rateLimit: string
     blocked: string
     hint: string
+    securityNote: string
+    privacyLink: string
   }
   nav: {
     dashboard: string
@@ -171,6 +173,9 @@ const ar: AdminDict = {
     blocked:
       "تم حظر عنوان IP الخاص بك بسبب محاولات دخول خاطئة متكررة أو نشاط آلي.",
     hint: "الحساب الافتراضي: admin / admin123 (غيّره من صفحة المستخدمين)",
+    securityNote:
+      "لحماية الموقع، يتم تسجيل عنوان IP ومحاولات الدخول بما فيها المحاولات الخاطئة.",
+    privacyLink: "سياسة الخصوصية",
   },
   nav: {
     dashboard: "نظرة عامة",
@@ -346,6 +351,9 @@ const en: AdminDict = {
     blocked:
       "Your IP address has been blocked due to repeated failed sign-ins or automated activity.",
     hint: "Default account: admin / admin123 (change it in the Users page)",
+    securityNote:
+      "To protect the site, your IP address and sign-in attempts (including failed ones) are logged.",
+    privacyLink: "Privacy Policy",
   },
   nav: {
     dashboard: "Overview",

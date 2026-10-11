@@ -204,7 +204,11 @@ const en = {
         body: "We keep your personal data for as long as necessary to provide our services or as required by law. We apply appropriate technical and organisational measures to protect your information from unauthorised access, loss or misuse.",
       },
       {
-        heading: "5. Your rights",
+        heading: "5. Security and privacy logs",
+        body: "To protect the website and the admin account, we log certain technical data at sign-in, such as the IP address, the time of the attempt and the browser identifier, including failed sign-in attempts. This data is used strictly to prevent hacking and unauthorised access; any IP that repeatedly fails may be temporarily blocked, and these logs are deleted automatically after a set period. We do not use this data for any other purpose and do not share it with third parties.",
+      },
+      {
+        heading: "6. Your rights",
         body: "You have the right to access, correct or delete the personal data we hold about you. To exercise these rights, or if you have any concerns about privacy, please contact us through the details on this website.",
       },
     ],
