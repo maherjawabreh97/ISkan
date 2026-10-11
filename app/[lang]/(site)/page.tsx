@@ -179,15 +179,8 @@ export default async function HomePage({
               ))}
             </div>
 
-            {/* CTA Buttons */}
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
-              <Link
-                href={`/${locale}/properties?purpose=sale`}
-                className="btn-brand inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-extrabold text-white transition hover:brightness-105 w-full sm:w-auto"
-              >
-                <BadgeCheck className="size-4" />
-                {dict.common.forSale}
-              </Link>
+            {/* CTA Button - Only Rent (Sale is admin-only) */}
+            <div className="mt-10 flex justify-center sm:justify-start">
               <Link
                 href={`/${locale}/properties?purpose=rent`}
                 className="btn-gold inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-extrabold text-ink-950 transition hover:brightness-105 w-full sm:w-auto"

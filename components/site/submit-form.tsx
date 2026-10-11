@@ -265,17 +265,6 @@ export function SubmitForm({
           <div className="sm:col-span-2">
             <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-sand-100 px-3.5 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-slate-200">
               <input
-                type="checkbox"
-                name="furnished"
-                className="size-4 accent-brand-600"
-              />
-              {t.furnished}
-            </label>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-sand-100 px-3.5 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-slate-200">
-              <input
                 type="text"
                 name="address"
                 placeholder={t.addressPlaceholder}
