@@ -38,7 +38,7 @@ export async function verifyTurnstile(
   if (!secret || !siteKey) {
     const ip = await (await headers()).get("cf-connecting-ip")?.trim() || "unknown"
     await logEvent({
-      type: "turnstile_misconfigured",
+      type: "bot_blocked",
       ip,
       at: Date.now(),
       detail: "Turnstile keys not fully configured",

@@ -285,16 +285,17 @@ export function SubmitForm({
           </div>
 
           <div className="sm:col-span-2">
-            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-sand-100 px-3.5 py-2.5 text-sm font-bold text-ink-900 ring-1 ring-slate-200">
-              <input
-                type="textarea"
-                name="description"
-                required
-                rows={5}
-                placeholder={t.descriptionPlaceholder}
-                className={inputCls}
-              />
+            <label className={labelCls} htmlFor="sf-description">
+              {t.description}
             </label>
+            <textarea
+              id="sf-description"
+              name="description"
+              required
+              rows={5}
+              placeholder={t.descriptionPlaceholder}
+              className={inputCls}
+            />
           </div>
         </div>
       </Section>

@@ -16,6 +16,8 @@ import {
   Plus,
   ShieldCheck,
   Sparkles,
+  Send,
+  BadgeCheck,
 } from "lucide-react"
 import { PropertyCard } from "@/components/property-card"
 import { SearchBox } from "@/components/search-box"
@@ -112,13 +114,13 @@ export default async function HomePage({
           <div className="px-4 sm:px-6 lg:px-8 text-center sm:text-left">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-extrabold text-gold-300">
               <Sparkles className="size-3.5" />
-              {dict.badge}
+              {dict.submit.badge}
             </span>
             <h1 className="mt-8 text-4xl font-black leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-white">
-              {dict.sections.heroTitle}
+              {dict.submit.title}
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg font-semibold leading-relaxed text-white/70 sm:text-base lg:text-xl">
-              {dict.sections.heroSubtitle}
+              {dict.submit.subtitle}
             </p>
             <div className="mt-10 sm:mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <Link
@@ -126,14 +128,14 @@ export default async function HomePage({
                 className="btn-brand-col sm:col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold text-white transition hover:brightness-105"
               >
                 <BadgeCheck className="size-3.5" />
-                {dict.sections.ctaSale}
+                {dict.common.forSale}
               </Link>
               <Link
                 href={`/${locale}/properties?purpose=rent`}
                 className="btn-gold-col sm:col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold text-ink-950 transition hover:brightness-105"
               >
                 <Send className="size-3.5" />
-                {dict.sections.ctaRent}
+                {dict.common.forRent}
               </Link>
             </div>
           </div>
@@ -141,163 +143,6 @@ export default async function HomePage({
       </section>
 
       {/* ============================== STATS ============================== */}
-      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 border-y border-white/10/30">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <div className="relative">
-            <select
-              onChange={(e) => {
-                const val = e.target.value
-                if (val) window.location.search = `city=${val}`
-              }}
-              className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-            >
-              <option value="">-- ${dict.common.city} --</option>
-              {Object.keys(dict.cities).map((key) => (
-                <option key={key} value={key}>
-                  {dict.cities[key]}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-            </svg>
-          </div>
-        </div>
-        <div className="relative sm:w-48">
-          <select
-            onChange={(e) => {
-              const val = e.target.value
-              if (val) window.location.search = `type=${val}`
-            }}
-            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-          >
-            <option value="">-- Property Type --</option>
-            <option value="apartment">{dict.propertyTypes.apartment}</option>
-            <option value="villa">{dict.propertyTypes.villa}</option>
-            <option value="penthouse">{dict.propertyTypes.penthouse}</option>
-            <option value="townhouse">{dict.propertyTypes.townhouse}</option>
-            <option value="office">{dict.propertyTypes.office}</option>
-            <option value="land">{dict.propertyTypes.land}</option>
-          </select>
-          <svg
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-          </svg>
-        </div>
-        <div className="relative sm:w-48">
-          <select
-            onChange={(e) => {
-              const val = e.target.value
-              if (val) window.location.search = `purpose=${val}`
-            }}
-            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-          >
-            <option value="">-- Purpose --</option>
-            <option value="sale">{dict.common.forSale}</option>
-            <option value="rent">{dict.common.forRent}</option>
-          </select>
-          <svg
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-          </svg>
-        </div>
-        <div className="relative sm:w-48">
-          <select
-            onChange={(e) => {
-              const val = e.target.value
-              if (val) window.location.search = `bedrooms=${val}`
-            }}
-            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-          >
-            <option value="">-- Bedrooms --</option>
-            <option value="1">1 ${dict.common.beds}</option>
-            <option value="2">2 ${dict.common.beds}</option>
-            <option value="3">3 ${dict.common.beds}</option>
-            <option value="4+">4+ ${dict.common.beds}</option>
-          </select>
-          <svg
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-          </select>
-          <svg
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-          </svg>
-        </div>
-        <div className="relative sm:w-48">
-          <select
-            onChange={(e) => {
-              const val = e.target.value
-              if (val) window.location.search = `floor=${val}`
-            }}
-            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-          >
-            <option value="">-- Floor --</option>
-            <option value="ground">${dict.floorOptions.ground}</option>
-            <option value="mid">${dict.floorOptions.mid}</option>
-            <option value="top">${dict.floorOptions.top}</option>
-          </select>
-          <svg
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-          </svg>
-        </div>
-        <div className="relative sm:w-48">
-          <select
-            onChange={(e) => {
-              const val = e.target.value
-              if (val) window.location.search = `price=${val}`
-            }}
-            className="block w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-          >
-            <option value="">-- Price --</option>
-            <option value="100000">Under 100K</option>
-            <option value="200000">100K-200K</option>
-            <option value="300000">200K-300K</option>
-            <option value="400000">300K-400K</option>
-            <option value="500000">400K-500K</option>
-            <option value="500000+">500K+</option>
-          </select>
-          <svg
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path d="M9.66 5.84a.75.75 0 0 1 1.06 1.06L11.74 10l-2.08 2.12a.75.75 0 0 1-1.08-.02L8.1 8.27a.75.75 0 0 1 .66-1.38l3.72-3.71z" />
-          </svg>
-        </div>
-        <button
-          onClick={() => {
-            window.location.search = ""
-          }}
-          className="mt-4 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-400 hover:border-slate-300 transition"
-        >
-          Reset Filters
-        </button>
-      </div>
-    </div>
-
-    {/* ============================== PROPERTIES GRID ========================== */}
       <section className="relative overflow-hidden bg-ink-950 py-4 text-white">
         <div className="absolute inset-0 bg-grid-dark opacity-30" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />

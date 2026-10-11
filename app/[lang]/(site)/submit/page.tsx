@@ -11,7 +11,6 @@ import {
 import { SubmitForm } from "@/components/site/submit-form"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
-import { turnstileSiteKey } from "@/lib/turnstile"
 
 export const dynamic = "force-dynamic"
 
@@ -38,20 +37,17 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
   const { sent, error } = await searchParams
 
   const t = dict.submit
-  const siteKey = turnstileSiteKey()
   const waNumber = site.phoneHref.replace(/[^0-9]/g, "")
   const whatsapp = `https://wa.me/${waNumber}?text=${encodeURIComponent(
     t.whatsappPrefill,
   )}`
 
   const errorMessage =
-    error === "captcha"
-      ? t.errorCaptcha
-      : error === "rate"
-        ? t.errorRate
-        : error === "required"
-          ? t.errorRequired
-          : ""
+    error === "rate"
+      ? t.errorRate
+      : error === "required"
+        ? t.errorRequired
+        : ""
 
   return (
     <div className="bg-sand-50">
@@ -114,7 +110,7 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
                     {errorMessage}
                   </div>
                 )}
-                <SubmitForm locale={locale} dict={dict} siteKey={siteKey} />
+                <SubmitForm locale={locale} dict={dict} />
               </>
             )}
           </div>

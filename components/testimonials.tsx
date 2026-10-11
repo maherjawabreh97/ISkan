@@ -61,11 +61,9 @@ function TestimonialForm({
 
   const error =
     state.status === "error"
-      ? state.code === "captcha"
-        ? t.errorCaptcha
-        : state.code === "rate"
-          ? t.errorRate
-          : t.errorRequired
+      ? state.code === "rate"
+        ? t.errorRate
+        : t.errorRequired
       : ""
 
   return (
