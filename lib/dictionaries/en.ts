@@ -137,7 +137,7 @@ const en = {
     badge: "Post your listing — free",
     title: "List your property with Iskan",
     subtitle:
-      "Fill the quick form and we'll review and publish your listing — or reach us on WhatsApp directly.",
+      "Fill in your listing details or contact us directly via WhatsApp.",
     formTitle: "Listing details",
     contactSection: "Contact information",
     name: "Name",
@@ -196,6 +196,7 @@ const en = {
     townhouse: "Townhouse",
     office: "Office",
     land: "Land",
+    tourist_apartment: "Tourist Apartment",
   },
   propertyTypeDescriptions: {
     apartment: "Modern living across Istanbul's best districts",
@@ -204,6 +205,7 @@ const en = {
     townhouse: "Comfortable multi-level family homes",
     office: "Professional workspaces across the city",
     land: "Prime plots for your next development",
+    tourist_apartment: "Furnished apartment for daily or weekly tourist rental",
   },
   cities: {
     kadikoy: "Kadikoy",

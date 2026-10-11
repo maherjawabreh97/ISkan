@@ -25,6 +25,7 @@ import {
   Star,
   Users,
   Building,
+  Hotel,
 } from "lucide-react"
 import { PropertyCard } from "@/components/property-card"
 import { SearchBox } from "@/components/search-box"
@@ -46,6 +47,7 @@ const typeIcons: Record<PropertyTypeKey, typeof Building2> = {
   townhouse: House,
   office: Briefcase,
   land: Map,
+  tourist_apartment: Hotel,
 }
 
 export async function generateMetadata({

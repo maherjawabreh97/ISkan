@@ -9,11 +9,26 @@ const securityHeaders = [
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   // Restrict browser features (camera, mic, geolocation).
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-  // Content Security Policy — limits script/stylesheet sources.
+  // Content Security Policy — strict policy with explicit sources.
   {
     key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://wirqjuezrnhjiblhbzvg.supabase.com https://supabase.co; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';",
+    value: [
+      "default-src 'none'",
+      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "font-src 'self'",
+      "connect-src 'self' https://wirqjuezrnhjiblhbzvg.supabase.com https://supabase.co",
+      "frame-src 'self' https://challenges.cloudflare.com",
+      "img-src 'self' data: https:",
+      "font-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'self'",
+      "upgrade-insecure-requests",
+      "block-all-mixed-content",
+    ].join("; "),
   },
 ];
 

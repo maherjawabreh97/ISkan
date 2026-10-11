@@ -16,6 +16,7 @@ export type PropertyTypeKey =
   | "townhouse"
   | "office"
   | "land"
+  | "tourist_apartment"
 
 export type PurposeKey = "sale" | "rent"
 
