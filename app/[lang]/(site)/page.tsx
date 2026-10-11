@@ -43,8 +43,6 @@ const heroImage =
 const typeIcons: Record<PropertyTypeKey, typeof Building2> = {
   apartment: Building2,
   villa: HomeIcon,
-  penthouse: Crown,
-  townhouse: House,
   office: Briefcase,
   land: Map,
   tourist_apartment: Hotel,

@@ -14,8 +14,6 @@ const PURPOSES: PurposeKey[] = ["sale", "rent"]
 const TYPES: PropertyTypeKey[] = [
   "apartment",
   "villa",
-  "penthouse",
-  "townhouse",
   "office",
   "land",
 ]

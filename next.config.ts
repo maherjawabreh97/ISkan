@@ -1,41 +1,44 @@
 import type { NextConfig } from "next";
 
+const cspDirectives = [
+  "default-src 'none'",
+  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: https:",
+  "font-src 'self'",
+  "connect-src 'self' https://wirqjuezrnhjiblhbzvg.supabase.com https://supabase.co",
+  "frame-src 'self' https://challenges.cloudflare.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'self'",
+  "upgrade-insecure-requests",
+  "block-all-mixed-content",
+];
+
 const securityHeaders = [
-  // Prevent the site (and the admin login) from being framed.
-  { key: "X-Frame-Options", value: "SAMEORIGIN" },
-  // Stop browsers from MIME-sniffing responses.
+  { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
-  // Control referrer information.
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  // Restrict browser features (camera, mic, geolocation).
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-  // Content Security Policy — strict policy with explicit sources.
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
   {
     key: "Content-Security-Policy",
-    value: [
-      "default-src 'none'",
-      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
-      "font-src 'self'",
-      "connect-src 'self' https://wirqjuezrnhjiblhbzvg.supabase.com https://supabase.co",
-      "frame-src 'self' https://challenges.cloudflare.com",
-      "img-src 'self' data: https:",
-      "font-src 'self'",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "frame-ancestors 'self'",
-      "upgrade-insecure-requests",
-      "block-all-mixed-content",
-    ].join("; "),
+    value: cspDirectives.join("; "),
+  },
+  {
+    key: "Cross-Origin-Opener-Policy",
+    value: "same-origin",
+  },
+  {
+    key: "Cross-Origin-Resource-Policy",
+    value: "same-origin",
   },
 ];
 
 if (process.env.NODE_ENV === "production") {
   securityHeaders.push({
     key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
+    value: "max-age=31536000; includeSubDomains; preload",
   });
 }
 
@@ -47,14 +50,39 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
       {
-        // Supabase Storage public URLs (property image uploads).
         protocol: "https",
         hostname: "*.supabase.co",
       },
     ],
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "credentialless",
+          },
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "https://iskantr.com/:path*",
+        has: [
+          {
+            type: "header",
+            key: "x-forwarded-proto",
+            value: "http",
+          },
+        ],
+      },
+    ];
   },
 };
 

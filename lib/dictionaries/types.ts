@@ -12,8 +12,6 @@ export type CityKey =
 export type PropertyTypeKey =
   | "apartment"
   | "villa"
-  | "penthouse"
-  | "townhouse"
   | "office"
   | "land"
   | "tourist_apartment"

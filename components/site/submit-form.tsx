@@ -133,7 +133,6 @@ export function SubmitForm({
             </label>
             <select id="sf-purpose" name="purpose" className={inputCls} defaultValue="rent">
               <option value="rent">{dict.common.forRent}</option>
-              <option value="sale">{dict.common.forSale}</option>
             </select>
           </div>
 

@@ -189,8 +189,6 @@ const ar = {
   propertyTypes: {
     apartment: "شقة",
     villa: "فيلا",
-    penthouse: "بنتهاوس",
-    townhouse: "تاون هاوس",
     office: "مكتب",
     land: "أرض",
     tourist_apartment: "شقة سياحية",
@@ -198,8 +196,6 @@ const ar = {
   propertyTypeDescriptions: {
     apartment: "سكن عصري في أبرز أحياء إسطنبول",
     villa: "منازل واسعة بمساحات خارجية خاصة",
-    penthouse: "سكن على القمة مع إطلالات بانورامية",
-    townhouse: "منازل عائلية مريحة متعددة الطوابق",
     office: "مساحات عمل احترافية عبر المدينة",
     land: "قطع ممتازة لمشروعك القادم",
     tourist_apartment: "شقة مفروشة للإيجار السياحي اليومي أو الأسبوعي",
