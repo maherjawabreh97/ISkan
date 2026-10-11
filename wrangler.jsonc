@@ -43,6 +43,9 @@
     // How long a ban lasts, in hours (0 = permanent).
     "ADMIN_BAN_HOURS": "24",
     // Dashboard session lifetime, in hours.
-    "ADMIN_SESSION_HOURS": "24"
+    "ADMIN_SESSION_HOURS": "24",
+    // Cloudflare Turnstile (bot check on the admin login form). The matching
+    // secret is stored with `wrangler secret put TURNSTILE_SECRET_KEY`.
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFToXjYnnuhlKZ-L"
   }
 }
