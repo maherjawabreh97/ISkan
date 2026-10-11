@@ -38,6 +38,11 @@ import {
   getSubmission,
   setSubmissionStatus,
 } from "@/lib/submissions-store"
+import {
+  deleteTestimonial,
+  getTestimonial,
+  setTestimonialStatus,
+} from "@/lib/testimonials-store"
 import { deleteUploads } from "@/lib/uploads"
 import {
   getUserByUsername,
@@ -419,4 +424,40 @@ export async function rejectSubmissionAction(formData: FormData): Promise<void> 
 
   revalidatePath(`/${lang}/admin/submissions`)
   redirect(`/${lang}/admin/submissions`)
+}
+
+/** Approve a visitor testimonial so it appears on the public site. */
+export async function approveTestimonialAction(
+  formData: FormData,
+): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin", "editor"])
+
+  const id = text(formData, "id")
+  const testimonial = id ? await getTestimonial(id) : null
+  if (!testimonial) {
+    redirect(`/${lang}/admin/testimonials?error=notfound`)
+  }
+
+  await setTestimonialStatus(testimonial.id, "approved")
+  revalidatePath("/", "layout")
+  revalidatePath(`/${lang}/admin/testimonials`)
+  redirect(`/${lang}/admin/testimonials`)
+}
+
+/** Delete a testimonial (pending or approved). */
+export async function deleteTestimonialAction(
+  formData: FormData,
+): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin", "editor"])
+
+  const id = text(formData, "id")
+  if (id) {
+    await deleteTestimonial(id)
+  }
+
+  revalidatePath("/", "layout")
+  revalidatePath(`/${lang}/admin/testimonials`)
+  redirect(`/${lang}/admin/testimonials`)
 }

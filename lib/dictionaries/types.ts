@@ -128,11 +128,26 @@ export interface Dictionary {
     testimonialsSubtitle: string
   }
   testimonials: {
-    items: {
-      quote: string
-      name: string
-      role: string
-    }[]
+    empty: string
+    emptyDesc: string
+    addCta: string
+    formTitle: string
+    formHint: string
+    name: string
+    namePlaceholder: string
+    role: string
+    rolePlaceholder: string
+    text: string
+    textPlaceholder: string
+    submit: string
+    submitting: string
+    successTitle: string
+    successBody: string
+    cancel: string
+    errorRequired: string
+    errorCaptcha: string
+    errorRate: string
+    privacyNote: string
   }
   why: {
     oneTitle: string
@@ -148,13 +163,6 @@ export interface Dictionary {
     badge: string
     title: string
     subtitle: string
-    stepsTitle: string
-    step1Title: string
-    step1Desc: string
-    step2Title: string
-    step2Desc: string
-    step3Title: string
-    step3Desc: string
     formTitle: string
     contactSection: string
     name: string
@@ -200,7 +208,6 @@ export interface Dictionary {
     whatsappCta: string
     whatsappPrefill: string
     responseNote: string
-    securityNote: string
   }
   propertyTypes: Record<PropertyTypeKey, string>
   propertyTypeDescriptions: Record<PropertyTypeKey, string>

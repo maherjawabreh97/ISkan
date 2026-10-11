@@ -19,6 +19,7 @@ export interface AdminDict {
     dashboard: string
     properties: string
     submissions: string
+    testimonials: string
     users: string
     security: string
     viewSite: string
@@ -105,6 +106,20 @@ export interface AdminDict {
     confirmReject: string
     openProperty: string
     details: string
+  }
+  testimonials: {
+    title: string
+    subtitle: string
+    statusPending: string
+    statusApproved: string
+    empty: string
+    emptyDesc: string
+    notFound: string
+    review: string
+    submittedAt: string
+    approve: string
+    delete: string
+    confirmDelete: string
   }
   form: {
     basicSection: string
@@ -208,6 +223,7 @@ const ar: AdminDict = {
     dashboard: "نظرة عامة",
     properties: "العقارات",
     submissions: "طلبات الإعلانات",
+    testimonials: "التعليقات",
     users: "المستخدمون",
     security: "الحماية",
     viewSite: "عرض الموقع",
@@ -299,6 +315,21 @@ const ar: AdminDict = {
     confirmReject: "رفض هذا الإعلان وحذف صوره؟",
     openProperty: "فتح العقار",
     details: "التفاصيل",
+  },
+  testimonials: {
+    title: "التعليقات",
+    subtitle: "تعليقات الزوار بانتظار الموافقة",
+    statusPending: "قيد المراجعة",
+    statusApproved: "منشور",
+    empty: "لا توجد تعليقات",
+    emptyDesc:
+      "ستظهر هنا التعليقات التي يضيفها الزوار من الصفحة الرئيسية.",
+    notFound: "التعليق غير موجود.",
+    review: "التعليق",
+    submittedAt: "أُضيف",
+    approve: "موافقة ونشر",
+    delete: "حذف",
+    confirmDelete: "حذف هذا التعليق نهائياً؟",
   },
   form: {
     basicSection: "المعلومات الأساسية",
@@ -414,6 +445,7 @@ const en: AdminDict = {
     dashboard: "Overview",
     properties: "Properties",
     submissions: "Listing requests",
+    testimonials: "Testimonials",
     users: "Users",
     security: "Security",
     viewSite: "View site",
@@ -505,6 +537,21 @@ const en: AdminDict = {
     confirmReject: "Reject this listing and delete its photos?",
     openProperty: "Open property",
     details: "Details",
+  },
+  testimonials: {
+    title: "Testimonials",
+    subtitle: "Visitor reviews awaiting approval",
+    statusPending: "Pending",
+    statusApproved: "Published",
+    empty: "No testimonials",
+    emptyDesc:
+      "Reviews submitted by visitors will appear here.",
+    notFound: "Testimonial not found.",
+    review: "Review",
+    submittedAt: "Submitted",
+    approve: "Approve & publish",
+    delete: "Delete",
+    confirmDelete: "Delete this testimonial permanently?",
   },
   form: {
     basicSection: "Basic information",

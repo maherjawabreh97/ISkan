@@ -1,9 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import {
-  BadgeCheck,
   CheckCircle2,
-  ClipboardList,
   MessageCircle,
   Send,
   ShieldCheck,
@@ -55,12 +53,6 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
           ? t.errorRequired
           : ""
 
-  const steps = [
-    { icon: ClipboardList, title: t.step1Title, desc: t.step1Desc },
-    { icon: BadgeCheck, title: t.step2Title, desc: t.step2Desc },
-    { icon: Sparkles, title: t.step3Title, desc: t.step3Desc },
-  ]
-
   return (
     <div className="bg-sand-50">
       {/* Hero */}
@@ -78,33 +70,6 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
           <p className="mx-auto mt-4 max-w-2xl text-sm font-semibold leading-relaxed text-white/70 sm:text-base">
             {t.subtitle}
           </p>
-        </div>
-      </section>
-
-      {/* Steps */}
-      <section className="mx-auto -mt-8 max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-4 md:grid-cols-3">
-          {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70"
-            >
-              <div className="flex items-center gap-3">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand-700">
-                  <step.icon className="size-5" />
-                </span>
-                <span className="text-xs font-black text-slate-400">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <h2 className="mt-4 text-base font-black text-ink-900">
-                {step.title}
-              </h2>
-              <p className="mt-1.5 text-sm font-semibold leading-relaxed text-slate-500">
-                {step.desc}
-              </p>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -182,10 +147,6 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
                 <span className="text-sm font-black">{t.photosSection}</span>
               </span>
               <p className="mt-2">{t.photosEmpty}</p>
-              <p className="mt-3 flex items-start gap-2 text-slate-400">
-                <ShieldCheck className="mt-0.5 size-3.5 shrink-0" />
-                {t.securityNote}
-              </p>
             </div>
           </aside>
         </div>

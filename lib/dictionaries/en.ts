@@ -100,26 +100,28 @@ const en = {
     testimonialsSubtitle: "Trusted by hundreds of families and investors",
   },
   testimonials: {
-    items: [
-      {
-        quote:
-          "Iskan made buying our first home in Istanbul effortless. Every property was exactly as advertised, and the team guided us at every step.",
-        name: "Omar K.",
-        role: "Kadikoy",
-      },
-      {
-        quote:
-          "Professional team, transparent process. They found a great apartment for us in Besiktas within days.",
-        name: "Elif T.",
-        role: "Besiktas",
-      },
-      {
-        quote:
-          "Accurate listings and fast support saved me weeks of searching. Highly recommended for anyone looking in Istanbul!",
-        name: "Mehmet B.",
-        role: "Bakirkoy",
-      },
-    ],
+    empty: "No testimonials yet",
+    emptyDesc: "Be the first to share your experience with Iskan.",
+    addCta: "Add your review",
+    formTitle: "Share your experience",
+    formHint: "Your review appears after our team approves it.",
+    name: "Name",
+    namePlaceholder: "Your full name",
+    role: "City / occupation",
+    rolePlaceholder: "e.g. Kayashehir, investor",
+    text: "Your review",
+    textPlaceholder: "How was your experience with Iskan?",
+    submit: "Submit review",
+    submitting: "Sending…",
+    successTitle: "Review submitted",
+    successBody:
+      "Thank you! Your review is now under review and will appear on the site once approved.",
+    cancel: "Cancel",
+    errorRequired: "Please fill in your name and review.",
+    errorCaptcha: "Security check failed. Please try again.",
+    errorRate:
+      "You submitted several reviews in a short time. Please try again later.",
+    privacyNote: "Your IP address is logged for security.",
   },
   why: {
     oneTitle: "Verified listings",
@@ -136,13 +138,6 @@ const en = {
     title: "List your property with Iskan",
     subtitle:
       "Fill the quick form and we'll review and publish your listing — or reach us on WhatsApp directly.",
-    stepsTitle: "How it works",
-    step1Title: "Fill the form",
-    step1Desc: "Add the property details, your contact number and photos.",
-    step2Title: "We review it",
-    step2Desc: "Our team checks the details and contacts you if needed.",
-    step3Title: "It goes live",
-    step3Desc: "Once approved, your listing is shown to visitors around the clock.",
     formTitle: "Listing details",
     contactSection: "Contact information",
     name: "Name",
@@ -177,9 +172,9 @@ const en = {
       "I agree the listing will be reviewed before publishing, and that my IP is logged for security.",
     privacyLink: "Privacy Policy",
     submitButton: "Submit listing",
-    successTitle: "We received your listing",
+    successTitle: "Your listing is under review",
     successBody:
-      "Thank you! Your listing is now under review by the Iskan team. We'll contact you once it is approved and published.",
+      "Thank you! Your listing is currently being reviewed by the Iskan team. We'll publish it once approved and contact you if needed.",
     successWhatsapp: "Confirm faster on WhatsApp",
     successAgain: "Submit another listing",
     errorRequired:
@@ -193,8 +188,6 @@ const en = {
     whatsappCta: "Chat on WhatsApp",
     whatsappPrefill: "Hi, I'd like to list a property on Iskan.",
     responseNote: "We usually reply within minutes during working hours.",
-    securityNote:
-      "Protected by Cloudflare Turnstile. Your listing is not published before approval.",
   },
   propertyTypes: {
     apartment: "Apartment",

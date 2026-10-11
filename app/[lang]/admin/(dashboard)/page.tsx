@@ -5,6 +5,7 @@ import {
   Building2,
   House,
   Inbox,
+  MessageSquareQuote,
   Plus,
   ShieldCheck,
   Users,
@@ -15,6 +16,7 @@ import { formatPrice } from "@/lib/format"
 import { hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
 import { pendingSubmissionCount } from "@/lib/submissions-store"
+import { pendingTestimonialCount } from "@/lib/testimonials-store"
 import { getUsers } from "@/lib/users-store"
 import { notFound } from "next/navigation"
 
@@ -35,6 +37,8 @@ export default async function AdminDashboardPage({ params }: PageProps) {
   const usersCount = user?.role === "admin" ? (await getUsers()).length : null
   const pending =
     user && user.role !== "viewer" ? await pendingSubmissionCount() : 0
+  const pendingReviews =
+    user && user.role !== "viewer" ? await pendingTestimonialCount() : 0
   const recent = properties.slice(0, 5)
 
   const stats = [
@@ -114,6 +118,28 @@ export default async function AdminDashboardPage({ params }: PageProps) {
             </span>
           </span>
           <ArrowUpRight className="size-5 text-amber-600 rtl:-scale-x-100" />
+        </Link>
+      )}
+
+      {pendingReviews > 0 && (
+        <Link
+          href={`/${locale}/admin/testimonials`}
+          className="group flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-brand-300/70 bg-brand-50 px-5 py-4 transition hover:border-brand-400"
+        >
+          <span className="flex items-center gap-3">
+            <span className="grid size-11 place-items-center rounded-2xl bg-brand-400/25 text-brand-700">
+              <MessageSquareQuote className="size-5" />
+            </span>
+            <span>
+              <span className="block text-sm font-black text-ink-900">
+                {t.testimonials.title}
+              </span>
+              <span className="block text-xs font-semibold text-brand-700">
+                {pendingReviews} · {t.testimonials.statusPending}
+              </span>
+            </span>
+          </span>
+          <ArrowUpRight className="size-5 text-brand-600 rtl:-scale-x-100" />
         </Link>
       )}
 

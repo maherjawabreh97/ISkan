@@ -25,3 +25,17 @@ CREATE TABLE IF NOT EXISTS upload_events (
 );
 
 CREATE INDEX IF NOT EXISTS upload_events_ip_idx ON upload_events (ip, at DESC);
+
+-- Visitor-submitted testimonials ("what our clients say"). They stay
+-- hidden from the public site until an admin approves them.
+CREATE TABLE IF NOT EXISTS testimonials (
+  id         TEXT PRIMARY KEY,
+  status     TEXT NOT NULL DEFAULT 'pending',
+  ip         TEXT NOT NULL DEFAULT '',
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL,
+  data       TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS testimonials_status_idx ON testimonials (status, created_at DESC);
+CREATE INDEX IF NOT EXISTS testimonials_ip_idx ON testimonials (ip, created_at DESC);

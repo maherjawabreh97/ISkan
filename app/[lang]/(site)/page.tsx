@@ -25,6 +25,8 @@ import { Testimonials } from "@/components/testimonials"
 import type { PropertyTypeKey } from "@/lib/dictionaries/types"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
+import { listApprovedTestimonials } from "@/lib/testimonials-store"
+import { turnstileSiteKey } from "@/lib/turnstile"
 
 export const dynamic = "force-dynamic"
 
@@ -64,6 +66,7 @@ export default async function HomePage({
   const locale: Locale = lang
   const dict = await getDictionary(locale)
   const properties = await getProperties()
+  const approvedTestimonials = await listApprovedTestimonials(20)
 
   const byNewest = [...properties].sort(
     (a, b) =>
@@ -352,10 +355,16 @@ export default async function HomePage({
 
       {/* ========================== TESTIMONIALS ========================== */}
       <Testimonials
-        items={dict.testimonials.items}
+        items={approvedTestimonials.map((item) => ({
+          quote: item.text,
+          name: item.name,
+          role: item.role,
+        }))}
         locale={locale}
         title={dict.sections.testimonialsTitle}
         subtitle={dict.sections.testimonialsSubtitle}
+        t={dict.testimonials}
+        siteKey={turnstileSiteKey()}
       />
 
       {/* ========================== WHY US ========================== */}

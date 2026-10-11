@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ImagePlus, Send } from "lucide-react"
+import { Send } from "lucide-react"
 import { submitListingAction } from "@/app/[lang]/(site)/submit/actions"
 import { ImageInput } from "@/components/admin/image-input"
 import { TurnstileWidget } from "@/components/admin/turnstile-widget"
@@ -322,11 +322,6 @@ export function SubmitForm({
       </label>
 
       {siteKey && <TurnstileWidget siteKey={siteKey} theme="light" />}
-
-      <p className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-        <ImagePlus className="size-3.5 shrink-0" />
-        {t.securityNote}
-      </p>
 
       <button
         type="submit"
