@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Iskan",
   },
   description: "Discover luxury apartments, villas and offices across Istanbul's finest districts. Transparent pricing, verified listings.",
-  metadataBase: new URL("https://iskan.musamimweb.com"),
+  metadataBase: new URL("https://iskantr.com"),
   openGraph: {
     type: "website",
     locale: "en_US",

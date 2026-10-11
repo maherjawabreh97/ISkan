@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iskan",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": [
+    // Enable Node.js APIs (required by @opennextjs/cloudflare).
+    "nodejs_compat",
+    // Allow the worker to fetch arbitrary public URLs.
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // Must match the "name" of this worker.
+      "service": "iskan"
+    }
+  ],
+  "images": {
+    // Enables next/image optimization on Cloudflare.
+    "binding": "IMAGES"
+  },
+  "vars": {
+    // Server-only configuration. The service-role key is stored as a
+    // secret (wrangler secret put SUPABASE_SERVICE_ROLE_KEY).
+    "SUPABASE_URL": "https://wirqjuezrnhjiblhbzvg.supabase.co",
+    "SUPABASE_BUCKET": "property-images"
+  }
+}
