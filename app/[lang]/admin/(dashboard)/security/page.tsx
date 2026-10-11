@@ -4,7 +4,7 @@ import { unbanIpAction } from "@/app/[lang]/admin/actions"
 import { getCurrentUser } from "@/lib/auth"
 import { getAdminDict } from "@/lib/dictionaries/admin"
 import { hasLocale, type Locale } from "@/lib/i18n"
-import { listBans, listEvents } from "@/lib/security-store"
+import { listBans, listEvents, maxLoginFailures } from "@/lib/security-store"
 
 export const dynamic = "force-dynamic"
 
@@ -46,7 +46,7 @@ export default async function AdminSecurityPage({
           {t.security.subtitle}
         </p>
         <p className="mt-3 rounded-2xl bg-white/[0.04] px-4 py-3 text-xs font-bold text-white/60 ring-1 ring-white/10">
-          {t.security.policy}
+          {t.security.policy.replace("{count}", String(maxLoginFailures()))}
         </p>
       </div>
 

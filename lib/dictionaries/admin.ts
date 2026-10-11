@@ -296,7 +296,7 @@ const ar: AdminDict = {
     title: "الحماية",
     subtitle: "عنوان IP المحظورة وسجل محاولات الدخول",
     policy:
-      "يُحظر أي عنوان IP بعد محاولتَين خاطئتين، وتُسجَّل كل المحاولات. يمكنك رفع الحظر يدوياً من هنا.",
+      "يُحظر أي عنوان IP بعد {count} محاولات دخول خاطئة، وتُسجَّل كل المحاولات. يمكنك رفع الحظر يدوياً من هنا.",
     bannedTitle: "عناوين IP المحظورة",
     bannedEmpty: "لا توجد عناوين محظورة حالياً.",
     eventsTitle: "أحدث الأحداث",
@@ -471,7 +471,7 @@ const en: AdminDict = {
     title: "Security",
     subtitle: "Banned IP addresses and the sign-in activity log",
     policy:
-      "Any IP is banned after two failed sign-ins, and every attempt is logged. You can lift a ban manually here.",
+      "Any IP is banned after {count} failed sign-ins, and every attempt is logged. You can lift a ban manually here.",
     bannedTitle: "Banned IPs",
     bannedEmpty: "No banned addresses right now.",
     eventsTitle: "Recent events",
