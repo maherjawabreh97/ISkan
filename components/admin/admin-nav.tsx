@@ -2,20 +2,22 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Building2, LayoutDashboard, ShieldCheck, Users } from "lucide-react"
+import { Building2, Inbox, LayoutDashboard, ShieldCheck, Users } from "lucide-react"
 import type { AdminDict } from "@/lib/dictionaries/admin"
 import type { Locale } from "@/lib/i18n"
+import type { Role } from "@/lib/users-store"
 
 export function AdminNav({
   locale,
   t,
-  isAdmin,
+  role,
 }: {
   locale: Locale
   t: AdminDict
-  isAdmin: boolean
+  role: Role
 }) {
   const pathname = usePathname()
+  const isAdmin = role === "admin"
 
   const items = [
     {
@@ -30,6 +32,16 @@ export function AdminNav({
       icon: Building2,
       exact: false,
     },
+    ...(role !== "viewer"
+      ? [
+          {
+            href: `/${locale}/admin/submissions`,
+            label: t.nav.submissions,
+            icon: Inbox,
+            exact: false,
+          },
+        ]
+      : []),
     ...(isAdmin
       ? [
           {

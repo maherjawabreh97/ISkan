@@ -62,7 +62,7 @@ export function AdminShell({
         </div>
 
         <div className="mx-auto max-w-7xl px-4 pb-3 sm:px-6 lg:px-8">
-          <AdminNav locale={locale} t={t} isAdmin={user.role === "admin"} />
+          <AdminNav locale={locale} t={t} role={user.role} />
         </div>
       </header>
 

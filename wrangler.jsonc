@@ -31,6 +31,12 @@
       "binding": "SECURITY_DB",
       "database_name": "iskan-security",
       "database_id": "d5d18885-d8a4-47fd-a345-25557b0453d0"
+    },
+    {
+      // Visitor-submitted listings (the moderation queue) and upload counters.
+      "binding": "SUBMISSIONS_DB",
+      "database_name": "iskan-submissions",
+      "database_id": "630f3bdc-2c4f-492f-91db-67a94434f6ba"
     }
   ],
   "vars": {

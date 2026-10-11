@@ -18,6 +18,7 @@ export interface AdminDict {
   nav: {
     dashboard: string
     properties: string
+    submissions: string
     users: string
     security: string
     viewSite: string
@@ -78,6 +79,32 @@ export interface AdminDict {
     deleted: string
     saved: string
     citizenship: string
+  }
+  submissions: {
+    title: string
+    subtitle: string
+    statusPending: string
+    statusApproved: string
+    statusRejected: string
+    empty: string
+    emptyDesc: string
+    contact: string
+    phone: string
+    email: string
+    listing: string
+    price: string
+    city: string
+    type: string
+    purpose: string
+    photos: string
+    address: string
+    description: string
+    submittedAt: string
+    approve: string
+    reject: string
+    confirmReject: string
+    openProperty: string
+    details: string
   }
   form: {
     basicSection: string
@@ -180,6 +207,7 @@ const ar: AdminDict = {
   nav: {
     dashboard: "نظرة عامة",
     properties: "العقارات",
+    submissions: "طلبات الإعلانات",
     users: "المستخدمون",
     security: "الحماية",
     viewSite: "عرض الموقع",
@@ -244,6 +272,33 @@ const ar: AdminDict = {
     deleted: "تم حذف العقار.",
     saved: "تم حفظ العقار.",
     citizenship: "الجنسية",
+  },
+  submissions: {
+    title: "طلبات الإعلانات",
+    subtitle: "الإعلانات المُرسَلة من الزوار بانتظار المراجعة",
+    statusPending: "قيد المراجعة",
+    statusApproved: "منشور",
+    statusRejected: "مرفوض",
+    empty: "لا توجد طلبات",
+    emptyDesc:
+      "ستظهر هنا الإعلانات التي يرسلها الزوار من صفحة «أضف عقارك».",
+    contact: "بيانات المُرسِل",
+    phone: "الهاتف",
+    email: "البريد الإلكتروني",
+    listing: "العقار",
+    price: "السعر",
+    city: "المنطقة",
+    type: "النوع",
+    purpose: "الغرض",
+    photos: "الصور",
+    address: "العنوان",
+    description: "الوصف",
+    submittedAt: "أُرسل",
+    approve: "موافقة ونشر",
+    reject: "رفض",
+    confirmReject: "رفض هذا الإعلان وحذف صوره؟",
+    openProperty: "فتح العقار",
+    details: "التفاصيل",
   },
   form: {
     basicSection: "المعلومات الأساسية",
@@ -358,6 +413,7 @@ const en: AdminDict = {
   nav: {
     dashboard: "Overview",
     properties: "Properties",
+    submissions: "Listing requests",
     users: "Users",
     security: "Security",
     viewSite: "View site",
@@ -422,6 +478,33 @@ const en: AdminDict = {
     deleted: "Property deleted.",
     saved: "Property saved.",
     citizenship: "Citizenship",
+  },
+  submissions: {
+    title: "Listing requests",
+    subtitle: "Visitor-submitted listings awaiting review",
+    statusPending: "Pending",
+    statusApproved: "Published",
+    statusRejected: "Rejected",
+    empty: "No requests",
+    emptyDesc:
+      'Listings submitted from the public "List your property" page will appear here.',
+    contact: "Sender",
+    phone: "Phone",
+    email: "Email",
+    listing: "Property",
+    price: "Price",
+    city: "District",
+    type: "Type",
+    purpose: "Purpose",
+    photos: "Photos",
+    address: "Address",
+    description: "Description",
+    submittedAt: "Submitted",
+    approve: "Approve & publish",
+    reject: "Reject",
+    confirmReject: "Reject this listing and delete its photos?",
+    openProperty: "Open property",
+    details: "Details",
   },
   form: {
     basicSection: "Basic information",

@@ -4,6 +4,7 @@ import {
   BadgeDollarSign,
   Building2,
   House,
+  Inbox,
   Plus,
   ShieldCheck,
   Users,
@@ -13,6 +14,7 @@ import { getAdminDict } from "@/lib/dictionaries/admin"
 import { formatPrice } from "@/lib/format"
 import { hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
+import { pendingSubmissionCount } from "@/lib/submissions-store"
 import { getUsers } from "@/lib/users-store"
 import { notFound } from "next/navigation"
 
@@ -31,6 +33,8 @@ export default async function AdminDashboardPage({ params }: PageProps) {
   const saleCount = properties.filter((p) => p.purpose === "sale").length
   const rentCount = properties.filter((p) => p.purpose === "rent").length
   const usersCount = user?.role === "admin" ? (await getUsers()).length : null
+  const pending =
+    user && user.role !== "viewer" ? await pendingSubmissionCount() : 0
   const recent = properties.slice(0, 5)
 
   const stats = [
@@ -90,6 +94,28 @@ export default async function AdminDashboardPage({ params }: PageProps) {
           {t.dashboard.addProperty}
         </Link>
       </div>
+
+      {pending > 0 && (
+        <Link
+          href={`/${locale}/admin/submissions`}
+          className="group flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-amber-300/70 bg-amber-50 px-5 py-4 transition hover:border-amber-400"
+        >
+          <span className="flex items-center gap-3">
+            <span className="grid size-11 place-items-center rounded-2xl bg-amber-400/25 text-amber-700">
+              <Inbox className="size-5" />
+            </span>
+            <span>
+              <span className="block text-sm font-black text-ink-900">
+                {t.submissions.title}
+              </span>
+              <span className="block text-xs font-semibold text-amber-700">
+                {pending} · {t.submissions.statusPending}
+              </span>
+            </span>
+          </span>
+          <ArrowUpRight className="size-5 text-amber-600 rtl:-scale-x-100" />
+        </Link>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => {

@@ -1,7 +1,9 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Dashboard | Iskan",
+  // The public [lang] layout appends "| Iskan", so keep this bare to avoid
+  // rendering "Dashboard | Iskan | Iskan".
+  title: "Dashboard",
   robots: {
     index: false,
     follow: false,

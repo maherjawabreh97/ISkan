@@ -43,6 +43,7 @@ export interface Dictionary {
     home: string
     properties: string
     contact: string
+    submit: string
   }
   hero: {
     badge: string
@@ -51,6 +52,7 @@ export interface Dictionary {
     title2: string
     subtitle: string
     searchButton: string
+    listCta: string
     statProperties: string
     statCustomers: string
     statCities: string
@@ -142,6 +144,64 @@ export interface Dictionary {
     fourTitle: string
     fourDesc: string
   }
+  submit: {
+    badge: string
+    title: string
+    subtitle: string
+    stepsTitle: string
+    step1Title: string
+    step1Desc: string
+    step2Title: string
+    step2Desc: string
+    step3Title: string
+    step3Desc: string
+    formTitle: string
+    contactSection: string
+    name: string
+    namePlaceholder: string
+    phone: string
+    phonePlaceholder: string
+    email: string
+    emailOptional: string
+    listingSection: string
+    listingTitle: string
+    listingTitlePlaceholder: string
+    city: string
+    propertyType: string
+    purpose: string
+    price: string
+    currency: string
+    pricePerMonth: string
+    area: string
+    bedrooms: string
+    bathrooms: string
+    floor: string
+    furnished: string
+    address: string
+    addressPlaceholder: string
+    description: string
+    descriptionPlaceholder: string
+    photosSection: string
+    photosHelp: string
+    photosEmpty: string
+    removePhoto: string
+    consent: string
+    privacyLink: string
+    submitButton: string
+    successTitle: string
+    successBody: string
+    successWhatsapp: string
+    successAgain: string
+    errorRequired: string
+    errorCaptcha: string
+    errorRate: string
+    asideTitle: string
+    asideBody: string
+    whatsappCta: string
+    whatsappPrefill: string
+    responseNote: string
+    securityNote: string
+  }
   propertyTypes: Record<PropertyTypeKey, string>
   propertyTypeDescriptions: Record<PropertyTypeKey, string>
   cities: Record<CityKey, string>
@@ -178,5 +238,7 @@ export interface Dictionary {
     privacyDescription: string
     cookiesTitle: string
     cookiesDescription: string
+    submitTitle: string
+    submitDescription: string
   }
 }

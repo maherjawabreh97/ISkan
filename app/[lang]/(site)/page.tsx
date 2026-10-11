@@ -13,6 +13,7 @@ import {
   House,
   Map,
   MessageCircle,
+  Plus,
   ShieldCheck,
   Sparkles,
 } from "lucide-react"
@@ -162,6 +163,18 @@ export default async function HomePage({
 
           <Reveal delay={0.3}>
             <SearchBox locale={locale} dict={dict} />
+          </Reveal>
+
+          <Reveal delay={0.38}>
+            <div className="mt-5 flex justify-center">
+              <Link
+                href={`/${locale}/submit`}
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-extrabold text-white backdrop-blur transition hover:border-gold-400/50 hover:bg-white/10"
+              >
+                <Plus className="size-4 text-gold-300" />
+                {dict.hero.listCta}
+              </Link>
+            </div>
           </Reveal>
 
           <Reveal delay={0.45}>
@@ -401,6 +414,13 @@ export default async function HomePage({
                 {dict.sections.ctaSubtitle}
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href={`/${locale}/submit`}
+                  className="btn-brand inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-extrabold text-white"
+                >
+                  <Plus className="size-4" />
+                  {dict.nav.submit}
+                </Link>
                 <a
                   href="mailto:Iskanrealestatetr@gmail.com"
                   className="btn-gold inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-extrabold"

@@ -18,6 +18,7 @@ export function MobileNav({
   const links = [
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.properties, href: `/${locale}/properties` },
+    { label: dict.nav.submit, href: `/${locale}/submit` },
   ]
 
   return (

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { ListingsView } from "@/components/listings-view"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
@@ -70,6 +70,26 @@ export default async function PropertiesPage({ params }: PageProps) {
           >
             <ListingsView locale={locale} dict={dict} allProperties={properties} />
           </Suspense>
+        </div>
+      </section>
+
+      <section className="pb-16 lg:pb-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-between gap-6 rounded-[2rem] bg-gradient-to-br from-brand-900 via-ink-900 to-ink-950 px-6 py-10 text-center text-white sm:flex-row sm:text-start sm:px-10">
+            <div>
+              <h2 className="text-2xl font-black">{dict.submit.title}</h2>
+              <p className="mt-2 max-w-xl text-sm font-semibold leading-relaxed text-white/70">
+                {dict.submit.subtitle}
+              </p>
+            </div>
+            <Link
+              href={`/${locale}/submit`}
+              className="btn-gold inline-flex shrink-0 items-center gap-2 rounded-full px-7 py-3.5 text-sm font-extrabold"
+            >
+              <Plus className="size-4" />
+              {dict.nav.submit}
+            </Link>
+          </div>
         </div>
       </section>
     </>

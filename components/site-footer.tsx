@@ -7,6 +7,7 @@ import {
   MapPin,
   MessageCircle,
   Phone,
+  Plus,
 } from "lucide-react"
 import type { Dictionary, PropertyTypeKey } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -36,6 +37,7 @@ export function SiteFooter({
   const quickLinks = [
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.properties, href: `/${locale}/properties` },
+    { label: dict.nav.submit, href: `/${locale}/submit` },
     { label: dict.footer.privacy, href: `/${locale}/privacy` },
     { label: dict.footer.cookies, href: `/${locale}/cookies` },
   ]
@@ -95,6 +97,13 @@ export function SiteFooter({
                 <MessageCircle className="size-4" />
                 WhatsApp
               </a>
+              <Link
+                href={`/${locale}/submit`}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-extrabold text-white transition hover:border-gold-400/50 hover:bg-white/10"
+              >
+                <Plus className="size-4" />
+                {dict.nav.submit}
+              </Link>
             </div>
           </div>
         </div>

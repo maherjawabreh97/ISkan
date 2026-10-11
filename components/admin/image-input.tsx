@@ -10,12 +10,15 @@ export function ImageInput({
   removeLabel,
   emptyLabel,
   existing = [],
+  endpoint = "/api/admin/upload",
 }: {
   label: string
   help: string
   removeLabel: string
   emptyLabel: string
   existing?: string[]
+  /** Upload API used for new files. */
+  endpoint?: string
 }) {
   const [uploaded, setUploaded] = useState<string[]>([])
   const [removed, setRemoved] = useState<string[]>([])
@@ -35,7 +38,7 @@ export function ImageInput({
     try {
       const data = new FormData()
       Array.from(files).forEach((file) => data.append("files", file))
-      const response = await fetch("/api/admin/upload", {
+      const response = await fetch(endpoint, {
         method: "POST",
         body: data,
       })

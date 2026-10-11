@@ -6,7 +6,7 @@ import { deletePropertyAction } from "@/app/[lang]/admin/actions"
 import { ConfirmSubmit } from "@/components/admin/confirm-submit"
 import { getAdminDict } from "@/lib/dictionaries/admin"
 import { formatPrice } from "@/lib/format"
-import { hasLocale, type Locale } from "@/lib/i18n"
+import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
 
 type PageProps = {
@@ -18,6 +18,7 @@ export default async function AdminPropertiesPage({ params }: PageProps) {
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
   const t = getAdminDict(locale)
+  const dict = await getDictionary(locale)
   const properties = await getProperties()
 
   return (
@@ -92,7 +93,7 @@ export default async function AdminPropertiesPage({ params }: PageProps) {
                             {property.name[locale]}
                           </p>
                           <p className="text-xs font-semibold text-slate-400">
-                            {property.type}
+                            {dict.propertyTypes[property.type]}
                             {property.featured ? " · ★" : ""}
                           </p>
                         </div>

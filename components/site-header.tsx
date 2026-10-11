@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Phone, Home, Building2, Mail, Plus } from "lucide-react"
+import { Phone, Home, Building2, Plus } from "lucide-react"
 import Link from "next/link"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -63,6 +63,13 @@ export function SiteHeader({
             <Phone className="size-3.5" />
             <span dir="ltr">{site.phone}</span>
           </a>
+          <Link
+            href={`/${locale}/submit`}
+            className="hidden items-center gap-1.5 rounded-full bg-gold-400 px-3.5 py-2 text-sm font-black text-ink-950 transition hover:brightness-105 md:inline-flex"
+          >
+            <Plus className="size-3.5" />
+            {dict.nav.submit}
+          </Link>
           <FavoritesChip locale={locale} />
           <LanguageSwitcher locale={locale} />
           <MobileNav locale={locale} dict={dict} />

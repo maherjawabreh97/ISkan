@@ -34,6 +34,10 @@ import {
   slugExists,
   upsertProperty,
 } from "@/lib/properties-store"
+import {
+  getSubmission,
+  setSubmissionStatus,
+} from "@/lib/submissions-store"
 import { deleteUploads } from "@/lib/uploads"
 import {
   getUserByUsername,
@@ -347,4 +351,72 @@ export async function deleteUserAction(formData: FormData): Promise<void> {
 
   revalidatePath("/", "layout")
   redirect(`/${lang}/admin/users`)
+}
+
+/**
+ * Publish a visitor submission: creates a real property from it (in "draft"
+ * shape — the admin can refine it afterwards) and marks the request approved.
+ */
+export async function approveSubmissionAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin", "editor"])
+
+  const id = text(formData, "id")
+  const submission = id ? await getSubmission(id) : null
+  if (!submission) {
+    redirect(`/${lang}/admin/submissions?error=notfound`)
+  }
+
+  const slug = await uniqueSlug(
+    slugify(submission.title) ||
+      `${submission.purpose}-${submission.type}-${submission.city}`,
+  )
+
+  const property: Property = {
+    slug,
+    type: submission.type,
+    purpose: submission.purpose,
+    price: submission.price,
+    currency: submission.currency,
+    pricePerMonth:
+      submission.purpose === "rent" ? submission.pricePerMonth : false,
+    area: submission.area,
+    bedrooms: submission.bedrooms,
+    bathrooms: submission.bathrooms,
+    parking: 0,
+    yearBuilt: 0,
+    floor: submission.floor,
+    citizenshipEligible: false,
+    city: submission.city,
+    featured: false,
+    dateAdded: new Date().toISOString().slice(0, 10),
+    name: { en: submission.title, ar: submission.title },
+    address: { en: submission.address, ar: submission.address },
+    description: { en: submission.description, ar: submission.description },
+    amenities: submission.furnished ? ["furnished"] : [],
+    images: submission.images,
+    agent: office,
+  }
+
+  await upsertProperty(property)
+  await setSubmissionStatus(submission.id, "approved", slug)
+  revalidatePath("/", "layout")
+  // Send the admin straight to the editor so they can polish the listing.
+  redirect(`/${lang}/admin/properties/${slug}`)
+}
+
+/** Reject a submission and clean up the images that were uploaded with it. */
+export async function rejectSubmissionAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin", "editor"])
+
+  const id = text(formData, "id")
+  const submission = id ? await getSubmission(id) : null
+  if (submission) {
+    await deleteUploads(submission.images)
+    await setSubmissionStatus(submission.id, "rejected")
+  }
+
+  revalidatePath(`/${lang}/admin/submissions`)
+  redirect(`/${lang}/admin/submissions`)
 }
