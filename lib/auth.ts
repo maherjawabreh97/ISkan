@@ -4,7 +4,14 @@ import { redirect } from "next/navigation"
 import { getUser, type Role, type User } from "./users-store"
 
 const COOKIE_NAME = "iskan_admin_session"
-const MAX_AGE_SECONDS = 60 * 60 * 24 * 7
+
+/** Session lifetime in seconds (default 24h, override with ADMIN_SESSION_HOURS). */
+function sessionMaxAgeSeconds(): number {
+  const hours = Number(process.env.ADMIN_SESSION_HOURS)
+  return (Number.isFinite(hours) && hours > 0 ? hours : 24) * 60 * 60
+}
+
+const MAX_AGE_SECONDS = sessionMaxAgeSeconds()
 
 /**
  * Resolve the session-signing secret.

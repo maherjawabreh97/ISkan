@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Building2, LayoutDashboard, Users } from "lucide-react"
+import { Building2, LayoutDashboard, ShieldCheck, Users } from "lucide-react"
 import type { AdminDict } from "@/lib/dictionaries/admin"
 import type { Locale } from "@/lib/i18n"
 
@@ -36,6 +36,12 @@ export function AdminNav({
             href: `/${locale}/admin/users`,
             label: t.nav.users,
             icon: Users,
+            exact: false,
+          },
+          {
+            href: `/${locale}/admin/security`,
+            label: t.nav.security,
+            icon: ShieldCheck,
             exact: false,
           },
         ]

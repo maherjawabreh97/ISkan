@@ -3,9 +3,11 @@ import Link from "next/link"
 import { ArrowLeft, Lock } from "lucide-react"
 import { loginAction } from "@/app/[lang]/admin/actions"
 import { LanguageSwitcher } from "@/components/language-switcher"
+import { TurnstileWidget } from "@/components/admin/turnstile-widget"
 import { getCurrentUser } from "@/lib/auth"
 import { getAdminDict } from "@/lib/dictionaries/admin"
 import { hasLocale, type Locale } from "@/lib/i18n"
+import { turnstileSiteKey } from "@/lib/turnstile"
 
 type PageProps = {
   params: Promise<{ lang: string }>
@@ -20,6 +22,8 @@ export default async function AdminLoginPage({ params, searchParams }: PageProps
 
   const current = await getCurrentUser()
   if (current) redirect(`/${locale}/admin`)
+
+  const siteKey = turnstileSiteKey()
 
   return (
     <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-ink-950 px-4 py-16">
@@ -52,12 +56,30 @@ export default async function AdminLoginPage({ params, searchParams }: PageProps
 
           {error && (
             <p className="mt-5 rounded-xl bg-red-500/15 px-4 py-3 text-sm font-bold text-red-200 ring-1 ring-red-400/30">
-              {error === "rate" ? t.login.rateLimit : t.login.error}
+              {error === "blocked"
+                ? t.login.blocked
+                : error === "rate"
+                  ? t.login.rateLimit
+                  : t.login.error}
             </p>
           )}
 
           <form action={loginAction} className="mt-6 space-y-4">
             <input type="hidden" name="lang" value={locale} />
+            {/* Honeypot: hidden from humans, irresistible to bots. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -left-[9999px] top-auto h-px w-px overflow-hidden opacity-0"
+            >
+              <label htmlFor="login-website">Website</label>
+              <input
+                id="login-website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             <div>
               <label
                 className="mb-1.5 block text-xs font-extrabold text-white/60"
@@ -89,6 +111,7 @@ export default async function AdminLoginPage({ params, searchParams }: PageProps
                 className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold text-white outline-none transition placeholder:text-white/30 focus:border-gold-400/60 focus:bg-white/[0.09]"
               />
             </div>
+            {siteKey && <TurnstileWidget siteKey={siteKey} />}
             <button
               type="submit"
               className="btn-gold w-full rounded-xl px-6 py-3.5 text-sm font-black text-ink-950 transition hover:brightness-105"

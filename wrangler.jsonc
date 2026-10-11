@@ -24,10 +24,25 @@
     // Enables next/image optimization on Cloudflare.
     "binding": "IMAGES"
   },
+  "d1_databases": [
+    {
+      // Durable login-attempt counters, IP bans and the security event log.
+      // Strongly consistent (unlike KV), which matters for brute-force defence.
+      "binding": "SECURITY_DB",
+      "database_name": "iskan-security",
+      "database_id": "d5d18885-d8a4-47fd-a345-25557b0453d0"
+    }
+  ],
   "vars": {
     // Server-only configuration. The service-role key is stored as a
     // secret (wrangler secret put SUPABASE_SERVICE_ROLE_KEY).
     "SUPABASE_URL": "https://wirqjuezrnhjiblhbzvg.supabase.co",
-    "SUPABASE_BUCKET": "property-images"
+    "SUPABASE_BUCKET": "property-images",
+    // Ban an IP after this many failed sign-ins (3 = allow two, ban on the third).
+    "ADMIN_MAX_LOGIN_FAILURES": "3",
+    // How long a ban lasts, in hours (0 = permanent).
+    "ADMIN_BAN_HOURS": "24",
+    // Dashboard session lifetime, in hours.
+    "ADMIN_SESSION_HOURS": "24"
   }
 }

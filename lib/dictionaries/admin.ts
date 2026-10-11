@@ -10,12 +10,14 @@ export interface AdminDict {
     submit: string
     error: string
     rateLimit: string
+    blocked: string
     hint: string
   }
   nav: {
     dashboard: string
     properties: string
     users: string
+    security: string
     viewSite: string
     signOut: string
   }
@@ -127,6 +129,28 @@ export interface AdminDict {
     saved: string
     deleted: string
   }
+  security: {
+    title: string
+    subtitle: string
+    policy: string
+    bannedTitle: string
+    bannedEmpty: string
+    eventsTitle: string
+    eventsEmpty: string
+    ip: string
+    reason: string
+    bannedAt: string
+    expires: string
+    permanent: string
+    unban: string
+    actions: string
+    type: string
+    when: string
+    user: string
+    unbanned: string
+    reasons: Record<string, string>
+    eventTypes: Record<string, string>
+  }
   errors: {
     forbidden: string
     notFound: string
@@ -144,12 +168,15 @@ const ar: AdminDict = {
     error: "اسم المستخدم أو كلمة السر غير صحيحة.",
     rateLimit:
       "محاولات دخول كثيرة خاطئة. الرجاء المحاولة بعد بضع دقائق.",
+    blocked:
+      "تم حظر عنوان IP الخاص بك بسبب محاولات دخول خاطئة متكررة أو نشاط آلي.",
     hint: "الحساب الافتراضي: admin / admin123 (غيّره من صفحة المستخدمين)",
   },
   nav: {
     dashboard: "نظرة عامة",
     properties: "العقارات",
     users: "المستخدمون",
+    security: "الحماية",
     viewSite: "عرض الموقع",
     signOut: "خروج",
   },
@@ -265,6 +292,40 @@ const ar: AdminDict = {
     saved: "تم حفظ المستخدم.",
     deleted: "تم حذف المستخدم.",
   },
+  security: {
+    title: "الحماية",
+    subtitle: "عنوان IP المحظورة وسجل محاولات الدخول",
+    policy:
+      "يُحظر أي عنوان IP بعد محاولتَين خاطئتين، وتُسجَّل كل المحاولات. يمكنك رفع الحظر يدوياً من هنا.",
+    bannedTitle: "عناوين IP المحظورة",
+    bannedEmpty: "لا توجد عناوين محظورة حالياً.",
+    eventsTitle: "أحدث الأحداث",
+    eventsEmpty: "لا توجد أحداث مسجّلة.",
+    ip: "عنوان IP",
+    reason: "السبب",
+    bannedAt: "تاريخ الحظر",
+    expires: "ينتهي",
+    permanent: "دائم",
+    unban: "رفع الحظر",
+    actions: "إجراءات",
+    type: "النوع",
+    when: "الوقت",
+    user: "المستخدم",
+    unbanned: "تم رفع الحظر.",
+    reasons: {
+      too_many_failures: "محاولات خاطئة متكررة",
+      honeypot: "نشاط آلي (حقل مخفي)",
+      captcha: "فشل التحقق الأمني",
+      manual: "حظر يدوي",
+    },
+    eventTypes: {
+      login_success: "دخول ناجح",
+      login_failure: "محاولة فاشلة",
+      ip_banned: "حظر IP",
+      ip_unbanned: "رفع حظر",
+      bot_blocked: "منع بوت",
+    },
+  },
   errors: {
     forbidden: "ليس لديك صلاحية للوصول إلى هذه الصفحة.",
     notFound: "العنصر غير موجود.",
@@ -282,12 +343,15 @@ const en: AdminDict = {
     error: "Invalid username or password.",
     rateLimit:
       "Too many failed sign-in attempts. Please try again in a few minutes.",
+    blocked:
+      "Your IP address has been blocked due to repeated failed sign-ins or automated activity.",
     hint: "Default account: admin / admin123 (change it in the Users page)",
   },
   nav: {
     dashboard: "Overview",
     properties: "Properties",
     users: "Users",
+    security: "Security",
     viewSite: "View site",
     signOut: "Sign out",
   },
@@ -402,6 +466,40 @@ const en: AdminDict = {
     passwordHint: "At least 6 characters.",
     saved: "User saved.",
     deleted: "User deleted.",
+  },
+  security: {
+    title: "Security",
+    subtitle: "Banned IP addresses and the sign-in activity log",
+    policy:
+      "Any IP is banned after two failed sign-ins, and every attempt is logged. You can lift a ban manually here.",
+    bannedTitle: "Banned IPs",
+    bannedEmpty: "No banned addresses right now.",
+    eventsTitle: "Recent events",
+    eventsEmpty: "No events recorded.",
+    ip: "IP address",
+    reason: "Reason",
+    bannedAt: "Banned at",
+    expires: "Expires",
+    permanent: "Permanent",
+    unban: "Unban",
+    actions: "Actions",
+    type: "Type",
+    when: "When",
+    user: "User",
+    unbanned: "Ban lifted.",
+    reasons: {
+      too_many_failures: "Repeated failed sign-ins",
+      honeypot: "Automated activity (hidden field)",
+      captcha: "Failed security check",
+      manual: "Manual ban",
+    },
+    eventTypes: {
+      login_success: "Signed in",
+      login_failure: "Failed attempt",
+      ip_banned: "IP banned",
+      ip_unbanned: "Ban lifted",
+      bot_blocked: "Bot blocked",
+    },
   },
   errors: {
     forbidden: "You do not have permission to access this page.",

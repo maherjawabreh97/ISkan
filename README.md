@@ -91,7 +91,20 @@ What the admin panel already does:
 - Passwords hashed with `scrypt` + per-user salt and compared in constant time.
 - Dashboard pages are gated by layout **and** every Server Action re-checks the
   user and role (`requireActionUser`).
-- Login is rate-limited (in-memory, per IP + username).
+- **Brute-force protection** (`lib/security-store.ts`): failed sign-ins are
+  counted per IP in a strongly-consistent **Cloudflare D1** database. After
+  `ADMIN_MAX_LOGIN_FAILURES` failures (default 3) the IP is banned for
+  `ADMIN_BAN_HOURS` hours (default 24, `0` = permanent).
+- **Honeypot field** on the login form: bots that fill the hidden input are
+  banned instantly.
+- **Bot / scanner blocking** in `proxy.ts`: known attack paths (`/wp-login.php`,
+  `/.env`, `/phpmyadmin`, …) return 404, and the `/admin` area rejects empty or
+  scripted user agents (`curl`, `python-requests`, `sqlmap`, …).
+- **Security page** (`/ar/admin/security`, admins only): lists banned IPs with a
+  one-click unban and shows the recent sign-in event log.
+- **Optional Cloudflare Turnstile**: set `TURNSTILE_SITE_KEY` (var) and
+  `TURNSTILE_SECRET_KEY` (secret) and the login form gets a CAPTCHA
+  automatically; with no keys the check is skipped.
 - Uploaded images are validated by their real magic bytes, not the browser MIME.
 - Security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`,
   `Permissions-Policy`, and HSTS in production).
@@ -99,11 +112,15 @@ What the admin panel already does:
 Before going live:
 
 1. **Set `ADMIN_SECRET`** to a long random value (see `.env.example`).
-2. **Change the default `admin` password** on first login (or set
+2. **Change the default admin password** on first login (or set
    `ADMIN_USERNAME` / `ADMIN_PASSWORD` before the first run).
 3. Serve the site over **HTTPS** (required for the `secure` cookie).
-4. The rate limiter is in-memory: fine for one Node process. If you run several
-   instances, put a shared limiter/WAF in front.
+4. Apply the security schema once:
+   `npx wrangler d1 execute iskan-security --remote --file=./d1/security-schema.sql`.
+
+> Locked out after too many failed attempts? The ban lives in D1; remove it with
+> `npx wrangler d1 execute iskan-security --remote --command "DELETE FROM bans"`,
+> or from the dashboard's **Security** page (using a different network).
 
 > Not a substitute for an audit — this is a list of the built-in measures, not a
 > guarantee.
@@ -118,6 +135,9 @@ Before going live:
   (Supabase when configured, otherwise local files).
 - `supabase/schema.sql` — database tables and image bucket, run once.
 - `lib/auth.ts` — sessions and role checks.
+- `lib/security-store.ts` — D1-backed failed-attempt counters, IP bans, event log.
+- `lib/turnstile.ts`, `components/admin/turnstile-widget.tsx` — optional CAPTCHA.
+- `d1/security-schema.sql` — the security tables (apply once with Wrangler).
 - `lib/dictionaries/` — Arabic/English copy, plus `admin.ts` for the dashboard.
 
 ## Build

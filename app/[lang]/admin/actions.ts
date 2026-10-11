@@ -8,7 +8,17 @@ import {
   requireActionUser,
   setSessionCookie,
 } from "@/lib/auth"
-import { checkRateLimit, recordFailure, resetRateLimit } from "@/lib/rate-limit"
+import {
+  banIp,
+  clearFailures,
+  getBan,
+  getFailureCount,
+  logEvent,
+  maxLoginFailures,
+  recordFailure,
+  unbanIp,
+} from "@/lib/security-store"
+import { verifyTurnstile } from "@/lib/turnstile"
 import type {
   AmenityKey,
   CityKey,
@@ -77,11 +87,11 @@ async function uniqueSlug(base: string): Promise<string> {
 
 async function clientIp(): Promise<string> {
   const store = await headers()
-  const forwarded = store.get("x-forwarded-for")
+  // `cf-connecting-ip` is set (and cannot be spoofed) by Cloudflare.
   return (
-    forwarded?.split(",")[0]?.trim() ||
-    store.get("x-real-ip") ||
-    store.get("cf-connecting-ip") ||
+    store.get("cf-connecting-ip")?.trim() ||
+    store.get("x-real-ip")?.trim() ||
+    store.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     "unknown"
   )
 }
@@ -90,24 +100,100 @@ export async function loginAction(formData: FormData): Promise<void> {
   const lang = langOf(formData)
   const username = text(formData, "username")
   const password = String(formData.get("password") ?? "")
-
+  const userAgent = (await headers()).get("user-agent") ?? ""
   const ip = await clientIp()
-  const userKey = `${ip}:${username.toLowerCase()}`
-  const ipKey = `ip:${ip}`
-  if (!checkRateLimit(userKey).allowed || !checkRateLimit(ipKey).allowed) {
-    redirect(`/${lang}/admin/login?error=rate`)
+
+  // 1) Honeypot: a hidden field real users never fill. A filled value means an
+  //    automated client, so ban the IP immediately without revealing why.
+  if (text(formData, "website")) {
+    await banIp(ip, { reason: "honeypot", username, userAgent })
+    await logEvent({
+      type: "bot_blocked",
+      ip,
+      at: Date.now(),
+      username,
+      userAgent,
+      detail: "honeypot",
+    })
+    redirect(`/${lang}/admin/login?error=blocked`)
+  }
+
+  // 2) Already banned?
+  if (await getBan(ip)) {
+    redirect(`/${lang}/admin/login?error=blocked`)
+  }
+
+  // 3) Too many previous failures — ban and stop.
+  if ((await getFailureCount(ip)) >= maxLoginFailures()) {
+    await banIp(ip, { reason: "too_many_failures", username, userAgent })
+    redirect(`/${lang}/admin/login?error=blocked`)
+  }
+
+  // 4) Cloudflare Turnstile (skipped automatically when not configured).
+  const captcha = await verifyTurnstile(formData, ip)
+  if (!captcha.ok) {
+    const result = await recordFailure(ip, { username, userAgent })
+    if (result.banned) {
+      await logEvent({
+        type: "ip_banned",
+        ip,
+        at: Date.now(),
+        username,
+        userAgent,
+        detail: "captcha",
+      })
+    }
+    redirect(`/${lang}/admin/login?error=${result.banned ? "blocked" : "1"}`)
   }
 
   const user = await getUserByUsername(username)
   if (!user || !verifyPassword(password, user.passwordHash)) {
-    recordFailure(userKey)
-    recordFailure(ipKey)
-    redirect(`/${lang}/admin/login?error=1`)
+    const result = await recordFailure(ip, { username, userAgent })
+    await logEvent({
+      type: "login_failure",
+      ip,
+      at: Date.now(),
+      username,
+      userAgent,
+      detail: `failures=${result.count}`,
+    })
+    if (result.banned) {
+      await logEvent({
+        type: "ip_banned",
+        ip,
+        at: Date.now(),
+        username,
+        userAgent,
+        detail: "too_many_failures",
+      })
+    }
+    redirect(`/${lang}/admin/login?error=${result.banned ? "blocked" : "1"}`)
   }
 
-  resetRateLimit(userKey)
+  await clearFailures(ip)
+  await logEvent({
+    type: "login_success",
+    ip,
+    at: Date.now(),
+    username,
+    userAgent,
+  })
   await setSessionCookie(user.id, user.role)
   redirect(`/${lang}/admin`)
+}
+
+export async function unbanIpAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin"])
+
+  const ip = text(formData, "ip")
+  if (ip) {
+    await unbanIp(ip)
+    await logEvent({ type: "ip_unbanned", ip, at: Date.now() })
+  }
+
+  revalidatePath(`/${lang}/admin/security`)
+  redirect(`/${lang}/admin/security`)
 }
 
 export async function logoutAction(formData: FormData): Promise<void> {
