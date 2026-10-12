@@ -27,6 +27,7 @@ export interface SubmissionInput {
   address: string
   description: string
   images: string[]
+  videos?: string[]
 }
 
 export interface Submission extends SubmissionInput {

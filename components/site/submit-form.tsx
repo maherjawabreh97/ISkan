@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Send } from "lucide-react"
 import { submitListingAction } from "@/app/[lang]/(site)/submit/actions"
 import { ImageInput } from "@/components/admin/image-input"
+import { VideoInput } from "@/components/admin/video-input"
 import type {
   CityKey,
   Dictionary,
@@ -308,6 +309,16 @@ export function SubmitForm({
           removeLabel={t.removePhoto}
           emptyLabel={t.photosEmpty}
           endpoint="/api/listings/upload"
+        />
+      </Section>
+
+      <Section title={t.videosSection}>
+        <VideoInput
+          label={t.videosSection}
+          help={t.videosHelp}
+          removeLabel={t.removeVideo}
+          emptyLabel={t.videosEmpty}
+          endpoint="/api/listings/videos"
         />
       </Section>
 

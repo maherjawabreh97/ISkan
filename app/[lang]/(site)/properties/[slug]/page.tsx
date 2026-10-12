@@ -23,6 +23,7 @@ import {
 } from "lucide-react"
 import { PropertyGallery } from "@/components/property-gallery"
 import { StickyActions } from "@/components/sticky-actions"
+import { VideoTour } from "@/components/video-tour"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import { getProperties, getStoredProperty } from "@/lib/properties-store"
@@ -234,6 +235,19 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   </div>
                 ))}
               </dl>
+
+              {/* Video tour */}
+              {property.videos && property.videos.length > 0 && (
+                <div>
+                  <SectionTitle>{dict.common.videoTour}</SectionTitle>
+                  <div className="mt-4">
+                    <VideoTour
+                      videos={property.videos}
+                      poster={property.images[0]}
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Description */}
               <div>

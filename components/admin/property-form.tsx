@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { savePropertyAction } from "@/app/[lang]/admin/actions"
 import { ImageInput } from "@/components/admin/image-input"
+import { VideoInput } from "@/components/admin/video-input"
 import type { AdminDict } from "@/lib/dictionaries/admin"
 import type {
   AmenityKey,
@@ -422,6 +423,20 @@ export function PropertyForm({
         />
         <p className="mt-3 text-xs font-semibold text-slate-400">
           {t.form.imagesHelp}
+        </p>
+      </Section>
+
+      <Section title={t.form.videoSection}>
+        <VideoInput
+          label={t.form.existingVideos}
+          help={t.form.uploadVideos}
+          removeLabel={t.form.removeVideo}
+          emptyLabel={t.form.noVideos}
+          existing={property?.videos ?? []}
+          endpoint="/api/admin/videos"
+        />
+        <p className="mt-3 text-xs font-semibold text-slate-400">
+          {t.form.videosHelp}
         </p>
       </Section>
 

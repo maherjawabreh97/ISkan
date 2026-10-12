@@ -98,6 +98,7 @@ export interface AdminDict {
     type: string
     purpose: string
     photos: string
+    videos: string
     address: string
     description: string
     submittedAt: string
@@ -161,6 +162,12 @@ export interface AdminDict {
     removeImage: string
     imagesHelp: string
     noImages: string
+    videoSection: string
+    existingVideos: string
+    uploadVideos: string
+    removeVideo: string
+    videosHelp: string
+    noVideos: string
   }
   users: {
     title: string
@@ -308,6 +315,7 @@ const ar: AdminDict = {
     type: "النوع",
     purpose: "الغرض",
     photos: "الصور",
+    videos: "الفيديو",
     address: "العنوان",
     description: "الوصف",
     submittedAt: "أُرسل",
@@ -372,6 +380,12 @@ const ar: AdminDict = {
     removeImage: "حذف هذه الصورة",
     imagesHelp: "يمكنك اختيار عدة صور (JPG، PNG، WEBP). الحد 8 ميغابايت للصورة.",
     noImages: "لا توجد صور بعد.",
+    videoSection: "الفيديو",
+    existingVideos: "الفيديوهات الحالية",
+    uploadVideos: "ارفع فيديو",
+    removeVideo: "إزالة الفيديو",
+    videosHelp: "مقطع MP4 أو WEBM أو MOV، الحد 50 ميغابايت. يمكنك إضافة أكثر من فيديو.",
+    noVideos: "لا توجد فيديوهات بعد.",
   },
   users: {
     title: "المستخدمون والأدوار",
@@ -531,6 +545,7 @@ const en: AdminDict = {
     type: "Type",
     purpose: "Purpose",
     photos: "Photos",
+    videos: "Videos",
     address: "Address",
     description: "Description",
     submittedAt: "Submitted",
@@ -595,6 +610,12 @@ const en: AdminDict = {
     removeImage: "Remove this image",
     imagesHelp: "You can select multiple images (JPG, PNG, WEBP). Max 8 MB each.",
     noImages: "No images yet.",
+    videoSection: "Video",
+    existingVideos: "Current videos",
+    uploadVideos: "Upload a video",
+    removeVideo: "Remove video",
+    videosHelp: "MP4, WEBM or MOV, up to 50 MB. You can add more than one video.",
+    noVideos: "No videos yet.",
   },
   users: {
     title: "Users & roles",

@@ -4,6 +4,7 @@ import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { logEvent } from "@/lib/security-store"
 import { countRecentSubmissions, createSubmission } from "@/lib/submissions-store"
+import { isStoredVideoUrl } from "@/lib/videos"
 import type { CityKey, PropertyTypeKey, PurposeKey } from "@/lib/dictionaries/types"
 import type { CurrencyKey } from "@/lib/format"
 import { hasLocale } from "@/lib/i18n"
@@ -135,6 +136,10 @@ export async function submitListingAction(formData: FormData): Promise<void> {
       address: text(formData, "address"),
       description,
       images: formData.getAll("newImages").map(String).filter(Boolean),
+      videos: formData
+        .getAll("newVideos")
+        .map(String)
+        .filter(isStoredVideoUrl),
     },
     { ip, userAgent },
   )

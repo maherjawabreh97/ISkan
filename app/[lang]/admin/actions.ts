@@ -44,6 +44,7 @@ import {
   setTestimonialStatus,
 } from "@/lib/testimonials-store"
 import { deleteUploads } from "@/lib/uploads"
+import { isStoredVideoUrl } from "@/lib/videos"
 import {
   getUserByUsername,
   removeUser,
@@ -236,10 +237,30 @@ export async function savePropertyAction(formData: FormData): Promise<void> {
   const existingImages = formData.getAll("existingImages").map(String)
   const removedImages = new Set(formData.getAll("removeImage").map(String))
   const keptImages = existingImages.filter((url) => !removedImages.has(url))
-  await deleteUploads([...removedImages])
+  // Only delete media that was really part of this property, so a crafted form
+  // cannot point `removeImage` at somebody else's upload.
+  await deleteUploads(
+    (existing?.images ?? []).filter((url) => removedImages.has(url)),
+  )
 
   const newImages = formData.getAll("newImages").map(String).filter(Boolean)
   const images = [...keptImages, ...newImages]
+
+  const existingVideos = formData
+    .getAll("existingVideos")
+    .map(String)
+    .filter(isStoredVideoUrl)
+  const removedVideos = new Set(formData.getAll("removeVideo").map(String))
+  const keptVideos = existingVideos.filter((url) => !removedVideos.has(url))
+  await deleteUploads(
+    (existing?.videos ?? []).filter((url) => removedVideos.has(url)),
+  )
+
+  const newVideos = formData
+    .getAll("newVideos")
+    .map(String)
+    .filter(isStoredVideoUrl)
+  const videos = [...keptVideos, ...newVideos]
 
   const purpose = (text(formData, "purpose") || "sale") as PurposeKey
   const floorText = text(formData, "floor")
@@ -293,6 +314,7 @@ export async function savePropertyAction(formData: FormData): Promise<void> {
         : undefined,
     amenities: formData.getAll("amenities").map(String) as AmenityKey[],
     images: images.length ? images : existing?.images ?? [],
+    videos: videos.length ? videos : [],
     agent: existing?.agent ?? office,
   }
 
@@ -309,7 +331,9 @@ export async function deletePropertyAction(formData: FormData): Promise<void> {
   if (slug) {
     const property = await getStoredProperty(slug)
     await removeProperty(slug)
-    if (property) await deleteUploads(property.images)
+    if (property) {
+      await deleteUploads([...property.images, ...(property.videos ?? [])])
+    }
   }
 
   revalidatePath("/", "layout")
@@ -409,6 +433,7 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
     description: { en: submission.description, ar: submission.description },
     amenities: submission.furnished ? ["furnished"] : [],
     images: submission.images,
+    videos: submission.videos ?? [],
     agent: office,
   }
 
@@ -427,7 +452,7 @@ export async function rejectSubmissionAction(formData: FormData): Promise<void> 
   const id = text(formData, "id")
   const submission = id ? await getSubmission(id) : null
   if (submission) {
-    await deleteUploads(submission.images)
+    await deleteUploads([...submission.images, ...(submission.videos ?? [])])
     await setSubmissionStatus(submission.id, "rejected")
   }
 

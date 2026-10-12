@@ -285,6 +285,26 @@ export default async function AdminSubmissionsPage({
                   </div>
                 )}
 
+                {item.videos && item.videos.length > 0 && (
+                  <div className="mt-5 border-t border-slate-100 pt-5">
+                    <p className="mb-3 text-xs font-extrabold text-slate-400">
+                      {t.submissions.videos} ({item.videos.length})
+                    </p>
+                    <div className="flex flex-wrap gap-2.5">
+                      {item.videos.map((url) => (
+                        <video
+                          key={url}
+                          src={url}
+                          controls
+                          playsInline
+                          preload="metadata"
+                          className="aspect-video w-56 rounded-2xl bg-ink-950 ring-1 ring-slate-200"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="mt-5 flex flex-wrap gap-3 border-t border-slate-100 pt-5">
                   <form action={approveSubmissionAction}>
                     <input type="hidden" name="lang" value={locale} />

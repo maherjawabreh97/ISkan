@@ -33,6 +33,8 @@ export interface Property {
   requirements?: LocalizedString
   amenities: AmenityKey[]
   images: string[]
+  /** Short video clips (mp4/webm/mov) shown as a video tour on the detail page. */
+  videos?: string[]
   agent: {
     name: LocalizedString
     role: string

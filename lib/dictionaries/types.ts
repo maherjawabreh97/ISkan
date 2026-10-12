@@ -96,6 +96,7 @@ export interface Dictionary {
     emailNow: string
     relatedProperties: string
     backToListings: string
+    videoTour: string
     yearBuilt: string
     parking: string
     floor: string
@@ -196,6 +197,10 @@ export interface Dictionary {
     photosHelp: string
     photosEmpty: string
     removePhoto: string
+    videosSection: string
+    videosHelp: string
+    videosEmpty: string
+    removeVideo: string
     consent: string
     privacyLink: string
     submitButton: string
