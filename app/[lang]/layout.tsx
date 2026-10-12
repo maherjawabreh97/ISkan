@@ -1,4 +1,4 @@
-import { Cairo } from "next/font/google"
+import { Cairo, El_Messiri } from "next/font/google"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
@@ -48,6 +48,13 @@ const cairo = Cairo({
   subsets: ["arabic", "latin"],
 })
 
+// Display face for headings — a warmer, humanist counterpart to Cairo.
+const messiri = El_Messiri({
+  variable: "--font-messiri",
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700"],
+})
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
@@ -64,7 +71,11 @@ export default async function RootLayout({
   const locale: Locale = lang
 
   return (
-    <html lang={lang} dir={directionOf(locale)} className={cairo.variable}>
+    <html
+      lang={lang}
+      dir={directionOf(locale)}
+      className={`${cairo.variable} ${messiri.variable}`}
+    >
       <head>
         <Analytics />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

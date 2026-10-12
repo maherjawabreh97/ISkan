@@ -136,6 +136,7 @@ export interface AdminDict {
     pricePerMonth: string
     bedrooms: string
     bathrooms: string
+    livingRooms: string
     area: string
     netArea: string
     parking: string
@@ -346,6 +347,7 @@ const ar: AdminDict = {
     pricePerMonth: "إيجار شهري",
     bedrooms: "عدد الغرف",
     bathrooms: "عدد الحمّامات",
+    livingRooms: "عدد الصالات",
     area: "المساحة الإجمالية (م²)",
     netArea: "المساحة الصافية (م²)",
     parking: "مواقف السيارات",
@@ -568,6 +570,7 @@ const en: AdminDict = {
     pricePerMonth: "Monthly rent",
     bedrooms: "Bedrooms",
     bathrooms: "Bathrooms",
+    livingRooms: "Living rooms",
     area: "Total area (m²)",
     netArea: "Net area (m²)",
     parking: "Parking",

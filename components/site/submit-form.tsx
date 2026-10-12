@@ -21,8 +21,8 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 sm:p-6">
-      <h2 className="mb-5 text-lg font-black text-ink-900">{title}</h2>
+    <section className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 sm:p-6">
+      <h2 className="mb-5 font-heading text-base font-bold text-ink-900">{title}</h2>
       {children}
     </section>
   )
@@ -56,9 +56,9 @@ export function SubmitForm({
         />
       </div>
 
-      <div className="rounded-3xl bg-gradient-to-br from-brand-700 to-brand-900 p-5 text-white sm:p-6">
-        <h2 className="text-lg font-black">{t.formTitle}</h2>
-        <p className="mt-1 text-sm font-semibold text-white/70">
+      <div className="rounded-2xl bg-gradient-to-br from-brand-700 to-brand-900 p-5 text-white sm:p-6">
+        <h2 className="font-heading text-base font-bold">{t.formTitle}</h2>
+        <p className="mt-1 text-sm font-medium text-white/70">
           {t.subtitle}
         </p>
       </div>
@@ -172,9 +172,9 @@ export function SubmitForm({
               <input
                 id="sf-price"
                 name="price"
-                type="number"
-                min={0}
-                step="any"
+                type="text"
+                inputMode="numeric"
+                dir="ltr"
                 placeholder="0"
                 className={inputCls}
               />
@@ -232,6 +232,19 @@ export function SubmitForm({
             <input
               id="sf-bathrooms"
               name="bathrooms"
+              type="number"
+              min={0}
+              defaultValue={1}
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="sf-living-rooms">
+              {t.livingRooms}
+            </label>
+            <input
+              id="sf-living-rooms"
+              name="livingRooms"
               type="number"
               min={0}
               defaultValue={1}

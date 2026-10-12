@@ -25,6 +25,7 @@ const CITIES: CityKey[] = [
   "beyoglu",
   "sisli",
   "kayashehir",
+  "bagcilar",
 ]
 const CURRENCIES: CurrencyKey[] = ["TRY", "USD", "EUR"]
 
@@ -34,6 +35,16 @@ function text(formData: FormData, key: string): string {
 
 function numberValue(formData: FormData, key: string): number {
   const value = Number(formData.get(key))
+  return Number.isFinite(value) && value >= 0 ? value : 0
+}
+
+/**
+ * Price can be typed with thousand separators (e.g. "400,000" or "400.000").
+ * Keep digits only so the stored value stays a clean number.
+ */
+function priceValue(formData: FormData, key: string): number {
+  const digits = String(formData.get(key) ?? "").replace(/[^\d]/g, "")
+  const value = Number(digits)
   return Number.isFinite(value) && value >= 0 ? value : 0
 }
 
@@ -112,12 +123,13 @@ export async function submitListingAction(formData: FormData): Promise<void> {
       purpose,
       type: oneOf(text(formData, "type"), TYPES, "apartment"),
       city: oneOf(text(formData, "city"), CITIES, "kayashehir"),
-      price: numberValue(formData, "price"),
+      price: priceValue(formData, "price"),
       currency: oneOf(text(formData, "currency"), CURRENCIES, "TRY"),
       pricePerMonth: purpose === "rent",
       area: numberValue(formData, "area"),
       bedrooms: numberValue(formData, "bedrooms"),
       bathrooms: numberValue(formData, "bathrooms"),
+      livingRooms: numberValue(formData, "livingRooms"),
       floor: floor ? numberValue(formData, "floor") : undefined,
       furnished: formData.get("furnished") !== null,
       address: text(formData, "address"),

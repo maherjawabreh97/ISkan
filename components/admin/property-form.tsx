@@ -116,9 +116,9 @@ export function PropertyForm({
             <input
               id="pf-price"
               name="price"
-              type="number"
-              min={0}
-              step="any"
+              type="text"
+              inputMode="numeric"
+              dir="ltr"
               defaultValue={property?.price ?? ""}
               className={inputCls}
               placeholder="0"
@@ -204,6 +204,19 @@ export function PropertyForm({
               type="number"
               min={0}
               defaultValue={property?.bathrooms ?? 0}
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="pf-livingRooms">
+              {t.form.livingRooms}
+            </label>
+            <input
+              id="pf-livingRooms"
+              name="livingRooms"
+              type="number"
+              min={0}
+              defaultValue={property?.livingRooms ?? 0}
               className={inputCls}
             />
           </div>

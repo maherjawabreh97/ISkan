@@ -31,6 +31,7 @@ const en = {
     forRent: "For Rent",
     beds: "beds",
     baths: "baths",
+    livingRooms: "living rooms",
     area: "Area",
     sqm: "m\u00B2",
     perMonth: "/month",
@@ -71,6 +72,8 @@ const en = {
     citizenshipTitle: "Important note",
     citizenshipNotEligible:
       "This property is not eligible for Turkish citizenship through property investment.",
+    citizenshipEligible:
+      "This property is eligible for Turkish citizenship through property investment.",
     price: "Price",
     cityLabel: "District",
     properties: "properties",
@@ -121,7 +124,7 @@ const en = {
     errorCaptcha: "Security check failed. Please try again.",
     errorRate:
       "You submitted several reviews in a short time. Please try again later.",
-    privacyNote: "Your IP address is logged for security.",
+    privacyNote: "We respect your privacy and never share your data with third parties.",
   },
   why: {
     oneTitle: "Verified listings",
@@ -158,6 +161,7 @@ const en = {
     area: "Area (m²)",
     bedrooms: "Bedrooms",
     bathrooms: "Bathrooms",
+    livingRooms: "Living rooms",
     floor: "Floor",
     furnished: "Furnished",
     address: "Address / nearest landmark",
@@ -168,8 +172,7 @@ const en = {
     photosHelp: "Upload property photos",
     photosEmpty: "No photos yet — 3 or more is recommended.",
     removePhoto: "Remove this photo",
-    consent:
-      "I agree the listing will be reviewed before publishing, and that my IP is logged for security.",
+    consent: "I agree the listing will be reviewed before publishing.",
     privacyLink: "Privacy Policy",
     submitButton: "Submit listing",
     successTitle: "Your listing is under review",
@@ -188,6 +191,8 @@ const en = {
     whatsappCta: "Chat on WhatsApp",
     whatsappPrefill: "Hi, I'd like to list a property on Iskan.",
     responseNote: "We usually reply within minutes during working hours.",
+    sellNote:
+      "We accept rental listings from visitors only. To sell your property, contact us directly on WhatsApp.",
   },
   propertyTypes: {
     apartment: "Apartment",
@@ -211,6 +216,7 @@ const en = {
     beyoglu: "Beyoglu",
     sisli: "Sisli",
     kayashehir: "Kayashehir",
+    bagcilar: "Bagcilar",
   },
   amenities: {
     pool: "Swimming pool",

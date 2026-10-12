@@ -2,6 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import {
   CheckCircle2,
+  Info,
   MessageCircle,
   Send,
   ShieldCheck,
@@ -52,18 +53,17 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
   return (
     <div className="bg-sand-50">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-ink-950 via-ink-900 to-brand-900 px-4 py-14 text-white sm:px-6 sm:py-20">
-        <div className="pointer-events-none absolute -top-24 end-[-6rem] size-80 rounded-full bg-gold-400/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 start-[-4rem] size-80 rounded-full bg-brand-500/20 blur-3xl" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-ink-950 via-ink-900 to-brand-900 px-4 py-10 text-white sm:px-6 sm:py-12">
+        <div className="pointer-events-none absolute -top-24 end-[-6rem] size-72 rounded-full bg-gold-400/10 blur-3xl" />
         <div className="relative mx-auto max-w-5xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 text-xs font-extrabold text-gold-300">
+          <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-gold-300">
             <Sparkles className="size-3.5" />
             {t.badge}
           </span>
-          <h1 className="mt-5 text-3xl font-black leading-tight sm:text-4xl md:text-5xl">
+          <h1 className="mt-4 font-heading text-2xl font-bold leading-tight sm:text-3xl">
             {t.title}
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-sm font-semibold leading-relaxed text-white/70 sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-sm font-medium leading-7 text-white/70">
             {t.subtitle}
           </p>
         </div>
@@ -74,11 +74,11 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div>
             {sent ? (
-              <div className="rounded-3xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-200/70">
+              <div className="rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-200/70">
                 <span className="mx-auto grid size-16 place-items-center rounded-full bg-emerald-50 text-emerald-600">
                   <CheckCircle2 className="size-8" />
                 </span>
-                <h2 className="mt-5 text-2xl font-black text-ink-900">
+                <h2 className="mt-5 font-heading text-xl font-bold text-ink-900">
                   {t.successTitle}
                 </h2>
                 <p className="mx-auto mt-3 max-w-md text-sm font-semibold leading-relaxed text-slate-500">
@@ -117,10 +117,14 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
 
           {/* Aside */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-3xl bg-ink-950 p-6 text-white shadow-sm">
-              <h2 className="text-lg font-black">{t.asideTitle}</h2>
-              <p className="mt-2 text-sm font-semibold leading-relaxed text-white/70">
+            <div className="rounded-2xl bg-ink-950 p-6 text-white shadow-sm">
+              <h2 className="font-heading text-base font-bold">{t.asideTitle}</h2>
+              <p className="mt-2 text-sm font-medium leading-relaxed text-white/70">
                 {t.asideBody}
+              </p>
+              <p className="mt-4 flex items-start gap-2 rounded-xl bg-white/[0.06] px-3.5 py-3 text-xs font-semibold leading-relaxed text-gold-200 ring-1 ring-white/10">
+                <Info className="mt-0.5 size-3.5 shrink-0" />
+                {t.sellNote}
               </p>
               <a
                 href={whatsapp}
@@ -137,10 +141,10 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
               </p>
             </div>
 
-            <div className="mt-4 rounded-3xl bg-white p-5 text-xs font-semibold leading-relaxed text-slate-500 ring-1 ring-slate-200/70">
+            <div className="mt-4 rounded-2xl bg-white p-5 text-xs font-semibold leading-relaxed text-slate-500 ring-1 ring-slate-200/70">
               <span className="flex items-center gap-2 text-ink-900">
                 <Upload className="size-4 shrink-0 text-brand-700" />
-                <span className="text-sm font-black">{t.photosSection}</span>
+                <span className="font-heading text-sm font-bold">{t.photosSection}</span>
               </span>
               <p className="mt-2">{t.photosEmpty}</p>
             </div>

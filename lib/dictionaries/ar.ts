@@ -31,6 +31,7 @@ const ar = {
     forRent: "للإيجار",
     beds: "غرف",
     baths: "حمامات",
+    livingRooms: "صالات",
     area: "المساحة",
     sqm: "م²",
     perMonth: "/شهر",
@@ -71,6 +72,8 @@ const ar = {
     citizenshipTitle: "ملاحظة مهمة",
     citizenshipNotEligible:
       "هذه الشقة غير مناسبة للحصول على الجنسية التركية عن طريق الاستثمار العقاري.",
+    citizenshipEligible:
+      "هذا العقار مناسب للحصول على الجنسية التركية عن طريق الاستثمار العقاري.",
     price: "السعر",
     cityLabel: "المدينة",
     properties: "عقار",
@@ -120,7 +123,7 @@ const ar = {
     errorCaptcha: "فشل التحقق الأمني. الرجاء المحاولة.",
     errorRate:
       "أرسلت عدة تعليقات خلال وقت قصير. الرجاء المحاولة بعد قليل.",
-    privacyNote: "يُسجَّل عنوان IP الخاص بك لأغراض الحماية.",
+    privacyNote: "نحترم خصوصيتك ولن نشارك بياناتك مع أي طرف ثالث.",
   },
   why: {
     oneTitle: "إدراجات موثقة",
@@ -157,6 +160,7 @@ const ar = {
     area: "المساحة (م²)",
     bedrooms: "غرف النوم",
     bathrooms: "الحمّامات",
+    livingRooms: "عدد الصالات",
     floor: "الطابق",
     furnished: "مفروش",
     address: "العنوان / أقرب معلم",
@@ -167,8 +171,7 @@ const ar = {
     photosHelp: "ارفع صور العقار",
     photosEmpty: "لا توجد صور بعد — ننصح برفع 3 صور على الأقل.",
     removePhoto: "إزالة هذه الصورة",
-    consent:
-      "أوافق على مراجعة الإعلان قبل نشره، وعلى تسجيل عنوان IP لأغراض الحماية.",
+    consent: "أوافق على مراجعة الإعلان قبل نشره.",
     privacyLink: "سياسة الخصوصية",
     submitButton: "إرسال الإعلان",
     successTitle: "تم إرسال إعلانك",
@@ -185,6 +188,8 @@ const ar = {
     whatsappCta: "تواصل عبر واتساب",
     whatsappPrefill: "مرحباً، بدي أضيف إعلان عقار على موقع إسكان.",
     responseNote: "نرد عادةً خلال دقائق في أوقات العمل.",
+    sellNote:
+      "نستقبل من الزوار إعلانات الإيجار فقط. لبيع عقارك، تواصل معنا مباشرة عبر واتساب.",
   },
   propertyTypes: {
     apartment: "شقة",
@@ -208,6 +213,7 @@ const ar = {
     beyoglu: "بي أوغلو",
     sisli: "شيشلي",
     kayashehir: "كاياهشيهر",
+    bagcilar: "باغجلار",
   },
   amenities: {
     pool: "مسبح",

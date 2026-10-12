@@ -21,6 +21,7 @@ export interface SubmissionInput {
   area: number
   bedrooms: number
   bathrooms: number
+  livingRooms: number
   floor?: number
   furnished: boolean
   address: string

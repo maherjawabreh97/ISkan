@@ -149,7 +149,7 @@ export function ListingsView({
 
   return (
     <>
-      <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200/70 sm:p-6">
+      <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200/70 sm:p-6">
         <div className="scrollbar-none flex gap-2 overflow-x-auto pb-1">
           {tabs.map((item) => {
             const active = tab === item.key
@@ -341,11 +341,11 @@ export function ListingsView({
           ))}
         </motion.div>
       ) : (
-        <div className="mt-6 flex flex-col items-center rounded-3xl bg-white px-6 py-16 text-center ring-1 ring-slate-200/70">
+        <div className="mt-6 flex flex-col items-center rounded-2xl bg-white px-6 py-16 text-center ring-1 ring-slate-200/70">
           <span className="grid size-16 place-items-center rounded-full bg-sand-100 text-brand-600">
             <SearchX className="size-8" />
           </span>
-          <h2 className="mt-5 text-xl font-extrabold text-ink-900">
+          <h2 className="mt-5 font-heading text-xl font-bold text-ink-900">
             {dict.common.noResults}
           </h2>
           <p className="mt-2 max-w-md text-sm text-slate-500">

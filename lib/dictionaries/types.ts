@@ -8,6 +8,7 @@ export type CityKey =
   | "beyoglu"
   | "sisli"
   | "kayashehir"
+  | "bagcilar"
 
 export type PropertyTypeKey =
   | "apartment"
@@ -62,6 +63,7 @@ export interface Dictionary {
     forRent: string
     beds: string
     baths: string
+    livingRooms: string
     area: string
     sqm: string
     perMonth: string
@@ -100,6 +102,7 @@ export interface Dictionary {
     netArea: string
     citizenshipTitle: string
     citizenshipNotEligible: string
+    citizenshipEligible: string
     price: string
     cityLabel: string
     properties: string
@@ -182,6 +185,7 @@ export interface Dictionary {
     area: string
     bedrooms: string
     bathrooms: string
+    livingRooms: string
     floor: string
     furnished: string
     address: string
@@ -207,6 +211,7 @@ export interface Dictionary {
     whatsappCta: string
     whatsappPrefill: string
     responseNote: string
+    sellNote: string
   }
   propertyTypes: Record<PropertyTypeKey, string>
   propertyTypeDescriptions: Record<PropertyTypeKey, string>

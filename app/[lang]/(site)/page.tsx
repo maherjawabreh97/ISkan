@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 import {
   ArrowUpRight,
@@ -7,25 +8,17 @@ import {
   BadgeDollarSign,
   Briefcase,
   Building2,
-  Crown,
   Headphones,
   Home as HomeIcon,
-  House,
+  Hotel,
   Map,
+  MapPin,
   MessageCircle,
   Plus,
-  ShieldCheck,
-  Sparkles,
   Send,
-  BadgeCheck,
-  Search,
-  Filter,
-  Heart,
-  MapPin,
-  Star,
+  ShieldCheck,
   Users,
   Building,
-  Hotel,
 } from "lucide-react"
 import { PropertyCard } from "@/components/property-card"
 import { SearchBox } from "@/components/search-box"
@@ -46,6 +39,31 @@ const typeIcons: Record<PropertyTypeKey, typeof Building2> = {
   office: Briefcase,
   land: Map,
   tourist_apartment: Hotel,
+}
+
+function SectionHead({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string
+  subtitle?: string
+  children?: ReactNode
+}) {
+  return (
+    <div className="flex flex-wrap items-end justify-between gap-5">
+      <div className="max-w-2xl">
+        <span className="block h-px w-7 bg-gold-500" />
+        <h2 className="mt-4 font-heading text-2xl font-bold leading-tight text-ink-900 sm:text-[2rem]">
+          {title}
+        </h2>
+        {subtitle && (
+          <p className="mt-2 text-[15px] leading-7 text-slate-500">{subtitle}</p>
+        )}
+      </div>
+      {children}
+    </div>
+  )
 }
 
 export async function generateMetadata({
@@ -105,8 +123,8 @@ export default async function HomePage({
 
   return (
     <>
-      {/* ============================== HERO WITH SEARCH ============================== */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* ============================== HERO ============================== */}
+      <section className="relative overflow-hidden bg-ink-950 text-white">
         <div className="absolute inset-0">
           <Image
             src={heroImage}
@@ -116,133 +134,85 @@ export default async function HomePage({
             className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-ink-950/95 via-ink-900/90 to-brand-900/95" />
+          <div className="absolute inset-0 bg-gradient-to-br from-ink-950/95 via-ink-950/85 to-brand-900/85" />
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
-          {/* Top Bar - Logo & Navigation */}
-          <div className="mb-12 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-                <HomeIcon className="w-6 h-6 text-white" />
+        <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+          <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-gold-300">
+            <span className="h-px w-7 bg-gold-400/70" />
+            {dict.hero.badge}
+          </span>
+
+          <h1 className="mt-5 max-w-3xl font-heading text-[2rem] font-bold leading-[1.12] sm:text-5xl lg:text-[3.4rem]">
+            {dict.hero.title1}{" "}
+            <span className="text-gradient-gold">{dict.hero.titleHighlight}</span>
+          </h1>
+
+          <p className="mt-5 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
+            {dict.hero.subtitle}
+          </p>
+
+          <div className="mt-9">
+            <SearchBox locale={locale} dict={dict} />
+          </div>
+
+          {/* Quick stats */}
+          <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-5">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="sr-only">{stat.label}</dt>
+                <dd className="font-heading text-2xl font-bold text-white sm:text-[1.75rem]">
+                  <Counter to={stat.value} suffix={stat.suffix} />
+                </dd>
+                <dd className="mt-1 flex items-center gap-1.5 text-xs font-medium text-white/55">
+                  <stat.icon className="size-3.5 text-gold-400" />
+                  {stat.label}
+                </dd>
               </div>
-              <span className="text-2xl font-black text-white">ISKAN</span>
-            </div>
-            <div className="hidden md:flex items-center gap-6 text-white/80 text-sm font-medium">
-              <Link href={`/${locale}/properties`} className="hover:text-gold-400 transition">{dict.nav.properties}</Link>
-              <Link href={`/${locale}/submit`} className="hover:text-gold-400 transition">{dict.nav.submit}</Link>
-              <a href="https://wa.me/905432466309" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition flex items-center gap-1">
-                <MessageCircle className="w-4 h-4" />
-                {dict.common.whatsapp}
-              </a>
-            </div>
-          </div>
+            ))}
+          </dl>
 
-          {/* Main Hero Content */}
-          <div className="text-center sm:text-left max-w-4xl mx-auto">
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-4 py-2 text-xs font-extrabold uppercase tracking-widest text-gold-300 backdrop-blur ring-1 ring-gold-400/30">
-              <Sparkles className="size-3.5" />
-              {dict.submit.badge}
-            </span>
-
-            <h1 className="mt-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-white">
-              {dict.submit.title}
-              <br />
-              <span className="text-gradient-gold text-shimmer">{dict.hero.titleHighlight}</span>
-            </h1>
-
-            <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl leading-relaxed">
-              {dict.submit.subtitle}
-            </p>
-
-            {/* Search Box */}
-            <div className="mt-10">
-              <SearchBox locale={locale} dict={dict} />
-            </div>
-
-            {/* Quick Stats */}
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {stats.map((stat) => (
-                <div key={stat.label} className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/10 hover:border-gold-400/30 transition">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gold-400/20 flex items-center justify-center">
-                      <stat.icon className="w-6 h-6 text-gold-400" />
-                    </div>
-                    <div>
-                      <p className="text-2xl sm:text-3xl font-black text-white">
-                        <Counter to={stat.value} suffix={stat.suffix} />
-                      </p>
-                      <p className="text-xs font-medium text-white/60">{stat.label}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Button - Only Rent (Sale is admin-only) */}
-            <div className="mt-10 flex justify-center sm:justify-start">
-              <Link
-                href={`/${locale}/properties?purpose=rent`}
-                className="btn-gold inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-extrabold text-ink-950 transition hover:brightness-105 w-full sm:w-auto"
-              >
-                <Send className="size-4" />
-                {dict.common.forRent}
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" />
+          <div className="mt-10">
+            <Link
+              href={`/${locale}/properties?purpose=rent`}
+              className="btn-gold inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold"
+            >
+              <Send className="size-4" />
+              {dict.common.forRent}
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ============================== CATEGORIES ============================== */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-brand-700 ring-1 ring-brand-100">
-              {dict.sections.browseTitle}
-            </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-black text-ink-900">
-              {dict.sections.browseTitle}
-            </h2>
-            <p className="mt-2 text-lg text-slate-500 max-w-2xl mx-auto">
-              {dict.sections.browseSubtitle}
-            </p>
-          </div>
+      <section className="bg-white py-14 lg:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={dict.sections.browseTitle}
+            subtitle={dict.sections.browseSubtitle}
+          />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {(Object.keys(dict.propertyTypes) as PropertyTypeKey[]).map((key, index) => {
               const Icon = typeIcons[key]
               const count = typeCounts[key] ?? 0
               return (
-                <Reveal key={key} delay={index * 0.05}>
+                <Reveal key={key} delay={index * 0.04} className="h-full">
                   <Link
                     href={`/${locale}/properties?type=${key}`}
-                    className="group relative flex flex-col items-center gap-3 p-6 rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white to-slate-50/50 hover:border-brand-300 hover:shadow-xl hover:shadow-brand-400/10 transition-all duration-300"
+                    className="group flex h-full items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 transition duration-300 hover:border-brand-300 hover:shadow-soft"
                   >
-                    <span className="pointer-events-none absolute -top-4 -end-4 size-20 rounded-full bg-gold-400/10 blur-2xl transition duration-500 group-hover:bg-gold-400/20" />
-                    <span className="relative grid size-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-800 text-white shadow-lg shadow-brand-800/25 ring-1 ring-white/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                      <Icon className="size-7" />
+                    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-700 transition duration-300 group-hover:bg-brand-600 group-hover:text-white">
+                      <Icon className="size-5" />
                     </span>
-                    <div className="text-center">
-                      <h3 className="text-lg font-extrabold text-ink-900 group-hover:text-brand-700 transition">
+                    <div className="min-w-0">
+                      <h3 className="truncate font-heading text-base font-bold text-ink-900 transition group-hover:text-brand-700">
                         {dict.propertyTypes[key]}
                       </h3>
-                      <p className="mt-1 text-sm text-slate-500">
-                        {dict.propertyTypeDescriptions[key]}
-                      </p>
-                      <p className="mt-2 text-[13px] font-extrabold uppercase tracking-wider text-brand-700">
+                      <p className="mt-0.5 text-xs font-medium text-slate-400">
                         {count} {dict.common.properties}
                       </p>
                     </div>
-                    <span className="absolute bottom-4 right-4 grid size-10 place-items-center rounded-full bg-white text-slate-400 ring-1 ring-slate-200 transition-all duration-300 group-hover:bg-gold-500 group-hover:text-white group-hover:ring-gold-500">
-                      <ArrowUpRight className="size-4 rtl:-scale-x-100" />
-                    </span>
                   </Link>
                 </Reveal>
               )
@@ -251,33 +221,25 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== FEATURED PROPERTIES ========================== */}
-      <section className="py-20 bg-sand-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
-            <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-brand-700 ring-1 ring-brand-100">
-                {dict.sections.featuredTitle}
-              </span>
-              <h2 className="mt-3 text-3xl sm:text-4xl font-black text-ink-900">
-                {dict.sections.featuredTitle}
-              </h2>
-              <p className="mt-2 text-lg text-slate-500">
-                {dict.sections.featuredSubtitle}
-              </p>
-            </div>
+      {/* ========================== FEATURED ========================== */}
+      <section className="bg-sand-50 py-14 lg:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={dict.sections.featuredTitle}
+            subtitle={dict.sections.featuredSubtitle}
+          >
             <Link
               href={`/${locale}/properties`}
-              className="btn-brand inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-extrabold text-white transition hover:brightness-105"
+              className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-ink-800"
             >
               {dict.common.viewAll}
               <ArrowUpRight className="size-4 rtl:-scale-x-100" />
             </Link>
-          </div>
+          </SectionHead>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((property, index) => (
-              <Reveal key={property.slug} delay={index * 0.06} className="h-full">
+              <Reveal key={property.slug} delay={index * 0.05} className="h-full">
                 <PropertyCard
                   property={property}
                   locale={locale}
@@ -290,33 +252,25 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== LATEST LISTINGS ========================== */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
-            <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-brand-700 ring-1 ring-brand-100">
-                {dict.sections.latestTitle}
-              </span>
-              <h2 className="mt-3 text-3xl sm:text-4xl font-black text-ink-900">
-                {dict.sections.latestTitle}
-              </h2>
-              <p className="mt-2 text-lg text-slate-500">
-                {dict.sections.latestSubtitle}
-              </p>
-            </div>
+      {/* ========================== LATEST ========================== */}
+      <section className="bg-white py-14 lg:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={dict.sections.latestTitle}
+            subtitle={dict.sections.latestSubtitle}
+          >
             <Link
               href={`/${locale}/properties`}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-extrabold text-ink-900 transition duration-300 hover:border-gold-400 hover:bg-gold-400/10 hover:shadow-lg hover:shadow-gold-400/10"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-bold text-ink-900 transition hover:border-brand-400 hover:text-brand-700"
             >
               {dict.common.viewAll}
               <ArrowUpRight className="size-4 text-brand-600 rtl:-scale-x-100" />
             </Link>
-          </div>
+          </SectionHead>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latest.map((property, index) => (
-              <Reveal key={property.slug} delay={index * 0.06} className="h-full">
+              <Reveal key={property.slug} delay={index * 0.05} className="h-full">
                 <PropertyCard
                   property={property}
                   locale={locale}
@@ -329,35 +283,30 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== TRUST SIGNALS ========================== */}
-      <section className="py-20 bg-ink-950 text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-500/20 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-widest text-gold-300 ring-1 ring-gold-500/30">
-              {dict.sections.whyTitle}
-            </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-black">
+      {/* ========================== TRUST ========================== */}
+      <section className="bg-ink-950 py-14 text-white lg:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="max-w-2xl">
+            <span className="block h-px w-7 bg-gold-500" />
+            <h2 className="mt-4 font-heading text-2xl font-bold leading-tight sm:text-[2rem]">
               {dict.sections.whyTitle}
             </h2>
-            <p className="mt-3 text-lg text-white/60 max-w-2xl mx-auto">
+            <p className="mt-2 text-[15px] leading-7 text-white/60">
               {dict.sections.whySubtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
             {reasons.map(({ icon: Icon, title, desc }, index) => (
-              <Reveal key={title} delay={index * 0.06}>
-                <div className="group relative h-full p-6 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur transition duration-300 hover:border-gold-400/40 hover:bg-white/[0.06] hover:shadow-xl hover:shadow-gold-400/10">
-                  <span className="pointer-events-none absolute -end-12 -top-12 size-28 rounded-full bg-gold-400/10 blur-2xl" />
-                  <span className="grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-gold-400/30 to-gold-600/20 text-gold-300 ring-1 ring-gold-400/25 transition group-hover:from-gold-400 group-hover:to-gold-600 group-hover:text-ink-950">
-                    <Icon className="size-7" />
+              <Reveal key={title} delay={index * 0.05}>
+                <div className="border-t border-white/10 pt-6">
+                  <span className="grid size-11 place-items-center rounded-xl bg-gold-400/10 text-gold-300">
+                    <Icon className="size-5" />
                   </span>
-                  <h3 className="mt-6 text-xl font-extrabold text-white">
+                  <h3 className="mt-5 font-heading text-lg font-bold text-white">
                     {title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/60">
-                    {desc}
-                  </p>
+                  <p className="mt-2 text-sm leading-7 text-white/55">{desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -365,81 +314,44 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== CTA SECTION ========================== */}
-      <section className="relative overflow-hidden py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grain relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand-900 via-ink-900 to-ink-950 px-6 py-16 text-center text-white sm:px-12 lg:py-24 lg:px-20">
-            <div className="bg-grid-dark absolute inset-0 opacity-40" />
-            <div className="absolute -end-28 -top-28 size-80 rounded-full bg-gold-400/20 blur-3xl" />
-            <div className="absolute -bottom-32 -start-24 size-80 rounded-full bg-brand-400/20 blur-3xl" />
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/60 to-transparent" />
-            <div className="relative">
-              <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-gold-300 backdrop-blur">
-                <Sparkles className="size-3.5" />
-                {dict.sections.ctaTitle}
-              </span>
-              <h2 className="mx-auto mt-5 max-w-2xl text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
+      {/* ========================== CTA ========================== */}
+      <section className="bg-white py-14 lg:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-900 via-ink-900 to-ink-950 px-6 py-12 text-white sm:px-12 sm:py-16">
+            <div className="bg-grid-dark absolute inset-0 opacity-25" />
+            <div className="relative mx-auto max-w-2xl text-center">
+              <h2 className="font-heading text-2xl font-bold leading-tight sm:text-[2rem]">
                 {dict.sections.ctaTitle}
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/70">
+              <p className="mx-auto mt-3 max-w-xl text-[15px] leading-7 text-white/65">
                 {dict.sections.ctaSubtitle}
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   href={`/${locale}/submit`}
-                  className="btn-brand inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-extrabold text-white w-full sm:w-auto"
+                  className="btn-gold inline-flex w-full items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold sm:w-auto"
                 >
                   <Plus className="size-4" />
                   {dict.nav.submit}
                 </Link>
                 <a
-                  href="mailto:Iskanrealestatetr@gmail.com"
-                  className="btn-gold inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-extrabold w-full sm:w-auto"
-                >
-                  {dict.sections.ctaButton}
-                  <ArrowUpRight className="size-4 rtl:-scale-x-100" />
-                </a>
-                <a
                   href="https://wa.me/905432466309"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-8 py-4 text-sm font-extrabold text-white backdrop-blur transition hover:bg-white/20 w-full sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
                 >
                   <MessageCircle className="size-4 text-gold-300" />
                   {dict.common.whatsapp}
                 </a>
+                <a
+                  href={`mailto:Iskanrealestatetr@gmail.com`}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-bold text-white/90 transition hover:bg-white/10 sm:w-auto"
+                >
+                  {dict.sections.ctaButton}
+                  <ArrowUpRight className="size-4 rtl:-scale-x-100" />
+                </a>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================== FOOTER CTA ========================== */}
-      <section className="py-16 bg-sand-50 border-t border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-2xl sm:text-3xl font-black text-ink-900">
-            {dict.sections.ctaTitle}
-          </h3>
-          <p className="mt-3 text-lg text-slate-500 max-w-2xl mx-auto">
-            {dict.sections.ctaSubtitle}
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href={`/${locale}/submit`}
-              className="btn-brand inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-extrabold text-white transition hover:brightness-105 w-full sm:w-auto"
-            >
-              <Plus className="size-4" />
-              {dict.nav.submit}
-            </Link>
-            <a
-              href="https://wa.me/905432466309"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-emerald-500 bg-emerald-50 px-8 py-4 text-sm font-extrabold text-emerald-700 transition hover:bg-emerald-500 hover:text-white w-full sm:w-auto"
-            >
-              <MessageCircle className="size-4" />
-              {dict.common.whatsapp}
-            </a>
           </div>
         </div>
       </section>

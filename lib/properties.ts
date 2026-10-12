@@ -18,6 +18,7 @@ export interface Property {
   netArea?: number
   bedrooms: number
   bathrooms: number
+  livingRooms: number
   parking: number
   yearBuilt: number
   floor?: number
@@ -63,6 +64,7 @@ export const properties: Property[] = [
     netArea: 126,
     bedrooms: 3,
     bathrooms: 1,
+    livingRooms: 1,
     parking: 0,
     yearBuilt: 0,
     floor: 0,
@@ -98,6 +100,7 @@ export const properties: Property[] = [
     netArea: 126,
     bedrooms: 3,
     bathrooms: 1,
+    livingRooms: 1,
     parking: 1,
     yearBuilt: 0,
     floor: 0,

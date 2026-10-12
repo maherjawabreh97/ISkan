@@ -67,6 +67,13 @@ function numberValue(formData: FormData, key: string): number {
   return Number.isFinite(value) ? value : 0
 }
 
+/** Price may include thousand separators (e.g. "400,000" or "400.000"). */
+function priceValue(formData: FormData, key: string): number {
+  const digits = String(formData.get(key) ?? "").replace(/[^\d]/g, "")
+  const value = Number(digits)
+  return Number.isFinite(value) ? value : 0
+}
+
 function checked(formData: FormData, key: string): boolean {
   const value = formData.get(key)
   return value === "on" || value === "true" || value === "1"
@@ -246,13 +253,14 @@ export async function savePropertyAction(formData: FormData): Promise<void> {
     slug,
     type: (text(formData, "type") || "apartment") as PropertyTypeKey,
     purpose,
-    price: numberValue(formData, "price"),
+    price: priceValue(formData, "price"),
     currency: (text(formData, "currency") || "TRY") as CurrencyKey,
     pricePerMonth: purpose === "rent" ? checked(formData, "pricePerMonth") : false,
     area: numberValue(formData, "area"),
     netArea: netAreaText ? numberValue(formData, "netArea") : undefined,
     bedrooms: numberValue(formData, "bedrooms"),
     bathrooms: numberValue(formData, "bathrooms"),
+    livingRooms: numberValue(formData, "livingRooms"),
     parking: numberValue(formData, "parking"),
     yearBuilt: numberValue(formData, "yearBuilt"),
     floor: floorText ? numberValue(formData, "floor") : undefined,
@@ -388,6 +396,7 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
     area: submission.area,
     bedrooms: submission.bedrooms,
     bathrooms: submission.bathrooms,
+    livingRooms: submission.livingRooms ?? 0,
     parking: 0,
     yearBuilt: 0,
     floor: submission.floor,

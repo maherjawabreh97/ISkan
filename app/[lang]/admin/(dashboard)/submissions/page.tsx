@@ -231,6 +231,9 @@ export default async function AdminSubmissionsPage({
                       {item.area ? `${item.area} ${dict.common.sqm} · ` : ""}
                       {item.bedrooms} {dict.common.beds} · {item.bathrooms}{" "}
                       {dict.common.baths}
+                      {item.livingRooms
+                        ? ` · ${item.livingRooms} ${dict.common.livingRooms}`
+                        : ""}
                       {item.floor !== undefined ? ` · ${t.form.floor}: ${item.floor}` : ""}
                       {item.furnished ? ` · ${dict.amenities.furnished}` : ""}
                     </dd>
