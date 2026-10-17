@@ -27,6 +27,10 @@ const CITIES: CityKey[] = [
   "sisli",
   "kayashehir",
   "bagcilar",
+  "basaksehir",
+  "esenyurt",
+  "eyupsultan",
+  "kucukcekmece",
 ]
 const CURRENCIES: CurrencyKey[] = ["TRY", "USD", "EUR"]
 

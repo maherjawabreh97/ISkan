@@ -129,6 +129,17 @@ export interface AdminDict {
     mediaSection: string
     contentSection: string
     amenitiesSection: string
+    advertiserSection: string
+    advertiserNameAr: string
+    advertiserNameEn: string
+    advertiserWhatsapp: string
+    locationSection: string
+    locationEnable: string
+    locationHint: string
+    locationPick: string
+    locationMyLocation: string
+    locationClear: string
+    locationLabelPlaceholder: string
     purpose: string
     propertyType: string
     city: string
@@ -347,6 +358,17 @@ const ar: AdminDict = {
     mediaSection: "الصور",
     contentSection: "المحتوى",
     amenitiesSection: "الخدمات",
+    advertiserSection: "بيانات المعلن",
+    advertiserNameAr: "اسم المعلن (عربي)",
+    advertiserNameEn: "اسم المعلن (إنجليزي)",
+    advertiserWhatsapp: "رقم واتساب المعلن",
+    locationSection: "الموقع على الخريطة",
+    locationEnable: "تحديد موقع العقار على الخريطة",
+    locationHint: "اختياري — اضغط على الخريطة لتحديد الموقع بدقة، أو استخدم زر موقعي الحالي.",
+    locationPick: "اضغط على الخريطة لتغيير الموقع",
+    locationMyLocation: "استخدم موقعي الحالي",
+    locationClear: "إزالة الموقع",
+    locationLabelPlaceholder: "وصف مختصر للموقع (اختياري) — مثال: بجانب مركز مول كايا شاهير",
     purpose: "الغرض",
     propertyType: "نوع العقار",
     city: "المدينة",
@@ -577,6 +599,18 @@ const en: AdminDict = {
     mediaSection: "Images",
     contentSection: "Content",
     amenitiesSection: "Amenities",
+    advertiserSection: "Advertiser info",
+    advertiserNameAr: "Advertiser name (Arabic)",
+    advertiserNameEn: "Advertiser name (English)",
+    advertiserWhatsapp: "Advertiser WhatsApp",
+    locationSection: "Map location",
+    locationEnable: "Pin this property on the map",
+    locationHint:
+      "Optional — click the map to place the exact pin, or use your current location.",
+    locationPick: "Click the map to move the pin",
+    locationMyLocation: "Use my current location",
+    locationClear: "Clear location",
+    locationLabelPlaceholder: "Short note about the spot (optional)",
     purpose: "Purpose",
     propertyType: "Property type",
     city: "District",

@@ -3,14 +3,17 @@ import Image from "next/image"
 import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 import {
+  AlertCircle,
   ArrowUpRight,
   Bath,
   BedDouble,
+  Building2,
   CalendarDays,
   Car,
   Check,
   ChevronLeft,
   ChevronRight,
+  Images,
   Layers,
   Mail,
   MapPin,
@@ -20,13 +23,16 @@ import {
   ShieldAlert,
   ShieldCheck,
   Sofa,
+  User,
 } from "lucide-react"
 import { PropertyGallery } from "@/components/property-gallery"
+import { PropertyMap } from "@/components/admin/location-picker"
 import { StickyActions } from "@/components/sticky-actions"
 import { VideoTour } from "@/components/video-tour"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import { getProperties, getStoredProperty } from "@/lib/properties-store"
+import { defaultRentAdvertiser } from "@/lib/properties"
 
 export const dynamic = "force-dynamic"
 
@@ -79,7 +85,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     value: string
   }
 
-  const features: Feature[] = [
+  const quickFacts: Feature[] = [
     property.bedrooms > 0 && {
       icon: BedDouble,
       label: dict.common.beds,
@@ -95,7 +101,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       label: dict.common.livingRooms,
       value: `${property.livingRooms}`,
     },
-    {
+    property.area > 0 && {
       icon: Ruler,
       label: dict.common.area,
       value: `${property.area} ${dict.common.sqm}`,
@@ -104,16 +110,6 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       icon: Ruler,
       label: dict.common.netArea,
       value: `${property.netArea} ${dict.common.sqm}`,
-    },
-    property.parking > 0 && {
-      icon: Car,
-      label: dict.common.parking,
-      value: `${property.parking}`,
-    },
-    property.yearBuilt > 0 && {
-      icon: CalendarDays,
-      label: dict.common.yearBuilt,
-      value: `${property.yearBuilt}`,
     },
     property.floorLabel && {
       icon: Layers,
@@ -125,10 +121,49 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       label: dict.common.floor,
       value: `${property.floor}`,
     },
+    property.parking > 0 && {
+      icon: Car,
+      label: dict.common.parking,
+      value: `${property.parking}`,
+    },
+    property.yearBuilt > 0 && {
+      icon: CalendarDays,
+      label: dict.common.yearBuilt,
+      value: `${property.yearBuilt}`,
+    },
   ].filter((item): item is Feature => Boolean(item))
 
-  const whatsappHref = `https://wa.me/905432466309?text=${encodeURIComponent(
-    `Hello Iskan! I'm interested in: ${name}, ${property.address[locale]}`,
+  const advertiser =
+    property.advertiser ??
+    (property.purpose === "rent" ? defaultRentAdvertiser : undefined)
+  const isOfficeAdvertiser = advertiser
+    ? /^(إسكان العقارية|اسكان العقارية|Iskan Real Estate|iskan)$/i.test(
+        advertiser.name.ar,
+      ) ||
+      /^(إسكان العقارية|اسكان العقارية|Iskan Real Estate|iskan)$/i.test(
+        advertiser.name.en,
+      )
+    : false
+
+  /** The single contact identity shown on the page. */
+  const contact = advertiser
+    ? {
+        name: advertiser.name[locale],
+        label: dict.common.advertiser,
+        whatsapp: advertiser.whatsapp.replace(/\D/g, ""),
+        isOffice: isOfficeAdvertiser,
+      }
+    : {
+        name: property.agent.name[locale],
+        label: dict.common.agent,
+        whatsapp: property.agent.phone.replace(/\D/g, ""),
+        isOffice: true,
+      }
+
+  const whatsappHref = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
+    locale === "ar"
+      ? `مرحباً إسكان! شفت الإعلان: ${name} — ${property.address[locale]}. بدي أعرف تفاصيل أكثر.`
+      : `Hello Iskan! I saw this listing: ${name} — ${property.address[locale]}. I'd like more details.`,
   )}`
 
   const allProperties = await getProperties()
@@ -146,9 +181,9 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
   return (
     <>
-      {/* ============================== Title block ============================== */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      {/* ============================== Listing ============================== */}
+      <section className="bg-sand-50">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <nav className="flex flex-wrap items-center gap-2 py-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
             <Link href={`/${locale}`} className="transition hover:text-ink-900">
               {dict.nav.home}
@@ -163,122 +198,105 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             </Link>
             <ChevronRight className="size-3 rtl:hidden" />
             <ChevronLeft className="size-3 ltr:hidden" />
-            <span className="text-slate-500">{name}</span>
+            <span className="truncate text-slate-500">{name}</span>
           </nav>
 
-          <div className="grid gap-6 border-t border-slate-200/80 pb-8 pt-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-            <div>
-              <div className="flex flex-wrap items-center gap-3">
+          <div className="grid gap-6 pb-16 pt-2 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-8">
+            {/* Compact header so the name and price are visible before the photos on mobile. */}
+            <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 lg:hidden">
+              <div className="flex flex-wrap items-center gap-2">
                 <span
                   className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] ${purposeChip}`}
                 >
                   {purposeLabel}
                 </span>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-600">
                   {dict.propertyTypes[property.type]}
                 </span>
+                {property.citizenshipEligible === true && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-emerald-700 ring-1 ring-emerald-200">
+                    <ShieldCheck className="size-3.5" />
+                    {dict.common.citizenshipEligibleShort}
+                  </span>
+                )}
               </div>
-              <h1 className="mt-4 font-heading text-[1.9rem] font-bold leading-[1.15] text-ink-900 sm:text-[2.5rem]">
+              <h1 className="mt-3 font-heading text-[1.5rem] font-bold leading-[1.2] text-ink-900">
                 {name}
               </h1>
-              <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-slate-500">
-                <MapPin className="size-4 text-brand-600" />
-                <span>{property.address[locale]}</span>
-                <span className="text-slate-300">·</span>
-                <span>{city}</span>
+              <p className="mt-2 flex items-start gap-2 text-sm font-medium leading-6 text-slate-500">
+                <MapPin className="mt-0.5 size-4 shrink-0 text-brand-600" />
+                <span>
+                  {property.address[locale]}
+                  {property.address[locale] ? (
+                    <span className="text-slate-300"> · </span>
+                  ) : null}
+                  {city}
+                </span>
               </p>
-            </div>
-
-            <div className="lg:pb-1.5 lg:text-end">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                {dict.common.price}
-              </p>
-              <p className="mt-1.5 font-heading text-3xl font-bold leading-none text-ink-900 sm:text-4xl">
+              <p className="mt-4 font-heading text-[1.75rem] font-bold leading-none text-ink-900">
                 {formatPrice(property.price, property.currency)}
                 <span className="ms-1.5 text-sm font-medium text-slate-400">
                   {perMonth}
                 </span>
               </p>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ============================== Gallery ============================== */}
-      <section className="bg-white pb-4">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <PropertyGallery
-            images={property.images}
-            slug={property.slug}
-            name={name}
-            locale={locale}
-          />
-        </div>
-      </section>
+            {/* ---------------------------- Media + content ---------------------------- */}
+            <div className="min-w-0">
+              <div className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200/70">
+                <PropertyGallery
+                  images={property.images}
+                  slug={property.slug}
+                  name={name}
+                  locale={locale}
+                />
+              </div>
 
-      {/* ============================== Body ============================== */}
-      <section className="py-12 lg:py-16">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
-            <div className="space-y-12">
-              {/* Key facts */}
-              <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-200/70 sm:grid-cols-4">
-                {features.map((feature) => (
-                  <div key={feature.label} className="bg-white p-4 sm:p-5">
-                    <feature.icon className="size-4 text-brand-600" />
-                    <dt className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                      {feature.label}
-                    </dt>
-                    <dd className="mt-1 font-heading text-base font-bold text-ink-900">
-                      {feature.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              {/* Video tour */}
               {property.videos && property.videos.length > 0 && (
-                <div>
+                <div className="mt-6 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 sm:p-6">
                   <SectionTitle>{dict.common.videoTour}</SectionTitle>
                   <div className="mt-4">
                     <VideoTour
                       videos={property.videos}
                       poster={property.images[0]}
+                      locale={locale}
                     />
                   </div>
                 </div>
               )}
 
-              {/* Description */}
-              <div>
+              <div className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 sm:p-8">
                 <SectionTitle>{dict.common.description}</SectionTitle>
-                <p className="mt-4 max-w-2xl text-[15px] leading-8 text-slate-600">
+                <p className="mt-4 whitespace-pre-line text-[15px] leading-8 text-slate-600">
                   {property.description[locale]}
                 </p>
               </div>
 
-              {/* Requirements */}
               {property.requirements && (
-                <div>
-                  <SectionTitle>{dict.common.requirements}</SectionTitle>
-                  <p className="mt-4 max-w-2xl whitespace-pre-line text-[15px] leading-8 text-slate-600">
+                <div className="mt-6 rounded-3xl border border-amber-200/80 bg-amber-50/70 p-6 sm:p-8">
+                  <div className="flex items-center gap-2.5">
+                    <AlertCircle className="size-5 shrink-0 text-amber-600" />
+                    <h2 className="font-heading text-lg font-bold text-amber-900">
+                      {dict.common.requirements}
+                    </h2>
+                  </div>
+                  <p className="mt-4 whitespace-pre-line text-[15px] leading-8 text-amber-900/90">
                     {property.requirements[locale]}
                   </p>
                 </div>
               )}
 
-              {/* Amenities */}
               {property.amenities.length > 0 && (
-                <div>
+                <div className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 sm:p-8">
                   <SectionTitle>{dict.common.amenities}</SectionTitle>
-                  <ul className="mt-4 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                     {property.amenities.map((amenity) => (
                       <li
                         key={amenity}
-                        className="flex items-center gap-3 text-sm font-medium text-ink-800"
+                        className="flex items-center gap-3 rounded-2xl bg-sand-50 px-4 py-3 text-sm font-semibold text-ink-800"
                       >
-                        <span className="grid size-5 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700">
-                          <Check className="size-3" />
+                        <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white">
+                          <Check className="size-3.5" />
                         </span>
                         {dict.amenities[amenity]}
                       </li>
@@ -286,65 +304,190 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   </ul>
                 </div>
               )}
+
+              {property.location && (
+                <div className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 sm:p-8">
+                  <SectionTitle>{dict.common.locationOnMap}</SectionTitle>
+                  <p className="mt-2 text-sm font-medium text-slate-500">
+                    {property.address[locale] || city}
+                  </p>
+                  <div className="mt-4">
+                    <PropertyMap
+                      lat={property.location.lat}
+                      lng={property.location.lng}
+                      label={property.location.label}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* ============================== Contact ============================== */}
+            {/* ---------------------------- Sticky summary ---------------------------- */}
             <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
-              <div className="rounded-2xl border border-slate-200/80 bg-white p-6">
-                <div className="flex items-center gap-3.5">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-full bg-ink-900 font-heading text-lg font-bold text-white">
-                    {property.agent.name[locale].charAt(0)}
+              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span
+                    className={`inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] ${purposeChip}`}
+                  >
+                    {purposeLabel}
+                  </span>
+                  <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-600">
+                    {dict.propertyTypes[property.type]}
+                  </span>
+                  {property.citizenshipEligible === true && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-emerald-700 ring-1 ring-emerald-200">
+                      <ShieldCheck className="size-3.5" />
+                      {dict.common.citizenshipEligibleShort}
+                    </span>
+                  )}
+                </div>
+
+                <p className="mt-4 font-heading text-[1.6rem] font-bold leading-[1.2] text-ink-900 sm:text-[2rem]">
+                  {name}
+                </p>
+
+                <p className="mt-3 flex items-start gap-2 text-sm font-medium leading-6 text-slate-500">
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-brand-600" />
+                  <span>
+                    {property.address[locale]}
+                    {property.address[locale] ? (
+                      <span className="text-slate-300"> · </span>
+                    ) : null}
+                    {city}
+                  </span>
+                </p>
+
+                <div className="mt-5 rounded-2xl bg-ink-900 px-5 py-4 text-white">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">
+                    {dict.common.price}
+                  </p>
+                  <p className="mt-1 font-heading text-3xl font-bold leading-none">
+                    {formatPrice(property.price, property.currency)}
+                    <span className="ms-1.5 text-sm font-medium text-white/60">
+                      {perMonth}
+                    </span>
+                  </p>
+                </div>
+
+                {quickFacts.length > 0 ? (
+                  <dl className="mt-5 grid grid-cols-2 gap-2">
+                    {quickFacts.map((fact) => (
+                      <div
+                        key={fact.label}
+                        className="flex items-center gap-2.5 rounded-2xl bg-sand-50 px-3.5 py-2.5"
+                      >
+                        <fact.icon className="size-4 shrink-0 text-brand-600" />
+                        <div className="min-w-0">
+                          <dt className="truncate text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">
+                            {fact.label}
+                          </dt>
+                          <dd className="truncate font-heading text-sm font-bold text-ink-900">
+                            {fact.value}
+                          </dd>
+                        </div>
+                      </div>
+                    ))}
+                  </dl>
+                ) : (
+                  <div className="mt-5 grid grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2.5 rounded-2xl bg-sand-50 px-3.5 py-2.5">
+                      <Building2 className="size-4 shrink-0 text-brand-600" />
+                      <div className="min-w-0">
+                        <dt className="truncate text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">
+                          {dict.common.propertyType}
+                        </dt>
+                        <dd className="truncate font-heading text-sm font-bold text-ink-900">
+                          {dict.propertyTypes[property.type]}
+                        </dd>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2.5 rounded-2xl bg-sand-50 px-3.5 py-2.5">
+                      <MapPin className="size-4 shrink-0 text-brand-600" />
+                      <div className="min-w-0">
+                        <dt className="truncate text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">
+                          {dict.common.cityLabel}
+                        </dt>
+                        <dd className="truncate font-heading text-sm font-bold text-ink-900">
+                          {city}
+                        </dd>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3">
+                  <p className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                    <CalendarDays className="size-3.5" />
+                    {dict.common.dateAdded} {property.dateAdded}
+                  </p>
+                  {property.images.length > 0 && (
+                    <p className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                      <Images className="size-3.5" />
+                      {property.images.length} {dict.common.photos}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Contact */}
+              <div className="rounded-3xl border-2 border-brand-200 bg-white p-6 shadow-sm">
+                <div className="flex items-center gap-4">
+                  <span className="inline-flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-50 p-1">
+                    {contact.isOffice ? (
+                      <Image
+                        src="/iskan-logo.png"
+                        alt={contact.name}
+                        width={256}
+                        height={144}
+                        className="h-auto w-full object-contain"
+                      />
+                    ) : (
+                      <User className="size-6 text-brand-700" />
+                    )}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                      {dict.common.agent}
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-700">
+                      {contact.label}
                     </p>
-                    <p className="truncate font-heading text-lg font-bold text-ink-900">
-                      {property.agent.name[locale]}
+                    <p className="mt-0.5 truncate font-heading text-lg font-bold text-ink-900">
+                      {contact.name}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-4 space-y-0.5 border-t border-slate-100 pt-4">
+                <div className="mt-5 grid gap-2.5">
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-600/20 transition hover:bg-[#1eb85a]"
+                  >
+                    <MessageCircle className="size-4.5" />
+                    {dict.common.whatsapp}
+                  </a>
+                  <a
+                    href={`tel:+${contact.whatsapp}`}
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-ink-900 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-ink-800"
+                  >
+                    <Phone className="size-4.5" />
+                    {dict.common.callNow}
+                  </a>
+                </div>
+
+                <div className="mt-4 space-y-0.5 border-t border-slate-100 pt-3">
                   <a
                     href={`tel:${property.agent.phone}`}
-                    className="flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-sm font-semibold text-ink-800 transition hover:bg-sand-50"
+                    className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-sm font-semibold text-ink-700 transition hover:bg-sand-50"
                   >
                     <Phone className="size-4 text-brand-600" />
                     <span dir="ltr">{property.agent.phone}</span>
                   </a>
                   <a
                     href={`mailto:${property.agent.email}`}
-                    className="flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-sm font-semibold text-ink-800 transition hover:bg-sand-50"
+                    className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-sm font-semibold text-ink-700 transition hover:bg-sand-50"
                   >
                     <Mail className="size-4 text-brand-600" />
                     <span className="truncate">{property.agent.email}</span>
-                  </a>
-                </div>
-
-                <div className="mt-4 grid gap-2.5">
-                  <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-[#1eb85a]"
-                  >
-                    <MessageCircle className="size-4" />
-                    {dict.common.whatsapp}
-                  </a>
-                  <a
-                    href={`tel:${property.agent.phone}`}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-ink-900 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-ink-800"
-                  >
-                    <Phone className="size-4" />
-                    {dict.common.callNow}
-                  </a>
-                  <a
-                    href={`mailto:${property.agent.email}`}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-5 py-3 text-sm font-bold text-ink-900 transition hover:border-brand-400 hover:bg-brand-50"
-                  >
-                    <Mail className="size-4 text-brand-600" />
-                    {dict.common.emailNow}
                   </a>
                 </div>
               </div>
@@ -360,15 +503,6 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                       {dict.common.citizenshipNotEligible}
                     </p>
                   </div>
-                </div>
-              )}
-
-              {property.citizenshipEligible === true && (
-                <div className="flex items-start gap-3 rounded-2xl border border-brand-200 bg-brand-50/70 p-4">
-                  <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand-600" />
-                  <p className="text-[13px] font-medium leading-6 text-brand-800">
-                    {dict.common.citizenshipEligible}
-                  </p>
                 </div>
               )}
 
@@ -409,13 +543,15 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   className="group"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-100">
-                    <Image
-                      src={item.images[0]}
-                      alt={item.name[locale]}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, 100vw"
-                      className="object-cover transition duration-700 group-hover:scale-105"
-                    />
+                    {item.images[0] && (
+                      <Image
+                        src={item.images[0]}
+                        alt={item.name[locale]}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, 100vw"
+                        className="object-cover transition duration-700 group-hover:scale-105"
+                      />
+                    )}
                   </div>
                   <div className="mt-4 flex items-start justify-between gap-4">
                     <div className="min-w-0">

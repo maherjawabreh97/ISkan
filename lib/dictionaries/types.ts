@@ -9,6 +9,44 @@ export type CityKey =
   | "sisli"
   | "kayashehir"
   | "bagcilar"
+  | "basaksehir"
+  | "esenyurt"
+  | "eyupsultan"
+  | "kucukcekmece"
+  | "avcilar"
+  | "beylikduzu"
+  | "buyukcekmece"
+  | "catalca"
+  | "cekmekoy"
+  | "esenler"
+  | "gungoren"
+  | "kagithane"
+  | "kartal"
+  | "maltepe"
+  | "pendik"
+  | "sancaktepe"
+  | "sultanbeyli"
+  | "tuzla"
+  | "umraniye"
+  | "uskudar"
+  | "zeytinburnu"
+  | "arnavutkoy"
+  | "atasehir"
+  | "bahcelievler"
+  | "bayrampasa"
+  | "gaziosmanpasa"
+  | "sultangazi"
+  | "beykoz"
+  | "kucukcekmece"
+  | "maltepe"
+  | "pendik"
+  | "sancaktepe"
+  | "sultanbeyli"
+  | "sultangazi"
+  | "tuzla"
+  | "umraniye"
+  | "uskudar"
+  | "zeytinburnu"
 
 export type PropertyTypeKey =
   | "apartment"
@@ -90,6 +128,7 @@ export interface Dictionary {
     description: string
     requirements: string
     agent: string
+    advertiser: string
     phone: string
     email: string
     callNow: string
@@ -104,8 +143,12 @@ export interface Dictionary {
     citizenshipTitle: string
     citizenshipNotEligible: string
     citizenshipEligible: string
+    citizenshipEligibleShort: string
     price: string
     cityLabel: string
+    dateAdded: string
+    specsOnRequest: string
+    photos: string
     properties: string
     browseNow: string
     locationOnMap: string

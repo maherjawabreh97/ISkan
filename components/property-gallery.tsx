@@ -54,6 +54,8 @@ export function PropertyGallery({
   const PrevIcon = isRtl ? ChevronRight : ChevronLeft
   const NextIcon = isRtl ? ChevronLeft : ChevronRight
 
+  if (images.length === 0) return null
+
   return (
     <div className="overflow-hidden rounded-3xl bg-white ring-1 ring-slate-200/70">
       <button

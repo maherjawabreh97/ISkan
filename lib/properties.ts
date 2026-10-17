@@ -41,6 +41,23 @@ export interface Property {
     phone: string
     email: string
   }
+  /** Optional per-listing advertiser (overrides agent). */
+  advertiser?: {
+    name: LocalizedString
+    whatsapp: string
+  }
+  /** Optional exact position, picked on a map by the admin. */
+  location?: {
+    lat: number
+    lng: number
+    label?: string
+  }
+}
+
+/** Default advertiser for rent listings when no per-property advertiser is set. */
+export const defaultRentAdvertiser = {
+  name: { en: "Iskan Rentals", ar: "إسكان للإيجار" },
+  whatsapp: "+905432466309",
 }
 
 const maveraImages = Array.from(

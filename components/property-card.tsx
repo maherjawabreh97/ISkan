@@ -2,11 +2,12 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
+import { Bath, BedDouble, MapPin, MessageCircle, Ruler, Sofa, User } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import type { Property } from "@/lib/properties"
+import { defaultRentAdvertiser } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
 
 export function PropertyCard({
@@ -92,11 +93,49 @@ export function PropertyCard({
               {property.livingRooms} {dict.common.livingRooms}
             </span>
           )}
-          <span className="inline-flex items-center gap-1.5">
-            <Ruler className="size-3.5 text-brand-600" />
-            {property.area} {dict.common.sqm}
-          </span>
+          {property.area > 0 && (
+            <span className="inline-flex items-center gap-1.5">
+              <Ruler className="size-3.5 text-brand-600" />
+              {property.area} {dict.common.sqm}
+            </span>
+          )}
         </div>
+
+        {property.advertiser && (() => {
+            const isOffice = /^(إسكان العقارية|اسكان العقارية|Iskan Real Estate|iskan)$/i.test(property.advertiser.name.ar) || /^(إسكان العقارية|اسكان العقارية|Iskan Real Estate|iskan)$/i.test(property.advertiser.name.en);
+            const name = property.advertiser.name[locale];
+            return (
+              <div className="mt-4 pt-4 border-t border-slate-100">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                  {dict.common.advertiser}
+                </p>
+                <div className="mt-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {isOffice ? (
+                      <Image
+                        src="/iskan-logo.png"
+                        alt={name}
+                        width={256}
+                        height={144}
+                        className="h-8 w-auto object-contain"
+                      />
+                    ) : null}
+                    <span className="font-heading text-sm font-bold text-ink-900">
+                      {name}
+                    </span>
+                  </div>
+                  <a
+                    href={`https://wa.me/${property.advertiser.whatsapp.replace(/\D/g, "")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#25D366] px-3 py-1.5 text-xs font-bold text-white transition hover:bg-[#1eb85a]"
+                  >
+                    <MessageCircle className="size-3.5" />
+                    {dict.common.whatsapp}
+                  </a>
+                </div>
+              </div>
+            )})()}
       </div>
     </Link>
   )

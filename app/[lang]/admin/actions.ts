@@ -290,6 +290,32 @@ export async function savePropertyAction(formData: FormData): Promise<void> {
         ? { ar: floorLabelAr || floorLabelEn, en: floorLabelEn || floorLabelAr }
         : undefined,
     citizenshipEligible: checked(formData, "citizenshipEligible"),
+    advertiser: (() => {
+      const nameAr = text(formData, "advertiserNameAr")
+      const nameEn = text(formData, "advertiserNameEn")
+      const whatsapp = text(formData, "advertiserWhatsapp")
+      if (!nameAr && !nameEn && !whatsapp) return undefined
+      return {
+        name: {
+          ar: nameAr || nameEn,
+          en: nameEn || nameAr,
+        },
+        whatsapp: whatsapp.replace(/\D/g, ""),
+      }
+    })(),
+    location: (() => {
+      if (!text(formData, "locationEnabled")) return undefined
+      const lat = Number(text(formData, "locationLat"))
+      const lng = Number(text(formData, "locationLng"))
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return undefined
+      if (lat === 0 && lng === 0) return undefined
+      const label = text(formData, "locationLabel")
+      return {
+        lat: Number(lat.toFixed(6)),
+        lng: Number(lng.toFixed(6)),
+        ...(label ? { label } : {}),
+      }
+    })(),
     city: (text(formData, "city") || "kayashehir") as CityKey,
     featured: checked(formData, "featured"),
     dateAdded: existing?.dateAdded ?? new Date().toISOString().slice(0, 10),

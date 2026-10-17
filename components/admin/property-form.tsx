@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { savePropertyAction } from "@/app/[lang]/admin/actions"
 import { ImageInput } from "@/components/admin/image-input"
+import { LocationPicker } from "@/components/admin/location-picker"
 import { VideoInput } from "@/components/admin/video-input"
 import type { AdminDict } from "@/lib/dictionaries/admin"
 import type {
@@ -438,6 +439,91 @@ export function PropertyForm({
         <p className="mt-3 text-xs font-semibold text-slate-400">
           {t.form.videosHelp}
         </p>
+      </Section>
+
+      <Section title={t.form.mediaSection}>
+        <ImageInput
+          label={t.form.existingImages}
+          help={t.form.uploadImages}
+          removeLabel={t.form.removeImage}
+          emptyLabel={t.form.noImages}
+          existing={property?.images ?? []}
+        />
+        <p className="mt-3 text-xs font-semibold text-slate-400">
+          {t.form.imagesHelp}
+        </p>
+      </Section>
+
+      <Section title={t.form.videoSection}>
+        <VideoInput
+          label={t.form.existingVideos}
+          help={t.form.uploadVideos}
+          removeLabel={t.form.removeVideo}
+          emptyLabel={t.form.noVideos}
+          existing={property?.videos ?? []}
+          endpoint="/api/admin/videos"
+        />
+        <p className="mt-3 text-xs font-semibold text-slate-400">
+          {t.form.videosHelp}
+        </p>
+      </Section>
+
+      <Section title={t.form.advertiserSection}>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className={labelCls} htmlFor="pf-advertiserNameAr">
+              {t.form.advertiserNameAr}
+            </label>
+            <input
+              id="pf-advertiserNameAr"
+              name="advertiserNameAr"
+              defaultValue={property?.advertiser?.name.ar ?? ""}
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="pf-advertiserNameEn">
+              {t.form.advertiserNameEn}
+            </label>
+            <input
+              id="pf-advertiserNameEn"
+              name="advertiserNameEn"
+              defaultValue={property?.advertiser?.name.en ?? ""}
+              className={inputCls}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelCls} htmlFor="pf-advertiserWhatsapp">
+              {t.form.advertiserWhatsapp}
+            </label>
+            <input
+              id="pf-advertiserWhatsapp"
+              name="advertiserWhatsapp"
+              type="tel"
+              inputMode="tel"
+              dir="ltr"
+              defaultValue={property?.advertiser?.whatsapp ?? ""}
+              className={inputCls}
+              placeholder="+905XXXXXXXXX"
+            />
+          </div>
+        </div>
+      </Section>
+
+      <Section title={t.form.locationSection}>
+        <LocationPicker
+          defaultLat={property?.location?.lat}
+          defaultLng={property?.location?.lng}
+          defaultLabel={property?.location?.label}
+          label={t.form.locationEnable}
+          hint={t.form.locationHint}
+          pickOnMap={t.form.locationPick}
+          useMyLocation={t.form.locationMyLocation}
+          clear={t.form.locationClear}
+          latPlaceholder="41.00820"
+          lngPlaceholder="28.97840"
+          labelPlaceholder={t.form.locationLabelPlaceholder}
+        />
       </Section>
 
       <Section title={t.form.amenitiesSection}>
