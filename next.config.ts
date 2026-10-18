@@ -28,6 +28,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const nextConfig: NextConfig = {
+  // Nothing reads this header; it only advertises the framework. Removing it
+  // is free and removes one cheap fingerprint for automated scanners, though
+  // it is hygiene rather than protection — `/_next/` asset paths, the `Vary`
+  // header and the `__next_f` payload scripts still give the stack away.
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {

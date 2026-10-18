@@ -115,7 +115,6 @@ export default async function AdminLoginPage({ params, searchParams }: PageProps
             </button>          </form>
 
           <p className="mt-5 text-center text-[11px] font-semibold leading-relaxed text-white/40">
-            {t.login.securityNote}{" "}
             <Link
               href={`/${locale}/privacy`}
               className="font-bold text-white/60 underline underline-offset-2 transition hover:text-gold-400"

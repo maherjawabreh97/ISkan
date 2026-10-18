@@ -12,7 +12,6 @@ export interface AdminDict {
     rateLimit: string
     blocked: string
     hint: string
-    securityNote: string
     privacyLink: string
   }
   nav: {
@@ -293,9 +292,7 @@ const ar: AdminDict = {
       "محاولات دخول كثيرة خاطئة. الرجاء المحاولة بعد بضع دقائق.",
     blocked:
       "تم حظر عنوان IP الخاص بك بسبب محاولات دخول خاطئة متكررة أو نشاط آلي.",
-    hint: "الحساب الافتراضي: admin / admin123 (غيّره من صفحة المستخدمين)",
-    securityNote:
-      "لحماية الموقع، يتم تسجيل عنوان IP ومحاولات الدخول بما فيها المحاولات الخاطئة.",
+    hint: "بيانات الدخول المحلية من ADMIN_USERNAME و ADMIN_PASSWORD",
     privacyLink: "سياسة الخصوصية",
   },
   nav: {
@@ -603,9 +600,7 @@ const en: AdminDict = {
       "Too many failed sign-in attempts. Please try again in a few minutes.",
     blocked:
       "Your IP address has been blocked due to repeated failed sign-ins or automated activity.",
-    hint: "Default account: admin / admin123 (change it in the Users page)",
-    securityNote:
-      "To protect the site, your IP address and sign-in attempts (including failed ones) are logged.",
+    hint: "Local sign-in is seeded from ADMIN_USERNAME / ADMIN_PASSWORD",
     privacyLink: "Privacy Policy",
   },
   nav: {

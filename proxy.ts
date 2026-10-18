@@ -74,6 +74,22 @@ function plain(status: number, body: string) {
   })
 }
 
+/**
+ * Headers that name the stack for no functional reason.
+ *
+ * `x-powered-by` is handled by `poweredByHeader` in next.config.ts; this covers
+ * the adapter's own banner. Stripping them is cosmetic — the `/_next/` asset
+ * paths and the `__next_f` payload scripts identify the framework either way —
+ * but there is no reason to hand a scanner a free fingerprint.
+ */
+const FINGERPRINT_HEADERS = ["x-powered-by", "x-opennext"]
+
+function withCsp<T extends NextResponse>(response: T, csp: string): T {
+  response.headers.set("Content-Security-Policy", csp)
+  for (const name of FINGERPRINT_HEADERS) response.headers.delete(name)
+  return response
+}
+
 function getLocale(request: NextRequest): string {
   const accept = request.headers.get("accept-language")?.toLowerCase() ?? ""
   if (accept.includes("ar")) return "ar"
@@ -114,9 +130,10 @@ export function proxy(request: NextRequest) {
 
   // API routes and uploaded media are not localized.
   if (pathname.startsWith("/api/")) {
-    const api = NextResponse.next({ request: { headers: requestHeaders } })
-    api.headers.set("Content-Security-Policy", csp)
-    return api
+    return withCsp(
+      NextResponse.next({ request: { headers: requestHeaders } }),
+      csp,
+    )
   }
 
   const pathnameHasLocale = (locales as readonly string[]).some(
@@ -124,17 +141,16 @@ export function proxy(request: NextRequest) {
       pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
   if (pathnameHasLocale) {
-    const page = NextResponse.next({ request: { headers: requestHeaders } })
-    page.headers.set("Content-Security-Policy", csp)
-    return page
+    return withCsp(
+      NextResponse.next({ request: { headers: requestHeaders } }),
+      csp,
+    )
   }
 
   const locale = getLocale(request)
   const url = request.nextUrl.clone()
   url.pathname = `/${locale}${pathname}`
-  const redirect = NextResponse.redirect(url)
-  redirect.headers.set("Content-Security-Policy", csp)
-  return redirect
+  return withCsp(NextResponse.redirect(url), csp)
 }
 
 export const config = {
