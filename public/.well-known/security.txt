@@ -1,0 +1,5 @@
+Contact: mailto:Iskanrealestatetr@gmail.com
+Expires: 2027-10-19T00:00:00.000Z
+Preferred-Languages: ar, en, tr
+Canonical: https://iskantr.com/.well-known/security.txt
+Policy: https://iskantr.com/ar/terms
