@@ -37,6 +37,9 @@ const ar = {
     perMonth: "/شهر",
     viewAll: "عرض الكل",
     results: "نتائج",
+    viewMode: "طريقة العرض",
+    viewGrid: "كرت",
+    viewList: "قائمة",
     noResults: "لا توجد عقارات مطابقة",
     noResultsDesc:
       "جرّب تعديل خيارات البحث أو مسح الفلاتر للعثور على ما يناسبك.",

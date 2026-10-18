@@ -1,8 +1,7 @@
 import Link from "next/link"
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
-import { ListingsView } from "@/components/listings-view"
+import { ListingsView, type ListingsFilters } from "@/components/listings-view"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
 
@@ -10,6 +9,7 @@ export const dynamic = "force-dynamic"
 
 type PageProps = {
   params: Promise<{ lang: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -22,12 +22,34 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-export default async function PropertiesPage({ params }: PageProps) {
+/** Query values arrive as `string | string[]`; only the first one is useful. */
+function first(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) return value[0]
+  return value
+}
+
+export default async function PropertiesPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { lang } = await params
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
   const dict = await getDictionary(locale)
   const properties = await getProperties()
+
+  const query = await searchParams
+  const filters: ListingsFilters = {
+    q: first(query.q),
+    city: first(query.city),
+    type: first(query.type),
+    sort: first(query.sort),
+    minPrice: first(query.minPrice),
+    maxPrice: first(query.maxPrice),
+    purpose: first(query.purpose),
+    favorites: first(query.favorites),
+    view: first(query.view),
+  }
 
   return (
     <>
@@ -54,20 +76,12 @@ export default async function PropertiesPage({ params }: PageProps) {
 
       <section className="py-10 lg:py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Suspense
-            fallback={
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="h-96 animate-pulse rounded-3xl bg-slate-200/70"
-                  />
-                ))}
-              </div>
-            }
-          >
-            <ListingsView locale={locale} dict={dict} allProperties={properties} />
-          </Suspense>
+          <ListingsView
+            locale={locale}
+            dict={dict}
+            allProperties={properties}
+            filters={filters}
+          />
         </div>
       </section>
 

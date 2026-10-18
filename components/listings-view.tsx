@@ -1,48 +1,95 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { motion } from "motion/react"
-import { Heart, RefreshCcw, Search, SearchX, X } from "lucide-react"
+import { Heart, LayoutGrid, List, RefreshCcw, Search, SearchX, X } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import type { Property } from "@/lib/properties"
 import { PropertyCard } from "@/components/property-card"
+import { PropertyListRow } from "@/components/property-list-row"
 import { useFavorites } from "@/lib/use-favorites"
 
 type Tab = "all" | "sale" | "rent" | "favorites"
+type View = "grid" | "list"
+
+/** Key used to remember the choice between visits. */
+const VIEW_STORAGE_KEY = "iskan:listings-view"
+
+/**
+ * The filter values, read on the server from the query string.
+ *
+ * These arrive as props rather than being read with `useSearchParams`. That hook
+ * forces the whole component behind a Suspense boundary that the server renders
+ * as a placeholder and only fills in after the client takes over — and if that
+ * hand-off does not happen the visitor is left staring at the placeholder with
+ * the listings never appearing. Passing them in keeps the page fully rendered.
+ */
+export interface ListingsFilters {
+  q?: string
+  city?: string
+  type?: string
+  sort?: string
+  minPrice?: string
+  maxPrice?: string
+  purpose?: string
+  favorites?: string
+  view?: string
+}
 
 export function ListingsView({
   locale,
   dict,
   allProperties,
+  filters,
 }: {
   locale: Locale
   dict: Dictionary
   allProperties: Property[]
+  filters: ListingsFilters
 }) {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const favorites = useFavorites()
 
   const initialTab = (): Tab => {
-    const purpose = searchParams.get("purpose")
-    if (purpose === "sale" || purpose === "rent") return purpose
-    if (searchParams.get("favorites") === "1") return "favorites"
+    if (filters.purpose === "sale" || filters.purpose === "rent") {
+      return filters.purpose
+    }
+    if (filters.favorites === "1") return "favorites"
     return "all"
   }
 
-  const [q, setQ] = useState(() => searchParams.get("q") ?? "")
-  const [city, setCity] = useState(() => searchParams.get("city") ?? "all")
-  const [type, setType] = useState(() => searchParams.get("type") ?? "all")
-  const [sort, setSort] = useState(() => searchParams.get("sort") ?? "newest")
-  const [minPrice, setMinPrice] = useState(
-    () => searchParams.get("minPrice") ?? "",
-  )
-  const [maxPrice, setMaxPrice] = useState(
-    () => searchParams.get("maxPrice") ?? "",
-  )
+  const [q, setQ] = useState(() => filters.q ?? "")
+  const [city, setCity] = useState(() => filters.city ?? "all")
+  const [type, setType] = useState(() => filters.type ?? "all")
+  const [sort, setSort] = useState(() => filters.sort ?? "newest")
+  const [minPrice, setMinPrice] = useState(() => filters.minPrice ?? "")
+  const [maxPrice, setMaxPrice] = useState(() => filters.maxPrice ?? "")
   const [tab, setTab] = useState<Tab>(initialTab)
+
+  // The URL wins so a shared link always shows what the sender saw; otherwise
+  // fall back to whatever this browser picked last time. Read lazily because
+  // localStorage does not exist during the server render.
+  const [view, setView] = useState<View>(() => {
+    if (filters.view === "list" || filters.view === "grid") return filters.view
+    if (typeof window === "undefined") return "grid"
+    try {
+      const stored = window.localStorage.getItem(VIEW_STORAGE_KEY)
+      return stored === "list" ? "list" : "grid"
+    } catch {
+      return "grid"
+    }
+  })
+
+  const chooseView = (next: View) => {
+    setView(next)
+    try {
+      window.localStorage.setItem(VIEW_STORAGE_KEY, next)
+    } catch {
+      // Private browsing can refuse writes; the view still changes for now.
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,13 +102,21 @@ export function ListingsView({
       if (maxPrice) params.set("maxPrice", maxPrice)
       if (tab === "favorites") params.set("favorites", "1")
       if (tab === "sale" || tab === "rent") params.set("purpose", tab)
+      if (view === "list") params.set("view", "list")
       const query = params.toString()
-      router.replace(`/${locale}/properties${query ? `?${query}` : ""}`, {
-        scroll: false,
-      })
+      const target = `/${locale}/properties${query ? `?${query}` : ""}`
+
+      // Replacing with the address we are already on still counts as a
+      // navigation, and on the first render that race cancels the Suspense
+      // boundary holding this component — leaving the fallback on screen
+      // forever. Only push a URL when it genuinely differs.
+      const current = `${window.location.pathname}${window.location.search}`
+      if (current === target) return
+
+      router.replace(target, { scroll: false })
     }, 350)
     return () => clearTimeout(timer)
-  }, [q, city, type, sort, minPrice, maxPrice, tab, router, locale])
+  }, [q, city, type, sort, minPrice, maxPrice, tab, view, router, locale])
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase()
@@ -302,24 +357,84 @@ export function ListingsView({
         </div>
       </div>
 
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-8 flex items-center justify-between gap-3">
         <p className="text-sm font-bold text-slate-500">
           {filtered.length} {dict.common.results}
         </p>
-        {hasActive && (
-          <button
-            type="button"
-            onClick={clearAll}
-            className="inline-flex items-center gap-1.5 text-sm font-extrabold text-brand-700 transition hover:text-brand-600"
+
+        <div className="flex items-center gap-3">
+          {/* Grid shows more at once; list fits more per row. Both are one tap
+              apart because which one reads better depends on the screen. */}
+          <div
+            className="flex items-center gap-0.5 rounded-full bg-sand-100 p-0.5 ring-1 ring-slate-200"
+            role="group"
+            aria-label={dict.common.viewMode}
           >
-            <RefreshCcw className="size-3.5" />
-            {dict.common.clearFilters}
-          </button>
-        )}
+            {(
+              [
+                { key: "grid" as const, icon: LayoutGrid, label: dict.common.viewGrid },
+                { key: "list" as const, icon: List, label: dict.common.viewList },
+              ]
+            ).map(({ key, icon: Icon, label }) => {
+              const active = view === key
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => chooseView(key)}
+                  aria-pressed={active}
+                  title={label}
+                  className={`grid size-8 place-items-center rounded-full transition ${
+                    active
+                      ? "bg-white text-brand-700 shadow-sm"
+                      : "text-slate-400 hover:text-slate-600"
+                  }`}
+                >
+                  <Icon className="size-4" />
+                  <span className="sr-only">{label}</span>
+                </button>
+              )
+            })}
+          </div>
+
+          {hasActive && (
+            <button
+              type="button"
+              onClick={clearAll}
+              className="inline-flex items-center gap-1.5 text-sm font-extrabold text-brand-700 transition hover:text-brand-600"
+            >
+              <RefreshCcw className="size-3.5" />
+              {dict.common.clearFilters}
+            </button>
+          )}
+        </div>
       </div>
 
       {filtered.length > 0 ? (
+        view === "list" ? (
+          <motion.div
+            key="list"
+            className="mt-6 flex flex-col gap-3"
+            initial={false}
+          >
+            {filtered.map((property, index) => (
+              <motion.div
+                key={property.slug}
+                initial={{ y: 12 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.35, delay: index * 0.03 }}
+              >
+                <PropertyListRow
+                  property={property}
+                  locale={locale}
+                  dict={dict}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
         <motion.div
+          key="grid"
           className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           initial={false}
           transition={{ type: "spring", stiffness: 200, damping: 28 }}
@@ -327,8 +442,8 @@ export function ListingsView({
           {filtered.map((property, index) => (
             <motion.div
               key={property.slug}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 18 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.45, delay: index * 0.04 }}
             >
               <PropertyCard
@@ -340,6 +455,7 @@ export function ListingsView({
             </motion.div>
           ))}
         </motion.div>
+        )
       ) : (
         <div className="mt-6 flex flex-col items-center rounded-2xl bg-white px-6 py-16 text-center ring-1 ring-slate-200/70">
           <span className="grid size-16 place-items-center rounded-full bg-sand-100 text-brand-600">

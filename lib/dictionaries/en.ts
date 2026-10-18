@@ -37,6 +37,9 @@ const en = {
     perMonth: "/month",
     viewAll: "View all",
     results: "results",
+    viewMode: "View",
+    viewGrid: "Cards",
+    viewList: "List",
     noResults: "No properties found",
     noResultsDesc:
       "Try adjusting your search criteria or clearing the filters to find the perfect match.",

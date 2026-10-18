@@ -107,6 +107,9 @@ export interface Dictionary {
     perMonth: string
     viewAll: string
     results: string
+    viewMode: string
+    viewGrid: string
+    viewList: string
     noResults: string
     noResultsDesc: string
     clearFilters: string
