@@ -114,7 +114,9 @@ export function proxy(request: NextRequest) {
 
   // API routes and uploaded media are not localized.
   if (pathname.startsWith("/api/")) {
-    return NextResponse.next({ request: { headers: requestHeaders } })
+    const api = NextResponse.next({ request: { headers: requestHeaders } })
+    api.headers.set("Content-Security-Policy", csp)
+    return api
   }
 
   const pathnameHasLocale = (locales as readonly string[]).some(
@@ -122,7 +124,9 @@ export function proxy(request: NextRequest) {
       pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
   if (pathnameHasLocale) {
-    return NextResponse.next({ request: { headers: requestHeaders } })
+    const page = NextResponse.next({ request: { headers: requestHeaders } })
+    page.headers.set("Content-Security-Policy", csp)
+    return page
   }
 
   const locale = getLocale(request)
