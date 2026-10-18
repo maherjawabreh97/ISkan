@@ -86,7 +86,6 @@ export function PropertyCard({
         >
           {purposeLabel}
         </span>
-        <FavoriteButton slug={property.slug} className="absolute end-2 top-2 z-10" />
 
         <div className="absolute inset-x-0 bottom-0 px-3 pb-2.5">
           <p className="font-heading text-base font-bold leading-none text-white drop-shadow">
@@ -119,8 +118,12 @@ export function PropertyCard({
           </div>
         )}
 
-        {advertiser && advertiserName && (
-          <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-2">
+        {/* The heart lives here rather than floating over the artwork: on a
+            narrow phone the card image is barely taller than the button, so it
+            sat on top of the price. Last in the row puts it on the left in
+            both reading directions. */}
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-2">
+          {advertiser && advertiserName ? (
             <div className="flex min-w-0 items-center gap-1.5">
               {isOffice ? (
                 <Image
@@ -135,15 +138,25 @@ export function PropertyCard({
                 {advertiserName}
               </span>
             </div>
-            <span
-              className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#25D366] px-2 py-1 text-[10px] font-bold text-white"
-              aria-hidden
-            >
-              <MessageCircle className="size-3" />
-              {dict.common.whatsapp}
+          ) : (
+            <span className="truncate text-[11px] font-semibold text-slate-400">
+              {dict.propertyTypes[property.type]}
             </span>
-          </div>
-        )}
+          )}
+
+          <span className="flex shrink-0 items-center gap-1.5">
+            {advertiser && (
+              <span
+                className="inline-flex items-center gap-1 rounded-lg bg-[#25D366] px-2 py-1 text-[10px] font-bold text-white"
+                aria-hidden
+              >
+                <MessageCircle className="size-3" />
+                {dict.common.whatsapp}
+              </span>
+            )}
+            <FavoriteButton slug={property.slug} compact />
+          </span>
+        </div>
       </div>
     </Link>
   )
