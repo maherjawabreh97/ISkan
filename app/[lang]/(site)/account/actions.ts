@@ -30,13 +30,12 @@ import {
   clearAccountCookie,
   clearPendingVerification,
   getPendingVerificationId,
-  getVerificationDelivery,
   setAccountCookie,
   setPendingVerification,
   setVerificationDelivery,
 } from "@/lib/account-session"
 import { activateAccount } from "@/lib/accounts"
-import { sendOtp, verifyOtp } from "@/lib/supabase-otp"
+import { sendVerificationEmail } from "@/lib/email"
 import { getStoredProperty, removeProperty } from "@/lib/properties-store"
 import {
   getSubmission,
@@ -162,9 +161,16 @@ export async function registerAction(formData: FormData): Promise<void> {
   // URL, so it cannot leak through history, `Referer` headers or access logs.
   await setPendingVerification(account.id)
 
-  // Supabase sends the code. If there is no email on file, or its mailer is
-  // rate limited, fall back to showing the code rather than stranding the user.
-  const delivered = account.email ? await sendOtp(account.email) : false
+  // Resend sends the code. If there is no address on file, the key is missing,
+  // or the sending domain is not verified yet, fall back to showing the code
+  // rather than stranding the user.
+  const delivered = account.email
+    ? await sendVerificationEmail({
+        to: account.email,
+        code,
+        locale: lang === "en" ? "en" : "ar",
+      })
+    : false
   await setVerificationDelivery(delivered ? "email" : "manual")
 
   redirect(`${back}?verify=1`)
@@ -207,15 +213,8 @@ export async function verifyCodeAction(formData: FormData): Promise<void> {
     redirect(`/${lang}/account`)
   }
 
-  // When the code went out by email, Supabase is the authority on whether it is
-  // right. Our own hash is only consulted for the manual (on-screen) path.
-  if ((await getVerificationDelivery()) === "email" && account.email) {
-    if (await verifyOtp(account.email, code)) {
-      await activate()
-    }
-    redirect(`${back}?verify=1&error=wrongCode`)
-  }
-
+  // The code is checked against the hash we stored. The emailed copy and the
+  // on-screen copy are the same six digits, so one check covers both paths.
   const outcome = await verifyAccountCode(account.id, code)
   if (outcome === "verified") {
     await activate()
@@ -247,10 +246,15 @@ export async function resendCodeAction(formData: FormData): Promise<void> {
   }
 
   // Generate once, store it, and send that same code.
-  await resendAccountCode(account.id)
+  const freshCode = await resendAccountCode(account.id)
   await setPendingVerification(account.id)
-
-  const delivered = account.email ? await sendOtp(account.email) : false
+  const delivered = account.email
+    ? await sendVerificationEmail({
+        to: account.email,
+        code: freshCode,
+        locale: lang === "en" ? "en" : "ar",
+      })
+    : false
   await setVerificationDelivery(delivered ? "email" : "manual")
 
   redirect(`${back}?verify=1`)
