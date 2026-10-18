@@ -123,7 +123,7 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
               <input type="hidden" name="website" value="" />
               <button
                 type="submit"
-                className="text-xs font-bold text-slate-500 underline underline-offset-4 transition hover:text-brand-700"
+                className="cursor-pointer text-xs font-bold text-slate-500 underline underline-offset-4 transition hover:text-brand-700"
               >
                 {t.resendButton}
               </button>

@@ -94,6 +94,27 @@ body {
   color: transparent;
 }
 
+/*
+ * Anchors get a pointer from the browser; buttons, checkboxes and selects do
+ * not, so anything built from a button read as inert on hover. These are
+ * element selectors, so any Tailwind cursor utility still overrides them.
+ */
+a,
+button,
+summary,
+select,
+label[for],
+label:has(input),
+input[type="checkbox"],
+input[type="radio"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 .text-gradient-brand {
   background-image: linear-gradient(120deg, #1e8a69, #147057 55%, #0c3a2d);
   -webkit-background-clip: text;
