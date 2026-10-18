@@ -281,8 +281,6 @@ export interface Dictionary {
     passwordConfirm: string
     registerButton: string
     verifyButton: string
-    resendButton: string
-    resendIdentifier: string
     codeLabel: string
     codeNote: string
     codeSent: string
@@ -318,6 +316,8 @@ export interface Dictionary {
     errorWeakPassword: string
     errorMismatch: string
     errorIdentifier: string
+    errorRestart: string
+
     errorTaken: string
     errorRate: string
     errorWrongCode: string

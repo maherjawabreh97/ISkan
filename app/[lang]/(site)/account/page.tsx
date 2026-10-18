@@ -48,9 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return { title: dict.account.title, robots: { index: false, follow: false } }
 }
 
-const inputCls =
   "w-full rounded-xl border-0 bg-sand-100 px-3.5 py-2.5 text-sm font-semibold text-ink-900 outline-none ring-1 ring-slate-200 transition placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600"
-const labelCls = "mb-1.5 block text-xs font-extrabold text-slate-500"
 
 function stateBadge(state: ListingState, t: Awaited<ReturnType<typeof getDictionary>>["account"]) {
   const map = {

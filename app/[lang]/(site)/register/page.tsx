@@ -2,11 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { ArrowLeft, ShieldCheck } from "lucide-react"
-import {
-  registerAction,
-  resendCodeAction,
-  verifyCodeAction,
-} from "@/app/[lang]/(site)/account/actions"
+import { registerAction, verifyCodeAction } from "@/app/[lang]/(site)/account/actions"
 import { getAccountById } from "@/lib/accounts"
 import {
   getPendingVerificationId,
@@ -62,6 +58,7 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
     weak: t.errorWeakPassword,
     mismatch: t.errorMismatch,
     identifier: t.errorIdentifier,
+    restart: t.errorRestart,
     taken: t.errorTaken,
     rate: t.errorRate,
     wrongCode: t.errorWrongCode,
@@ -108,30 +105,28 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
               </p>
             )}
 
-            {code && (
-              <div className="rounded-2xl border-2 border-brand-200 bg-brand-50/70 p-5 text-center">
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-700">
-                  {t.codeLabel}
-                </p>
-                {code ? (
+            <div className="rounded-2xl border-2 border-brand-200 bg-brand-50/70 p-5 text-center">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-700">
+                {t.codeLabel}
+              </p>
+              {code ? (
+                <>
                   <p
                     dir="ltr"
                     className="mt-2 font-heading text-4xl font-bold tracking-[0.2em] text-ink-900"
                   >
                     {code}
                   </p>
-                ) : (
-                  <p className="mt-3 text-sm font-bold text-ink-900">
-                    {dict.account.codeSent}
-                  </p>
-                )}
-                {code && (
                   <p className="mt-3 text-[13px] font-semibold leading-6 text-slate-600">
                     {t.codeNote}
                   </p>
-                )}
-              </div>
-            )}
+                </>
+              ) : (
+                <p className="mt-3 text-sm font-bold text-ink-900">
+                  {dict.account.codeSent}
+                </p>
+              )}
+            </div>
 
             <form
               action={verifyCodeAction}
@@ -170,41 +165,9 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
               </button>
             </form>
 
-            {/* Shown whenever there is no live code to use — a fresh sign-up on another
-                device, or a code that was locked after too many wrong tries.
-                The action prefers the signed verification cookie, so the
-                identifier box is only required when that cookie is gone. */}
-            {!code && (
-              <form action={resendCodeAction} className="mx-auto max-w-sm">
-                <input type="hidden" name="lang" value={locale} />
-                <input type="hidden" name="website" value="" />
-                {pendingId && (
-                  <p className="mb-3 text-center text-xs font-semibold leading-6 text-slate-500">
-                    {t.resendIdentifier}
-                  </p>
-                )}
-                {!pendingId && (
-                  <div>
-                    <label className={labelCls} htmlFor="r-identifier">
-                      {t.resendIdentifier}
-                    </label>
-                    <input
-                      id="r-identifier"
-                      name="identifier"
-                      required
-                      dir="ltr"
-                      className={inputCls}
-                    />
-                  </div>
-                )}
-                <button
-                  type="submit"
-                  className="mt-3 w-full rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-extrabold text-ink-900 transition hover:border-brand-400 hover:text-brand-700"
-                >
-                  {t.resendButton}
-                </button>
-              </form>
-            )}
+            {/* The code is on its way by email; nothing else belongs on this screen.
+                If it never arrives the account is still waiting and can be
+                confirmed from the dashboard. */}
           </div>
         ) : (
           <form

@@ -222,8 +222,6 @@ const ar = {
     passwordConfirm: "تأكيد كلمة السر",
     registerButton: "إنشاء الحساب",
     verifyButton: "تأكيد وتسجيل دخول",
-    resendButton: "إرسال كود جديد",
-    resendIdentifier: "الإيميل أو الرقم المستخدم وقت التسجيل",
     codeLabel: "كود التأكيد",
     codeNote:
       "ما وصلتك الرسالة؟ الكود معروض هون، وكمان بينشاف بالداشبورد بتاعنا.",
@@ -260,6 +258,8 @@ const ar = {
     errorWeakPassword: "كلمة السر لازم تكون 8 أحرف على الأقل.",
     errorMismatch: "كلمتا السر مش متطابقتين.",
     errorIdentifier: "أدخل إيميل أو رقم هاتف صحيح.",
+    errorRestart: "انتهت جلسة التأكيد. الرجاء إنشاء الحساب من جديد.",
+
     errorTaken: "هذا المستخدم موجود مسبقاً",
     errorRate: "محاولات كثيرة. الرجاء الانتظار قليل وجرب مرة ثانية.",
     errorWrongCode: "الكود غير صحيح.",

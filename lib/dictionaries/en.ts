@@ -225,8 +225,6 @@ const en = {
     passwordConfirm: "Confirm password",
     registerButton: "Create account",
     verifyButton: "Confirm and sign in",
-    resendButton: "Send a new code",
-    resendIdentifier: "Email or phone used at sign-up",
     codeLabel: "Verification code",
     codeNote:
       "Message did not arrive? The code is shown here, and it is also visible in our dashboard.",
@@ -264,6 +262,9 @@ const en = {
     errorMismatch: "The two passwords do not match.",
     errorIdentifier:
       "Enter a valid email address or phone number.",
+    errorRestart:
+      "Your confirmation session expired. Please create the account again.",
+
     errorTaken: "This user already exists",
     errorRate: "Too many attempts. Please wait a moment and try again.",
     errorWrongCode: "That code is not correct.",

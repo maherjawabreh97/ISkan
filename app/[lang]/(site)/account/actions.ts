@@ -4,27 +4,25 @@ import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import { requireAccount } from "@/lib/account-auth"
 import {
-  claimListing,
   countRecentAuthAttempts,
   createAccount,
   createReport,
   createRevision,
-  lookupAccountByIdentifier,
   generateCode,
   getAccountById,
   getListingOwner,
   isPendingSlug,
+  lookupAccountByIdentifier,
   normalizeEmail,
   normalizePhone,
-  pendingSlug,
   recordAuthAttempt,
   recordLogin,
   releaseListing,
-  resendAccountCode,
   submissionIdFromSlug,
   updateAccountProfile,
   verifyAccountCode,
   verifySecret,
+  activateAccount,
 } from "@/lib/accounts"
 import {
   clearAccountCookie,
@@ -34,7 +32,6 @@ import {
   setPendingVerification,
   setVerificationDelivery,
 } from "@/lib/account-session"
-import { activateAccount } from "@/lib/accounts"
 import { sendVerificationEmail } from "@/lib/email"
 import { getStoredProperty, removeProperty } from "@/lib/properties-store"
 import {
@@ -43,8 +40,6 @@ import {
 } from "@/lib/submissions-store"
 import { deleteUploads } from "@/lib/uploads"
 import { isStoredVideoUrl } from "@/lib/videos"
-import type { CityKey, PropertyTypeKey } from "@/lib/dictionaries/types"
-import type { CurrencyKey } from "@/lib/format"
 import { hasLocale } from "@/lib/i18n"
 
 const MAX_REGISTER_PER_HOUR = 5
@@ -191,14 +186,14 @@ export async function verifyCodeAction(formData: FormData): Promise<void> {
   }
   await recordAuthAttempt("verify", ip)
 
-  // Resolve the account from the signed verification cookie when possible, so a
-  // wrong code does not let anyone probe which identifiers are registered.
+  // The verification screen only asks for the code, so the account is resolved
+  // from the signed cookie set at sign-up. Without it there is nothing to check
+  // the code against — say so instead of showing a confusing "invalid email".
   const pendingId = await getPendingVerificationId()
-  const account = pendingId
-    ? await getAccountById(pendingId)
-    : await lookupAccountByIdentifier(text(formData, "identifier"))
+  if (!pendingId) redirect(`/${lang}/register?error=restart`)
 
-  if (!account) redirect(`${back}?verify=1&error=identifier`)
+  const account = await getAccountById(pendingId)
+  if (!account) redirect(`/${lang}/register?error=restart`)
   if (account.status === "active") {
     await setAccountCookie(account.id)
     await clearPendingVerification()
@@ -222,42 +217,6 @@ export async function verifyCodeAction(formData: FormData): Promise<void> {
   if (outcome === "expired") redirect(`${back}?verify=1&error=expired`)
   if (outcome === "locked") redirect(`${back}?verify=1&error=locked`)
   redirect(`${back}?verify=1&error=wrongCode`)
-}
-
-export async function resendCodeAction(formData: FormData): Promise<void> {
-  const lang = langOf(formData)
-  const back = `/${lang}/register`
-
-  if (isBot(formData)) redirect(back)
-
-  const ip = await clientIp()
-  if ((await countRecentAuthAttempts("resend", ip)) >= 10) {
-    redirect(`${back}?error=rate`)
-  }
-  await recordAuthAttempt("resend", ip)
-
-  const pendingId = await getPendingVerificationId()
-  const account = pendingId
-    ? await getAccountById(pendingId)
-    : await lookupAccountByIdentifier(text(formData, "identifier"))
-
-  if (!account || account.status === "active") {
-    redirect(`${back}?verify=1&error=identifier`)
-  }
-
-  // Generate once, store it, and send that same code.
-  const freshCode = await resendAccountCode(account.id)
-  await setPendingVerification(account.id)
-  const delivered = account.email
-    ? await sendVerificationEmail({
-        to: account.email,
-        code: freshCode,
-        locale: lang === "en" ? "en" : "ar",
-      })
-    : false
-  await setVerificationDelivery(delivered ? "email" : "manual")
-
-  redirect(`${back}?verify=1`)
 }
 
 export async function loginAction(formData: FormData): Promise<void> {

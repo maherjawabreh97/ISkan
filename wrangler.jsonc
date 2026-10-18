@@ -50,10 +50,9 @@
     "ADMIN_BAN_HOURS": "24",
     // Dashboard session lifetime, in hours.
     "ADMIN_SESSION_HOURS": "24",
-    // Sender shown on verification emails. `onboarding@resend.dev` only
-    // delivers to the Resend account owner, so it is a testing placeholder.
-    // Once the sending domain is verified in the Resend dashboard, change this
-    // to the real address, e.g. "Iskan <noreply@notify.iskantr.com>".
-    "RESEND_FROM": "onboarding@resend.dev",
+    // Sender shown on verification emails. `iskantr.com` is verified in Resend
+    // (SPF and DKIM), so this reaches every recipient. The pending inbound MX
+    // is only for receiving mail and does not affect sending.
+    "RESEND_FROM": "Iskan <noreply@iskantr.com>",
   }
 }
