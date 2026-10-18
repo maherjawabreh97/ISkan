@@ -18,7 +18,8 @@ export function ScrollTop() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Scroll to top"
-      className={`fixed end-6 bottom-6 z-40 grid size-11 place-items-center rounded-full bg-brand-600 text-white shadow-xl shadow-brand-900/30 ring-1 ring-white/20 transition duration-300 hover:bg-brand-500 ${
+      // Hidden on phones: the bottom tab bar owns that corner.
+      className={`fixed end-6 bottom-6 z-40 hidden size-11 place-items-center rounded-full bg-brand-600 text-white shadow-xl shadow-brand-900/30 ring-1 ring-white/20 transition duration-300 hover:bg-brand-500 md:grid ${
         show
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-3 opacity-0"

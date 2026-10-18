@@ -1,31 +1,15 @@
 import type { NextConfig } from "next";
 
-const cspDirectives = [
-  "default-src 'none'",
-  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https:",
-  "media-src 'self' https://*.supabase.co blob:",
-  "font-src 'self'",
-  "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com",
-  "frame-src 'self' https://challenges.cloudflare.com",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'self'",
-  "upgrade-insecure-requests",
-  "block-all-mixed-content",
-];
-
+/**
+ * NOTE: the Content-Security-Policy header is deliberately *not* set here — it
+ * is built per request in `proxy.ts` so every page load carries a fresh nonce.
+ * A static policy here would override it and re-open the inline-script hole.
+ */
 const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
-  {
-    key: "Content-Security-Policy",
-    value: cspDirectives.join("; "),
-  },
   {
     key: "Cross-Origin-Opener-Policy",
     value: "same-origin",

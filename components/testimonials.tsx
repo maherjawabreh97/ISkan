@@ -15,7 +15,6 @@ import {
   submitTestimonialAction,
   type TestimonialFormState,
 } from "@/app/[lang]/(site)/actions"
-import { TurnstileWidget } from "@/components/admin/turnstile-widget"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 
@@ -32,10 +31,8 @@ const labelCls = "mb-1.5 block text-xs font-extrabold text-slate-500"
 /** Visitor review form: hidden behind a toggle so the landing page stays light. */
 function TestimonialForm({
   t,
-  siteKey,
 }: {
   t: Dictionary["testimonials"]
-  siteKey: string
 }) {
   const [open, setOpen] = useState(false)
   const [state, action, pending] = useActionState(
@@ -166,7 +163,6 @@ function TestimonialForm({
             />
           </div>
 
-          {siteKey && <TurnstileWidget siteKey={siteKey} theme="light" />}
 
           <p className="mt-3 text-xs font-semibold text-slate-400">
             {t.privacyNote}
@@ -319,7 +315,7 @@ export function Testimonials({
           </div>
         )}
 
-        <TestimonialForm t={t} siteKey={siteKey} />
+        <TestimonialForm t={t} />
       </div>
     </section>
   )

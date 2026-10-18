@@ -3,11 +3,9 @@ import Link from "next/link"
 import { ArrowLeft, Lock } from "lucide-react"
 import { loginAction } from "@/app/[lang]/admin/actions"
 import { LanguageSwitcher } from "@/components/language-switcher"
-import { TurnstileWidget } from "@/components/admin/turnstile-widget"
 import { getCurrentUser } from "@/lib/auth"
 import { getAdminDict } from "@/lib/dictionaries/admin"
 import { hasLocale, type Locale } from "@/lib/i18n"
-import { turnstileSiteKey } from "@/lib/turnstile"
 
 type PageProps = {
   params: Promise<{ lang: string }>
@@ -22,8 +20,6 @@ export default async function AdminLoginPage({ params, searchParams }: PageProps
 
   const current = await getCurrentUser()
   if (current) redirect(`/${locale}/admin`)
-
-  const siteKey = turnstileSiteKey()
 
   return (
     <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-ink-950 px-4 py-16">
@@ -111,14 +107,12 @@ export default async function AdminLoginPage({ params, searchParams }: PageProps
                 className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold text-white outline-none transition placeholder:text-white/30 focus:border-gold-400/60 focus:bg-white/[0.09]"
               />
             </div>
-            {siteKey && <TurnstileWidget siteKey={siteKey} />}
             <button
               type="submit"
               className="btn-gold w-full rounded-xl px-6 py-3.5 text-sm font-black text-ink-950 transition hover:brightness-105"
             >
               {t.login.submit}
-            </button>
-          </form>
+            </button>          </form>
 
           <p className="mt-5 text-center text-[11px] font-semibold leading-relaxed text-white/40">
             {t.login.securityNote}{" "}

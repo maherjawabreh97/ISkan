@@ -18,7 +18,6 @@ import {
   recordFailure,
   unbanIp,
 } from "@/lib/security-store"
-import { verifyTurnstile } from "@/lib/turnstile"
 import {
   deleteListingManager,
   moveManagerToSlug,
@@ -151,22 +150,8 @@ export async function loginAction(formData: FormData): Promise<void> {
     redirect(`/${lang}/admin/login?error=blocked`)
   }
 
-  // 4) Cloudflare Turnstile (skipped automatically when not configured).
-  const captcha = await verifyTurnstile(formData, ip)
-  if (!captcha.ok) {
-    const result = await recordFailure(ip, { username, userAgent })
-    if (result.banned) {
-      await logEvent({
-        type: "ip_banned",
-        ip,
-        at: Date.now(),
-        username,
-        userAgent,
-        detail: "captcha",
-      })
-    }
-    redirect(`/${lang}/admin/login?error=${result.banned ? "blocked" : "1"}`)
-  }
+  // 4) Bot protection is honeypot + per-IP rate limit + the ban above, so no
+  //    third-party CAPTCHA script has to run on the page (see proxy.ts CSP).
 
   const user = await getUserByUsername(username)
   if (!user || !verifyPassword(password, user.passwordHash)) {

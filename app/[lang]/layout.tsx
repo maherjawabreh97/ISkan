@@ -1,5 +1,6 @@
 import { Cairo, El_Messiri } from "next/font/google"
 import { notFound } from "next/navigation"
+import { headers } from "next/headers"
 import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
 import {
@@ -70,6 +71,9 @@ export default async function RootLayout({
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
 
+  // Generated per request in proxy.ts; inline scripts must carry it.
+  const nonce = (await headers()).get("x-nonce") ?? undefined
+
   return (
     <html
       lang={lang}
@@ -77,19 +81,7 @@ export default async function RootLayout({
       className={`${cairo.variable} ${messiri.variable}`}
     >
       <head>
-        <Analytics />
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3WMHLEHJLK" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-3WMHLEHJLK');
-`,
-          }}
-        />
+        <Analytics nonce={nonce} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>

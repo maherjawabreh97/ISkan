@@ -3,6 +3,35 @@ import type { NextRequest } from "next/server"
 import { defaultLocale, locales } from "./lib/i18n"
 
 /**
+ * Content-Security-Policy is built per request so every page load gets a fresh
+ * `nonce`. Inline scripts must carry that nonce, which means an injected
+ * `<script>` without it simply never runs — the classic XSS hole is closed.
+ *
+ * Next.js reads the nonce from the *request* CSP header and stamps it onto the
+ * framework scripts it injects, so nothing else has to change.
+ */
+function buildCsp(nonce: string): string {
+  return [
+    "default-src 'none'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://challenges.cloudflare.com https://www.googletagmanager.com`,
+    // No inline event handlers (onclick=...) anywhere.
+    "script-src-attr 'none'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https:",
+    "media-src 'self' https://*.supabase.co blob:",
+    "font-src 'self'",
+    "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com",
+    "frame-src 'self' https://challenges.cloudflare.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'self'",
+    "upgrade-insecure-requests",
+    "block-all-mixed-content",
+  ].join("; ")
+}
+
+/**
  * Paths that only exist on other stacks (WordPress, phpMyAdmin, exposed VCS
  * metadata, ...). Bots and vulnerability scanners hammer these constantly.
  * We answer with a flat 404 so the site never looks like a juicy target.
@@ -69,19 +98,39 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  // 3) Per-request CSP with a fresh nonce.
+  //
+  //    Only GET is handled here. Returning a rewritten response for a POST
+  //    makes Next skip the Server Action entirely (no redirect, no Set-Cookie),
+  //    so actions must pass through untouched. Their responses are RSC payloads
+  //    or redirects rather than documents, so they carry no inline scripts.
+  if (request.method !== "GET") return
+
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64")
+  const csp = buildCsp(nonce)
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-nonce", nonce)
+  requestHeaders.set("content-security-policy", csp)
+
   // API routes and uploaded media are not localized.
-  if (pathname.startsWith("/api/")) return
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next({ request: { headers: requestHeaders } })
+  }
 
   const pathnameHasLocale = (locales as readonly string[]).some(
     (locale) =>
       pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
-  if (pathnameHasLocale) return
+  if (pathnameHasLocale) {
+    return NextResponse.next({ request: { headers: requestHeaders } })
+  }
 
   const locale = getLocale(request)
   const url = request.nextUrl.clone()
   url.pathname = `/${locale}${pathname}`
-  return NextResponse.redirect(url)
+  const redirect = NextResponse.redirect(url)
+  redirect.headers.set("Content-Security-Policy", csp)
+  return redirect
 }
 
 export const config = {

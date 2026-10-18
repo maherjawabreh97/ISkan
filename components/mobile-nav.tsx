@@ -1,10 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
+import { usePathname } from "next/navigation"
+import {
+  Building2,
+  Heart,
+  Home,
+  KeyRound,
+  Menu,
+  MessageCircle,
+  Phone,
+  Plus,
+  X,
+} from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
+import { site } from "@/lib/site"
 import { Logo } from "./logo"
 
 export function MobileNav({
@@ -15,10 +27,33 @@ export function MobileNav({
   dict: Dictionary
 }) {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+
+  // Close whenever the route changes or the viewport grows to the desktop nav.
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (!open) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => {
+      document.body.style.overflow = previous
+      window.removeEventListener("keydown", onKey)
+    }
+  }, [open])
+
   const links = [
-    { label: dict.nav.home, href: `/${locale}` },
-    { label: dict.nav.properties, href: `/${locale}/properties` },
-    { label: dict.nav.submit, href: `/${locale}/submit` },
+    { label: dict.nav.home, href: `/${locale}`, icon: Home },
+    { label: dict.nav.properties, href: `/${locale}/properties`, icon: Building2 },
+    { label: dict.nav.submit, href: `/${locale}/submit`, icon: Plus },
+    { label: dict.common.favorites, href: `/${locale}/properties?favorites=1`, icon: Heart },
+    { label: dict.manage.badge, href: `/${locale}/manage`, icon: KeyRound },
   ]
 
   return (
@@ -26,38 +61,82 @@ export function MobileNav({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="grid size-10 place-items-center rounded-full border border-white/12 bg-white/[0.05] text-white transition hover:border-gold-400/40 hover:bg-white/10"
         aria-label="Open menu"
+        aria-expanded={open}
+        className="grid size-10 place-items-center rounded-xl border border-white/12 bg-white/[0.05] text-white transition hover:border-gold-400/40 hover:bg-white/10 active:scale-95"
       >
         <Menu className="size-5" />
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-ink-950 px-6 py-5">
-          <div className="flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex flex-col bg-ink-950">
+          <div className="pointer-events-none absolute -top-32 start-[-6rem] size-80 rounded-full bg-brand-600/20 blur-3xl" />
+          <div className="pointer-events-none absolute bottom-0 end-[-6rem] size-80 rounded-full bg-gold-500/10 blur-3xl" />
+
+          <div className="relative flex items-center justify-between px-5 py-4">
             <Logo locale={locale} name={dict.brand.name} onClick={() => setOpen(false)} />
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="grid size-10 place-items-center rounded-full border border-white/15 text-white transition hover:bg-white/10"
               aria-label="Close menu"
+              className="grid size-10 place-items-center rounded-xl border border-white/12 text-white transition hover:bg-white/10 active:scale-95"
             >
               <X className="size-5" />
             </button>
           </div>
-          <nav className="mt-12 flex flex-col gap-2">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-xl px-4 py-4 text-2xl font-extrabold text-white transition hover:bg-white/5 hover:text-gold-300"
+
+          <div className="relative flex-1 overflow-y-auto px-5 pb-6">
+            <nav className="mt-4 flex flex-col gap-1.5">
+              {links.map(({ label, href, icon: Icon }) => {
+                const [path] = href.split("?")
+                const active = pathname === path
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center gap-4 rounded-2xl px-4 py-3.5 text-[15px] font-extrabold transition ${
+                      active
+                        ? "bg-gold-400/12 text-gold-300 ring-1 ring-gold-400/25"
+                        : "text-white/85 hover:bg-white/[0.06] hover:text-white"
+                    }`}
+                  >
+                    <span
+                      className={`grid size-10 shrink-0 place-items-center rounded-xl ${
+                        active ? "bg-gold-400/15" : "bg-white/[0.06]"
+                      }`}
+                    >
+                      <Icon className="size-5" />
+                    </span>
+                    {label}
+                  </Link>
+                )
+              })}
+            </nav>
+
+            <div className="mt-6 grid gap-2.5">
+              <a
+                href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white transition active:scale-[0.98]"
               >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <p className="mt-auto text-sm text-white/50">{dict.brand.tagline}</p>
+                <MessageCircle className="size-4.5" />
+                {dict.common.whatsapp}
+              </a>
+              <a
+                href={`tel:${site.phoneHref}`}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gold-400 px-5 py-3.5 text-sm font-extrabold text-ink-950 transition active:scale-[0.98]"
+              >
+                <Phone className="size-4.5" />
+                <span dir="ltr">{site.phone}</span>
+              </a>
+            </div>
+
+            <p className="mt-6 text-center text-xs font-semibold leading-relaxed text-white/35">
+              {dict.brand.tagline}
+            </p>
+          </div>
         </div>
       )}
     </div>
