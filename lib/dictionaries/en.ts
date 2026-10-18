@@ -182,6 +182,18 @@ const en = {
     videosHelp: "Upload a video clip (optional)",
     videosEmpty: "No video yet — optional.",
     removeVideo: "Remove this video",
+    manageSection: "Listing password",
+    manageHelp:
+      "Choose a password for your listing. Once the property is rented or sold you can remove the ad yourself using this password plus your listing code — no need to contact anyone.",
+    managePassword: "Password",
+    managePasswordConfirm: "Confirm password",
+    managePasswordPlaceholder: "At least 4 characters",
+    manageCodeTitle: "Your listing code — save it now",
+    manageCodeBody:
+      "This code plus your password is all you need to delete the listing. We cannot send it to you again if you lose it, so save it now.",
+    manageCta: "Open listing management",
+    errorPassword: "The password must be at least 4 characters.",
+    errorPasswordMatch: "The two passwords do not match.",
     consent: "I agree the listing will be reviewed before publishing.",
     privacyLink: "Privacy Policy",
     submitButton: "Submit listing",
@@ -203,6 +215,29 @@ const en = {
     responseNote: "We usually reply within minutes during working hours.",
     sellNote:
       "We accept rental listings from visitors only. To sell your property, contact us directly on WhatsApp.",
+  },
+  manage: {
+    badge: "Manage your listing",
+    title: "Take your listing down",
+    subtitle:
+      "If the apartment has been rented or sold you can remove the ad yourself — no account, no phone calls.",
+    backHome: "Back to home",
+    formTitle: "Enter your details",
+    formBody:
+      "Enter your listing code and the password you chose when you posted. The listing is removed immediately.",
+    code: "Listing code",
+    password: "Listing password",
+    submit: "Delete the listing",
+    warning:
+      "Deletion is permanent and cannot be undone. If you would rather edit the listing, message us on WhatsApp.",
+    contactUs: "Contact us on WhatsApp",
+    removedTitle: "Listing removed",
+    removedPending:
+      "Your listing was still awaiting review — we dropped it from the queue and it will not be published.",
+    removedLive: "Your listing has been removed from the site and is no longer visible to visitors.",
+    errorRate: "Too many attempts. Please wait a moment and try again.",
+    errorMissing: "Please enter your listing code and password.",
+    errorInvalid: "That code or password is not correct.",
   },
   propertyTypes: {
     apartment: "Apartment",

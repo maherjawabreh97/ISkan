@@ -302,6 +302,46 @@ export function SubmitForm({
         </div>
       </Section>
 
+      <Section title={t.manageSection}>
+        <div className="rounded-2xl bg-brand-50/60 p-4 ring-1 ring-brand-200/70">
+          <p className="text-sm font-semibold leading-7 text-brand-900">
+            {t.manageHelp}
+          </p>
+        </div>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className={labelCls} htmlFor="sf-password">
+              {t.managePassword}
+            </label>
+            <input
+              id="sf-password"
+              name="password"
+              type="password"
+              required
+              minLength={4}
+              autoComplete="new-password"
+              placeholder={t.managePasswordPlaceholder}
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="sf-passwordConfirm">
+              {t.managePasswordConfirm}
+            </label>
+            <input
+              id="sf-passwordConfirm"
+              name="passwordConfirm"
+              type="password"
+              required
+              minLength={4}
+              autoComplete="new-password"
+              placeholder={t.managePasswordPlaceholder}
+              className={inputCls}
+            />
+          </div>
+        </div>
+      </Section>
+
       <Section title={t.photosSection}>
         <ImageInput
           label={t.photosSection}

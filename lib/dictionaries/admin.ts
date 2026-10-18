@@ -453,6 +453,8 @@ const ar: AdminDict = {
       ip_banned: "حظر IP",
       ip_unbanned: "رفع حظر",
       bot_blocked: "منع بوت",
+      manage_failed: "فشل إدارة إعلان",
+      listing_removed: "حذف إعلان بالمعلن",
     },
   },
   errors: {
@@ -695,6 +697,8 @@ const en: AdminDict = {
       ip_banned: "IP banned",
       ip_unbanned: "Ban lifted",
       bot_blocked: "Bot blocked",
+      manage_failed: "Listing management failed",
+      listing_removed: "Listing removed by owner",
     },
   },
   errors: {

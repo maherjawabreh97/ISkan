@@ -244,6 +244,16 @@ export interface Dictionary {
     videosHelp: string
     videosEmpty: string
     removeVideo: string
+    manageSection: string
+    manageHelp: string
+    managePassword: string
+    managePasswordConfirm: string
+    managePasswordPlaceholder: string
+    manageCodeTitle: string
+    manageCodeBody: string
+    manageCta: string
+    errorPassword: string
+    errorPasswordMatch: string
     consent: string
     privacyLink: string
     submitButton: string
@@ -260,6 +270,25 @@ export interface Dictionary {
     whatsappPrefill: string
     responseNote: string
     sellNote: string
+  }
+  manage: {
+    badge: string
+    title: string
+    subtitle: string
+    backHome: string
+    formTitle: string
+    formBody: string
+    code: string
+    password: string
+    submit: string
+    warning: string
+    contactUs: string
+    removedTitle: string
+    removedPending: string
+    removedLive: string
+    errorRate: string
+    errorMissing: string
+    errorInvalid: string
   }
   propertyTypes: Record<PropertyTypeKey, string>
   propertyTypeDescriptions: Record<PropertyTypeKey, string>

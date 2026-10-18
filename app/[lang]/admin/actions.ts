@@ -19,6 +19,11 @@ import {
   unbanIp,
 } from "@/lib/security-store"
 import { verifyTurnstile } from "@/lib/turnstile"
+import {
+  deleteListingManager,
+  moveManagerToSlug,
+  pendingManagerSlug,
+} from "@/lib/listing-managers"
 import type {
   AmenityKey,
   CityKey,
@@ -465,6 +470,9 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
 
   await upsertProperty(property)
   await setSubmissionStatus(submission.id, "approved", slug)
+  // Hand the advertiser's own code/password over to the published listing so
+  // they can still take it down themselves later on.
+  await moveManagerToSlug(pendingManagerSlug(submission.id), slug)
   revalidatePath("/", "layout")
   // Send the admin straight to the editor so they can polish the listing.
   redirect(`/${lang}/admin/properties/${slug}`)
@@ -480,6 +488,7 @@ export async function rejectSubmissionAction(formData: FormData): Promise<void> 
   if (submission) {
     await deleteUploads([...submission.images, ...(submission.videos ?? [])])
     await setSubmissionStatus(submission.id, "rejected")
+    await deleteListingManager(pendingManagerSlug(submission.id))
   }
 
   revalidatePath(`/${lang}/admin/submissions`)

@@ -91,6 +91,8 @@ export type SecurityEventType =
   | "ip_banned"
   | "ip_unbanned"
   | "bot_blocked"
+  | "manage_failed"
+  | "listing_removed"
 
 export interface SecurityEvent {
   type: SecurityEventType

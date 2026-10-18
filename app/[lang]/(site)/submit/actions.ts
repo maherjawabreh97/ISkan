@@ -2,6 +2,12 @@
 
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
+import { rememberManageCode } from "@/lib/manage-cookie"
+import {
+  generateManageCode,
+  pendingManagerSlug,
+  registerListingManager,
+} from "@/lib/listing-managers"
 import { logEvent } from "@/lib/security-store"
 import { countRecentSubmissions, createSubmission } from "@/lib/submissions-store"
 import { isStoredVideoUrl } from "@/lib/videos"
@@ -112,14 +118,22 @@ export async function submitListingAction(formData: FormData): Promise<void> {
   const phone = text(formData, "phone")
   const title = text(formData, "title")
   const description = text(formData, "description")
+  const password = String(formData.get("password") ?? "")
+  const passwordConfirm = String(formData.get("passwordConfirm") ?? "")
   if (!contactName || !phone || !title || !description) {
     redirect(`${back}?error=required`)
+  }
+  if (password.length < 4) {
+    redirect(`${back}?error=password`)
+  }
+  if (password !== passwordConfirm) {
+    redirect(`${back}?error=passwordMatch`)
   }
 
   const purpose = oneOf(text(formData, "purpose"), PURPOSES, "rent")
   const floor = text(formData, "floor")
 
-  await createSubmission(
+  const submission = await createSubmission(
     {
       contactName,
       phone,
@@ -147,6 +161,16 @@ export async function submitListingAction(formData: FormData): Promise<void> {
     },
     { ip, userAgent },
   )
+
+  // Let the advertiser manage (and later remove) their own listing.
+  const manageCode = generateManageCode()
+  await registerListingManager({
+    slug: pendingManagerSlug(submission.id),
+    manageCode,
+    password,
+    submissionId: submission.id,
+  })
+  await rememberManageCode(manageCode)
 
   redirect(`${back}?sent=1`)
 }
