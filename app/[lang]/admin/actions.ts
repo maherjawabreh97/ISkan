@@ -57,6 +57,7 @@ import {
 import { deleteUploads } from "@/lib/uploads"
 import { isStoredVideoUrl } from "@/lib/videos"
 import {
+  changeUserPassword,
   getUserByUsername,
   removeUser,
   saveUser,
@@ -388,6 +389,45 @@ export async function saveUserAction(formData: FormData): Promise<void> {
 
   revalidatePath("/", "layout")
   redirect(`/${lang}/admin/users`)
+}
+
+/**
+ * Lets an admin rotate their own password from inside the dashboard.
+ *
+ * The old password is re-checked here so a stolen session cookie alone is not
+ * enough to lock the real owner out, and the session is reissued afterwards so
+ * the previous cookie stops being the valid one. Weak and previously-seeded
+ * defaults are rejected in the store.
+ */
+export async function changeOwnPasswordAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const user = await requireActionUser(lang, ["admin", "editor", "viewer"])
+
+  const current = String(formData.get("currentPassword") ?? "")
+  const next = String(formData.get("newPassword") ?? "")
+  const confirm = String(formData.get("confirmPassword") ?? "")
+
+  if (!user.passwordHash || !verifyPassword(current, user.passwordHash)) {
+    redirect(`/${lang}/admin/settings?error=current`)
+  }
+  if (next !== confirm) {
+    redirect(`/${lang}/admin/settings?error=confirm`)
+  }
+
+  const result = await changeUserPassword(user.id, next)
+  if (!result.ok) {
+    redirect(
+      `/${lang}/admin/settings?error=${
+        result.reason === "too_short" ? "short" : "weak"
+      }`,
+    )
+  }
+
+  // Reissue with a fresh expiry. Other devices keep working until their own
+  // cookie lapses, which is the intended trade-off: logging everyone out on a
+  // password change would help an attacker who stole the cookie.
+  await setSessionCookie(user.id, user.role)
+  redirect(`/${lang}/admin/settings?ok=1`)
 }
 
 export async function deleteUserAction(formData: FormData): Promise<void> {

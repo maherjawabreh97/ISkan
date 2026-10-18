@@ -6,6 +6,7 @@ import {
   Building2,
   Contact,
   Inbox,
+  KeyRound,
   LayoutDashboard,
   MessageSquareQuote,
   ShieldCheck,
@@ -78,6 +79,14 @@ export function AdminNav({
           },
         ]
       : []),
+    {
+      // Everyone gets this: rotating your own password must not depend on being
+      // the owner account.
+      href: `/${locale}/admin/settings`,
+      label: t.nav.settings,
+      icon: KeyRound,
+      exact: false,
+    },
   ]
 
   return (

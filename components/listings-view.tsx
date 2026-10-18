@@ -320,7 +320,7 @@ export function ListingsView({
 
       {filtered.length > 0 ? (
         <motion.div
-          className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           initial={false}
           transition={{ type: "spring", stiffness: 200, damping: 28 }}
         >

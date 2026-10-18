@@ -48,11 +48,43 @@ export function verifyPassword(password: string, stored: string): boolean {
   return crypto.timingSafeEqual(computed, expected)
 }
 
+/**
+ * Credentials used the very first time an admin row is created.
+ *
+ * In production `ADMIN_PASSWORD` is mandatory. A known fallback would leave the
+ * dashboard open to anyone who tries `admin` / `admin123`, which is the first
+ * guess every credential-stuffing bot makes. If the user table is ever emptied
+ * we would re-seed — so failing loudly here is the difference between "locked
+ * out, fix a secret" and "site takeover".
+ *
+ * The fallback survives only for local development, where there is nothing to
+ * take over.
+ */
 function seedCredentials(): { username: string; password: string } {
-  return {
-    username: process.env.ADMIN_USERNAME || "admin",
-    password: process.env.ADMIN_PASSWORD || "admin123",
+  const username = process.env.ADMIN_USERNAME || "admin"
+  const configured = process.env.ADMIN_PASSWORD?.trim()
+
+  if (!configured) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "[users] ADMIN_PASSWORD is not set. Refusing to create a default admin " +
+          "account in production — set the secret with " +
+          "`wrangler secret put ADMIN_PASSWORD`.",
+      )
+    }
+    console.warn(
+      "[users] ADMIN_PASSWORD is not set; using the local-only default.",
+    )
+    return { username, password: "admin123" }
   }
+
+  if (configured.length < 12) {
+    throw new Error(
+      "[users] ADMIN_PASSWORD must be at least 12 characters.",
+    )
+  }
+
+  return { username, password: configured }
 }
 
 function seedUser(): User {
@@ -205,6 +237,74 @@ export interface UserInput {
   name: string
   role: Role
   password?: string
+}
+
+/**
+ * Fragments we refuse to set, so a rotation cannot land on something guessable.
+ *
+ * Matched as substrings rather than whole passwords: an exact-match list stops
+ * being useful the moment someone appends a digit, and "password1234" is no
+ * stronger than "password1".
+ */
+const BANNED_FRAGMENTS = [
+  "admin",
+  "password",
+  "passwd",
+  "qwerty",
+  "123456",
+  "111111",
+  "letmein",
+  "welcome",
+  "iloveyou",
+  "iskan",
+  "iskoan",
+  "realestate",
+  "secret",
+]
+
+export type PasswordChangeResult =
+  | { ok: true }
+  | { ok: false; reason: "too_short" | "banned" | "not_found" }
+
+/**
+ * Replaces an admin's password.
+ *
+ * Exists so the first-login password can be rotated from inside the dashboard
+ * instead of needing a redeploy. Rejects the legacy defaults so a rotation can
+ * never settle back on the well-known value.
+ */
+export async function changeUserPassword(
+  id: string,
+  password: string,
+): Promise<PasswordChangeResult> {
+  const normalized = password.trim()
+  if (normalized.length < 12) return { ok: false, reason: "too_short" }
+
+  const lowered = normalized.toLowerCase()
+  if (BANNED_FRAGMENTS.some((fragment) => lowered.includes(fragment))) {
+    return { ok: false, reason: "banned" }
+  }
+
+  const passwordHash = hashPassword(normalized)
+
+  if (hasSupabase()) {
+    const { data, error } = await getSupabase()
+      .from("users")
+      .update({ password_hash: passwordHash })
+      .eq("id", id)
+      .select("id")
+      .maybeSingle()
+    if (error) throw new Error(error.message)
+    if (!data) return { ok: false, reason: "not_found" }
+    return { ok: true }
+  }
+
+  const list = await readAll()
+  const index = list.findIndex((user) => user.id === id)
+  if (index === -1) return { ok: false, reason: "not_found" }
+  list[index] = { ...list[index], passwordHash }
+  await writeAll(list)
+  return { ok: true }
 }
 
 export function saveUser(input: UserInput): Promise<User> {

@@ -23,6 +23,7 @@ export interface AdminDict {
     users: string
     security: string
     accounts: string
+    settings: string
     viewSite: string
     signOut: string
   }
@@ -215,6 +216,25 @@ export interface AdminDict {
     reasons: Record<string, string>
     eventTypes: Record<string, string>
   }
+  settings: {
+    settingsTitle: string
+    settingsSubtitle: string
+    passwordTitle: string
+    passwordIntro: string
+    passwordCurrent: string
+    passwordNew: string
+    passwordConfirm: string
+    passwordSave: string
+    passwordOk: string
+    passwordErrorCurrent: string
+    passwordErrorConfirm: string
+    passwordErrorShort: string
+    passwordErrorWeak: string
+    sessionTitle: string
+    sessionNote: string
+    sessionUser: string
+    sessionRole: string
+  },
   accounts: {
     title: string
     subtitle: string
@@ -285,6 +305,7 @@ const ar: AdminDict = {
     testimonials: "التعليقات",
     users: "المستخدمون",
     security: "الحماية",
+    settings: "الإعدادات",
     accounts: "حسابات المعلنين",
     viewSite: "عرض الموقع",
     signOut: "خروج",
@@ -501,6 +522,25 @@ const ar: AdminDict = {
       account_deleted: "حذف حساب معلن",
     },
   },
+  settings: {
+    settingsTitle: "إعدادات الحساب",
+    settingsSubtitle: "غيّر كلمة المرور وتابع حالة جلستك.",
+    passwordTitle: "تغيير كلمة المرور",
+    passwordIntro: "استخدم كلمة مرور طويلة لا تظهر في أي مكان آخر. لا تشاركها مع أحد.",
+    passwordCurrent: "كلمة المرور الحالية",
+    passwordNew: "كلمة المرور الجديدة",
+    passwordConfirm: "تأكيد كلمة المرور",
+    passwordSave: "حفظ كلمة المرور",
+    passwordOk: "تم تغيير كلمة المرور.",
+    passwordErrorCurrent: "كلمة المرور الحالية غير صحيحة.",
+    passwordErrorConfirm: "كلمتا المرور غير متطابقتين.",
+    passwordErrorShort: "كلمة المرور قصيرة جداً.",
+    passwordErrorWeak: "هذه كلمة مرور شائعة، اختار وحدة أقوى.",
+    sessionTitle: "الجلسة الحالية",
+    sessionNote: "كلمة المرور محفوظة مشفّرة، والجلسة تنتهي تلقائياً بعد 24 ساعة.",
+    sessionUser: "المستخدم",
+    sessionRole: "الصلاحية",
+  },
   accounts: {
     title: "حسابات المعلنين",
     subtitle:
@@ -575,6 +615,7 @@ const en: AdminDict = {
     testimonials: "Testimonials",
     users: "Users",
     security: "Security",
+    settings: "Settings",
     accounts: "Advertisers",
     viewSite: "View site",
     signOut: "Sign out",
@@ -791,6 +832,25 @@ const en: AdminDict = {
       account_suspended: "Advertiser suspended",
       account_deleted: "Advertiser erased",
     },
+  },
+  settings: {
+    settingsTitle: "Account settings",
+    settingsSubtitle: "Change your password and review your session.",
+    passwordTitle: "Change password",
+    passwordIntro: "Use a long password you do not use anywhere else, and share it with nobody.",
+    passwordCurrent: "Current password",
+    passwordNew: "New password",
+    passwordConfirm: "Confirm new password",
+    passwordSave: "Save password",
+    passwordOk: "Your password has been changed.",
+    passwordErrorCurrent: "Your current password is not correct.",
+    passwordErrorConfirm: "The two passwords do not match.",
+    passwordErrorShort: "That password is too short.",
+    passwordErrorWeak: "That password is too common. Pick a stronger one.",
+    sessionTitle: "Current session",
+    sessionNote: "Your password is stored encrypted, and the session expires by itself after 24 hours.",
+    sessionUser: "Signed in as",
+    sessionRole: "Role",
   },
   accounts: {
     title: "Advertiser accounts",
