@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic"
 
 type PageProps = {
   params: Promise<{ lang: string }>
-  searchParams: Promise<{ done?: string; error?: string }>
+  searchParams: Promise<{ done?: string; error?: string; next?: string }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -28,7 +28,7 @@ export default async function LoginPage({ params, searchParams }: PageProps) {
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
   const dict = await getDictionary(locale)
-  const { done, error } = await searchParams
+  const { done, error, next } = await searchParams
   const t = dict.account
 
   const errors: Record<string, string> = {
@@ -39,6 +39,12 @@ export default async function LoginPage({ params, searchParams }: PageProps) {
     rate: t.errorRate,
   }
   const message = error ? errors[error] ?? t.errorInvalid : ""
+
+  /** Only same-site paths, so the field can never be used as an open redirect. */
+  const nextPath =
+    next && (next.startsWith(`/${locale}/`) || next === `/${locale}`)
+      ? next
+      : `/${locale}/account`
 
   return (
     <div className="bg-sand-50">
@@ -54,9 +60,6 @@ export default async function LoginPage({ params, searchParams }: PageProps) {
           <h1 className="mt-5 font-heading text-2xl font-bold sm:text-3xl">
             {t.loginTitle}
           </h1>
-          <p className="mt-2 max-w-xl text-sm font-medium leading-7 text-white/70">
-            {t.loginSubtitle}
-          </p>
         </div>
       </section>
 
@@ -76,6 +79,7 @@ export default async function LoginPage({ params, searchParams }: PageProps) {
             className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 sm:p-8"
           >
             <input type="hidden" name="lang" value={locale} />
+            <input type="hidden" name="next" value={nextPath} />
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -left-[9999px] top-auto h-px w-px overflow-hidden opacity-0"

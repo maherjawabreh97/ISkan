@@ -294,7 +294,6 @@ export interface Dictionary {
     backHome: string
     choose: string
     loginTitle: string
-    loginSubtitle: string
     loginButton: string
     /** Tab / nav label shown to visitors who are not signed in. */
     signInTab: string

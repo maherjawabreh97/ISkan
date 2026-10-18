@@ -86,6 +86,19 @@ function isBot(formData: FormData): boolean {
 }
 
 /**
+ * Where to send someone after they sign in.
+ *
+ * Only same-site absolute paths are honoured — a `//evil.com` or
+ * `https://…` value would turn this into an open redirect.
+ */
+function safeNext(formData: FormData, lang: string, fallback: string): string {
+  const value = text(formData, "next")
+  if (!value.startsWith(`/${lang}/`) && value !== `/${lang}`) return fallback
+  if (value.includes("//") || value.includes("\\")) return fallback
+  return value
+}
+
+/**
  * Sign-up. The account starts as `pending_verification`; nothing can be posted
  * or edited until the emailed / texted code is confirmed.
  */
@@ -246,7 +259,7 @@ export async function loginAction(formData: FormData): Promise<void> {
 
   await recordLogin(account.id)
   await setAccountCookie(account.id)
-  redirect(`/${lang}/account`)
+  redirect(safeNext(formData, lang, `/${lang}/account`))
 }
 
 export async function logoutAction(formData: FormData): Promise<void> {

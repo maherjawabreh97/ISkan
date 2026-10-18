@@ -79,7 +79,7 @@ export function SiteHeader({
             {signedIn ? <UserCog className="size-3.5" /> : <LogIn className="size-3.5" />}
             {signedIn ? dict.account.title : dict.account.signInTab}
           </Link>
-          <FavoritesChip locale={locale} />
+          <FavoritesChip locale={locale} signedIn={signedIn} />
           <LanguageSwitcher locale={locale} />
           <MobileNav locale={locale} dict={dict} signedIn={signedIn} />
         </div>

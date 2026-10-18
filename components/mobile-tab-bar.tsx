@@ -39,6 +39,13 @@ export function MobileTabBar({
   const isAccount = pathname.startsWith(`/${locale}/account`)
   const isLogin = pathname.startsWith(`/${locale}/login`)
 
+  // Favourites belong to an account, so a visitor who is not signed in is sent
+  // to sign in first and lands back on them afterwards.
+  const favoritesPath = `/${locale}/properties?favorites=1`
+  const favoritesHref = signedIn
+    ? favoritesPath
+    : `/${locale}/login?next=${encodeURIComponent(favoritesPath)}`
+
   const tabs = [
     {
       label: dict.nav.home,
@@ -96,7 +103,7 @@ export function MobileTabBar({
         </Link>
 
         <Link
-          href={`/${locale}/properties?favorites=1`}
+          href={favoritesHref}
           aria-current={isFavorites ? "page" : undefined}
           className={`flex flex-col items-center gap-1 rounded-xl px-1 py-1.5 text-[10px] font-bold transition ${
             isFavorites ? "text-gold-300" : "text-white/55"
