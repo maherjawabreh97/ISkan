@@ -96,8 +96,8 @@ export function PropertyListRow({
         </span>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:flex-row sm:items-center sm:gap-4 sm:p-4">
-        <div className="min-w-0 flex-1">
+      <div className="flex min-w-0 flex-1 flex-col p-3 sm:p-4">
+        <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
             <div className="flex min-w-0 items-center gap-1 text-[11px] font-semibold text-brand-700">
               <MapPin className="size-3 shrink-0" />
@@ -126,34 +126,46 @@ export function PropertyListRow({
             </div>
           )}
 
-          {advertiser && advertiserName && (
-            <div className="mt-2 flex items-center gap-2">
-              {isOffice ? (
-                <Image
-                  src="/iskan-logo.png"
-                  alt={advertiserName}
-                  width={256}
-                  height={144}
-                  className="h-4 w-auto shrink-0 object-contain"
-                />
-              ) : null}
-              <span className="truncate text-[11px] font-bold text-slate-600">
-                {advertiserName}
+          {/* Footer. The heart goes last so it lands on the left in both reading
+            directions — anchoring it to the row put it straight over the
+            price once the row went single-column on a phone. */}
+          <div className="mt-auto flex items-center justify-between gap-2 pt-1.5">
+            {advertiser && advertiserName ? (
+              <div className="flex min-w-0 items-center gap-1.5">
+                {isOffice ? (
+                  <Image
+                    src="/iskan-logo.png"
+                    alt={advertiserName}
+                    width={256}
+                    height={144}
+                    className="h-4 w-auto shrink-0 object-contain"
+                  />
+                ) : null}
+                <span className="truncate text-[11px] font-bold text-slate-600">
+                  {advertiserName}
+                </span>
+              </div>
+            ) : (
+              <span className="truncate text-[11px] font-semibold text-slate-400">
+                {dict.propertyTypes[property.type]}
               </span>
-              <span
-                className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#25D366] px-2 py-0.5 text-[10px] font-bold text-white"
-                aria-hidden
-              >
-                <MessageCircle className="size-3" />
-                {dict.common.whatsapp}
-              </span>
-            </div>
-          )}
+            )}
+
+            <span className="flex shrink-0 items-center gap-1.5">
+              {advertiser && (
+                <span
+                  className="inline-flex items-center gap-1 rounded-lg bg-[#25D366] px-2 py-0.5 text-[10px] font-bold text-white"
+                  aria-hidden
+                >
+                  <MessageCircle className="size-3" />
+                  {dict.common.whatsapp}
+                </span>
+              )}
+              <FavoriteButton slug={property.slug} compact />
+            </span>
+          </div>
         </div>
       </div>
-
-      {/* Sits above the row link so the heart stays clickable on its own. */}
-      <FavoriteButton slug={property.slug} compact className="absolute end-2 top-2" />
     </Link>
   )
 }
