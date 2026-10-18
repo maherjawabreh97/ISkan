@@ -8,7 +8,10 @@ import {
   verifyCodeAction,
 } from "@/app/[lang]/(site)/account/actions"
 import { getAccountById } from "@/lib/accounts"
-import { getPendingVerificationId } from "@/lib/account-session"
+import {
+  getPendingVerificationId,
+  getVerificationDelivery,
+} from "@/lib/account-session"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 
 export const dynamic = "force-dynamic"
@@ -46,8 +49,11 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
   // the URL, so it cannot leak through history, `Referer` headers or logs.
   const pendingId = await getPendingVerificationId()
   const pendingAccount = pendingId ? await getAccountById(pendingId) : null
+  const delivered = (await getVerificationDelivery()) === "email"
+  // If the email went out, there is no reason to put the code back on screen.
+  const showCode = !delivered
   const code =
-    pendingAccount?.status === "pending_verification"
+    showCode && pendingAccount?.status === "pending_verification"
       ? pendingAccount.pendingCode
       : undefined
 
@@ -78,9 +84,6 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
           <h1 className="mt-5 font-heading text-2xl font-bold sm:text-3xl">
             {verify ? t.verifyTitle : t.registerTitle}
           </h1>
-          <p className="mt-2 max-w-xl text-sm font-medium leading-7 text-white/70">
-            {verify ? t.verifySubtitle : t.registerSubtitle}
-          </p>
         </div>
       </section>
 
@@ -110,15 +113,23 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
                 <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-700">
                   {t.codeLabel}
                 </p>
-                <p
-                  dir="ltr"
-                  className="mt-2 font-heading text-4xl font-bold tracking-[0.2em] text-ink-900"
-                >
-                  {code}
-                </p>
-                <p className="mt-3 text-[13px] font-semibold leading-6 text-slate-600">
-                  {t.codeNote}
-                </p>
+                {code ? (
+                  <p
+                    dir="ltr"
+                    className="mt-2 font-heading text-4xl font-bold tracking-[0.2em] text-ink-900"
+                  >
+                    {code}
+                  </p>
+                ) : (
+                  <p className="mt-3 text-sm font-bold text-ink-900">
+                    {dict.account.codeSent}
+                  </p>
+                )}
+                {code && (
+                  <p className="mt-3 text-[13px] font-semibold leading-6 text-slate-600">
+                    {t.codeNote}
+                  </p>
+                )}
               </div>
             )}
 
@@ -261,9 +272,6 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
                   placeholder={t.identifierPlaceholder}
                   className={inputCls}
                 />
-                <p className="mt-1.5 text-xs font-semibold text-slate-400">
-                  {t.identifierHelp}
-                </p>
               </div>
               <div>
                 <label className={labelCls} htmlFor="r-password">

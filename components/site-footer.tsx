@@ -45,6 +45,8 @@ export function SiteFooter({
       : { label: dict.account.signInTab, href: `/${locale}/login` },
     { label: dict.footer.privacy, href: `/${locale}/privacy` },
     { label: dict.footer.cookies, href: `/${locale}/cookies` },
+    { label: dict.footer.terms, href: `/${locale}/terms` },
+    { label: dict.footer.listingRules, href: `/${locale}/rules` },
   ]
 
   const exploreLinks = (Object.keys(dict.propertyTypes) as PropertyTypeKey[]).map(

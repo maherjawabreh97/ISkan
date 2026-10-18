@@ -22,7 +22,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
   const locales = ["ar", "en"] as const
 
-  const staticRoutes = ["", "/properties", "/submit", "/privacy", "/cookies"]
+  const staticRoutes = [
+    "",
+    "/properties",
+    "/submit",
+    "/privacy",
+    "/cookies",
+    "/terms",
+    "/rules",
+  ]
   const entries: MetadataRoute.Sitemap = []
 
   for (const locale of locales) {

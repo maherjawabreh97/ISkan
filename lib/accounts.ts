@@ -292,6 +292,43 @@ export async function createAccount(
   return { account: rowToAccount(row), code: input.code }
 }
 
+/**
+ * Marks a half-registered account as usable and wipes the code material.
+ *
+ * Used when a code is confirmed, whichever way it was delivered. The plaintext
+ * copy never survives this call.
+ */
+export async function activateAccount(id: string): Promise<boolean> {
+  const now = Date.now()
+  const db = getDb()
+  if (db) {
+    const result = await db
+      .prepare(
+        `UPDATE user_accounts
+         SET status = 'active', verify_hash = NULL, verify_plain = NULL,
+             verify_expires = NULL, verify_attempts = 0, verified_at = ?,
+             updated_at = ?
+         WHERE id = ?`,
+      )
+      .bind(now, now, id)
+      .run()
+    return Boolean(result.success)
+  }
+  const row = memAccounts.get(id)
+  if (!row) return false
+  memAccounts.set(id, {
+    ...row,
+    status: "active",
+    verify_hash: null,
+    verify_plain: null,
+    verify_expires: null,
+    verify_attempts: 0,
+    verified_at: now,
+    updated_at: now,
+  })
+  return true
+}
+
 export type VerifyOutcome = "verified" | "wrong_code" | "expired" | "locked"
 
 export async function verifyAccountCode(

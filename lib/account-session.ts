@@ -10,6 +10,7 @@ import { cookies } from "next/headers"
 
 const COOKIE_NAME = "iskan_account_session"
 const PENDING_VERIFY_COOKIE = "iskan_verify_pending"
+const DELIVERY_COOKIE = "iskan_verify_delivery"
 const DEFAULT_MAX_AGE = 60 * 60 * 24 * 7 // 7 days
 const VERIFY_MAX_AGE = 30 * 60 // 30 minutes — as long as a code can live
 
@@ -120,4 +121,33 @@ export async function getPendingVerificationId(): Promise<string | null> {
 export async function clearPendingVerification(): Promise<void> {
   const store = await cookies()
   store.delete(PENDING_VERIFY_COOKIE)
+  store.delete(DELIVERY_COOKIE)
+}
+
+/**
+ * How the current code reached the user: `email` if the provider accepted it,
+ * `manual` otherwise (no address on file, provider down, domain unverified).
+ * The register page only shows the code on screen in the `manual` case.
+ */
+export async function setVerificationDelivery(
+  mode: "email" | "manual",
+): Promise<void> {
+  const store = await cookies()
+  store.set(DELIVERY_COOKIE, sign(mode), {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true,
+    path: "/",
+    maxAge: VERIFY_MAX_AGE,
+  })
+}
+
+export async function getVerificationDelivery(): Promise<"email" | "manual"> {
+  const store = await cookies()
+  const value = store.get(DELIVERY_COOKIE)?.value
+  if (!value) return "manual"
+  const a = Buffer.from(value)
+  const b = Buffer.from(sign(value))
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return "manual"
+  return value === "email" ? "email" : "manual"
 }

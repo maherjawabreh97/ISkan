@@ -211,8 +211,6 @@ const en = {
   },
   account: {
     registerTitle: "Create your advertiser account",
-    registerSubtitle:
-      "One account for every listing you post. You will confirm it with a one-time code sent to your email or phone, then you can manage your listings yourself.",
     verifyTitle: "Confirm your account",
     verifySubtitle:
       "Enter the six-digit code we generated for your email or phone number, plus the address it was issued for.",
@@ -223,7 +221,6 @@ const en = {
     nationality: "Nationality",
     identifier: "Email or phone",
     identifierPlaceholder: "you@example.com or 05XX XXX XX XX",
-    identifierHelp: "Pick one. This is the address your sign-in code goes to.",
     password: "Password",
     passwordConfirm: "Confirm password",
     registerButton: "Create account",
@@ -232,7 +229,8 @@ const en = {
     resendIdentifier: "Email or phone used at sign-up",
     codeLabel: "Verification code",
     codeNote:
-      "No mail or SMS provider is connected yet, so the code is shown here and in the admin dashboard. Replace this step with your provider when it is configured.",
+      "Message did not arrive? The code is shown here, and it is also visible in our dashboard.",
+    codeSent: "We sent the code to your email address",
     haveAccount: "Already have an account?",
     noAccount: "Don't have an account?",
     loginLink: "Sign in",
@@ -266,8 +264,7 @@ const en = {
     errorMismatch: "The two passwords do not match.",
     errorIdentifier:
       "Enter a valid email address or phone number.",
-    errorTaken:
-      "That email or phone number is already registered. Try signing in instead.",
+    errorTaken: "This user already exists",
     errorRate: "Too many attempts. Please wait a moment and try again.",
     errorWrongCode: "That code is not correct.",
     errorExpired: "That code has expired. Request a new one.",
@@ -380,6 +377,8 @@ const en = {
     legalTitle: "Legal",
     privacy: "Privacy Policy",
     cookies: "Cookie Policy",
+    terms: "Terms of Use",
+    listingRules: "Listing Rules",
     backHome: "Back to home",
   },
   legal: {
@@ -389,36 +388,48 @@ const en = {
     privacyDate: "Last updated: September 2026",
     privacySections: [
       {
-        heading: "1. Information we collect",
-        body: "We may collect information you provide directly, such as your name, phone number, email address and any message you send when contacting us or requesting a property valuation. We also collect basic technical data automatically, including your browser type, device, IP address and pages you visit, to help us improve our website.",
+        heading: "1. Who is responsible for your data",
+        body: "Iskan Real Estate in Istanbul is the data controller within the meaning of Article 4 of Turkish Personal Data Protection Law No. 6698 (KVKK). You can reach us at any time at the email address shown on this site.",
       },
       {
-        heading: "2. How we use your information",
-        body: "Your information is used to respond to your enquiries, send you property listings that match your interests, improve our services, and meet our legal obligations. We do not sell your personal data to third parties.",
+        heading: "2. Where your data comes from",
+        body: "We collect what you give us directly: your name when you register or post a listing, your phone number and email, and the listing content itself. We also collect basic technical data automatically, such as browser type, device, IP address and the pages you visit.",
       },
       {
-        heading: "3. Sharing your information",
-        body: "We only share your data with trusted service providers who help us operate our website (such as hosting and analytics), and only to the extent necessary to provide our services. Any enquiries you make about a specific property may be shared with the relevant property consultant.",
+        heading: "3. Lawful basis and purpose",
+        body: "We process your data to perform our contract with you, on your explicit consent, to meet a legal obligation, or for our legitimate interests — in each case for stated purposes only: running the site, managing advertiser accounts, publishing and reviewing listings, defending the site from fraud, and answering your enquiries.",
       },
       {
-        heading: "4. Data retention and security",
-        body: "We keep your personal data for as long as necessary to provide our services or as required by law. We apply appropriate technical and organisational measures to protect your information from unauthorised access, loss or misuse.",
+        heading: "4. Advertiser accounts",
+        body: "When you create an account we store your display name, full name, gender, nationality, and the email address or phone number you signed up with. We never store your password — only a one-time code and a slow cryptographic hash of it. Gender and nationality are collected because Turkish regulation requires them for property advertising; both are optional and can be left as “prefer not to say”.",
       },
       {
-        heading: "5. Security and privacy logs",
-        body: "To protect the website and the admin account, we log certain technical data at sign-in, such as the IP address, the time of the attempt and the browser identifier, including failed sign-in attempts. This data is used strictly to prevent hacking and unauthorised access; any IP that repeatedly fails may be temporarily blocked, and these logs are deleted automatically after a set period. We do not use this data for any other purpose and do not share it with third parties.",
+        heading: "5. Listings posted by users",
+        body: "The details you submit with a property listing are shown publicly, because that is the purpose of publishing it. Your name, phone number and email address are not shown publicly unless you choose to include them.",
       },
       {
-        heading: "6. Your rights",
-        body: "You have the right to access, correct or delete the personal data we hold about you. To exercise these rights, or if you have any concerns about privacy, please contact us through the details on this website.",
+        heading: "6. Security logs",
+        body: "To protect the site we record certain technical data at sign-in, including failed attempts. This is used solely to prevent intrusion and unauthorised access; an IP that repeatedly fails may be temporarily blocked, and these logs are deleted automatically after a set period.",
       },
       {
-        heading: "7. Advertiser accounts",
-        body: "If you create an account we store your display name, full name, gender, nationality, and the email address or phone number you signed up with. Your password is never stored — only a one-time code used to confirm your account and a slow cryptographic hash of your password. Gender and nationality are collected because Turkish law requires them for real-estate advertising; both are optional and can be left as 'prefer not to say'. These accounts are kept entirely separate from our internal staff accounts and can never be used to access any internal system.",
+        heading: "7. Sharing with third parties",
+        body: "We do not sell or rent your data. We share it only with the service providers who help us run the site, and only as far as needed to deliver the service. We may disclose data where a competent Turkish authority makes a lawful request.",
       },
       {
-        heading: "8. Reports",
-        body: "You can report a user from any listing. A report stores the reason, anything you write in the details box, and any name or email you choose to give. Who filed a report is never shown to the reported account.",
+        heading: "8. Transfers outside Turkey",
+        body: "Some of our service providers host data outside Turkey. Where that happens we put in place the contractual and technical measures required by Article 9 of the Law, and the rights set out in this policy remain available to you.",
+      },
+      {
+        heading: "9. How long we keep it",
+        body: "We keep your data for as long as it takes to provide the service, or for as long as the listing stays on the site. Technical logs are deleted automatically once they expire. You can ask us to delete your account at any time.",
+      },
+      {
+        heading: "10. Your rights",
+        body: "Under Article 11 of the Law you may ask to access, correct, delete or object to the processing of your data, and to withdraw a consent you previously gave. To exercise any of these, contact us using the details on this site. You also have the right to lodge a complaint with the Turkish Personal Data Protection Board.",
+      },
+      {
+        heading: "11. Children's privacy",
+        body: "The site is not directed at minors, and we do not knowingly collect personal data from them.",
       },
     ],
     cookiesTitle: "Cookie Policy",
@@ -432,11 +443,11 @@ const en = {
       },
       {
         heading: "2. Cookies we use",
-        body: "We use essential cookies required for the website to function, such as remembering your preferred language. We also use analytics cookies to understand how visitors use the site so we can make it better, and optional cookies to power interactive features like your favorites list.",
+        body: "We use essential cookies required for the website to function, such as remembering your preferred language. We also use analytics cookies to understand how visitors use the site so we can make it better, and optional cookies to power interactive features.",
       },
       {
         heading: "3. Managing cookies",
-        body: "You can control or delete cookies through your browser settings at any time. Please note that disabling essential cookies may affect how the website works. Your favorites list is stored locally in your browser.",
+        body: "You can control or delete cookies through your browser settings at any time. Please note that disabling essential cookies may affect how the website works.",
       },
       {
         heading: "4. Third-party cookies",

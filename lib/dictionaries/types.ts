@@ -268,7 +268,6 @@ export interface Dictionary {
   }
   account: {
     registerTitle: string
-    registerSubtitle: string
     verifyTitle: string
     verifySubtitle: string
     name: string
@@ -278,7 +277,6 @@ export interface Dictionary {
     nationality: string
     identifier: string
     identifierPlaceholder: string
-    identifierHelp: string
     password: string
     passwordConfirm: string
     registerButton: string
@@ -287,6 +285,7 @@ export interface Dictionary {
     resendIdentifier: string
     codeLabel: string
     codeNote: string
+    codeSent: string
     haveAccount: string
     noAccount: string
     loginLink: string
@@ -362,6 +361,8 @@ export interface Dictionary {
     legalTitle: string
     privacy: string
     cookies: string
+    terms: string
+    listingRules: string
     backHome: string
   }
   legal: {

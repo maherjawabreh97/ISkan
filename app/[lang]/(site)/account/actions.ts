@@ -30,9 +30,13 @@ import {
   clearAccountCookie,
   clearPendingVerification,
   getPendingVerificationId,
+  getVerificationDelivery,
   setAccountCookie,
   setPendingVerification,
+  setVerificationDelivery,
 } from "@/lib/account-session"
+import { activateAccount } from "@/lib/accounts"
+import { sendOtp, verifyOtp } from "@/lib/supabase-otp"
 import { getStoredProperty, removeProperty } from "@/lib/properties-store"
 import {
   getSubmission,
@@ -154,9 +158,15 @@ export async function registerAction(formData: FormData): Promise<void> {
     code,
   })
 
-  // Only the account id goes into the cookie. The code is rendered from D1 on
-  // the next page load (no mail/SMS provider yet) — it never touches a URL.
+  // Only the account id goes into the cookie. The code itself never touches a
+  // URL, so it cannot leak through history, `Referer` headers or access logs.
   await setPendingVerification(account.id)
+
+  // Supabase sends the code. If there is no email on file, or its mailer is
+  // rate limited, fall back to showing the code rather than stranding the user.
+  const delivered = account.email ? await sendOtp(account.email) : false
+  await setVerificationDelivery(delivered ? "email" : "manual")
+
   redirect(`${back}?verify=1`)
 }
 
@@ -189,12 +199,26 @@ export async function verifyCodeAction(formData: FormData): Promise<void> {
     redirect(`/${lang}/account`)
   }
 
-  const outcome = await verifyAccountCode(account.id, code)
-  if (outcome === "verified") {
+  const activate = async () => {
+    await activateAccount(account.id)
     await recordLogin(account.id)
     await setAccountCookie(account.id)
     await clearPendingVerification()
     redirect(`/${lang}/account`)
+  }
+
+  // When the code went out by email, Supabase is the authority on whether it is
+  // right. Our own hash is only consulted for the manual (on-screen) path.
+  if ((await getVerificationDelivery()) === "email" && account.email) {
+    if (await verifyOtp(account.email, code)) {
+      await activate()
+    }
+    redirect(`${back}?verify=1&error=wrongCode`)
+  }
+
+  const outcome = await verifyAccountCode(account.id, code)
+  if (outcome === "verified") {
+    await activate()
   }
   if (outcome === "expired") redirect(`${back}?verify=1&error=expired`)
   if (outcome === "locked") redirect(`${back}?verify=1&error=locked`)
@@ -222,8 +246,13 @@ export async function resendCodeAction(formData: FormData): Promise<void> {
     redirect(`${back}?verify=1&error=identifier`)
   }
 
+  // Generate once, store it, and send that same code.
   await resendAccountCode(account.id)
   await setPendingVerification(account.id)
+
+  const delivered = account.email ? await sendOtp(account.email) : false
+  await setVerificationDelivery(delivered ? "email" : "manual")
+
   redirect(`${back}?verify=1`)
 }
 
