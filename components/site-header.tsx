@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Phone, Home, Building2, Plus, UserCog } from "lucide-react"
+import { Phone, Home, Building2, Plus, UserCog, LogIn } from "lucide-react"
 import Link from "next/link"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -15,9 +15,11 @@ import { FavoritesChip } from "./favorites-chip"
 export function SiteHeader({
   locale,
   dict,
+  signedIn = false,
 }: {
   locale: Locale
   dict: Dictionary
+  signedIn?: boolean
 }) {
   const [scrolled, setScrolled] = useState(false)
 
@@ -71,15 +73,15 @@ export function SiteHeader({
             {dict.nav.submit}
           </Link>
           <Link
-            href={`/${locale}/account`}
+            href={signedIn ? `/${locale}/account` : `/${locale}/login`}
             className="hidden items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-2 text-sm font-black text-white transition hover:border-gold-400/50 hover:bg-white/10 lg:inline-flex"
           >
-            <UserCog className="size-3.5" />
-            {dict.manage.badge}
+            {signedIn ? <UserCog className="size-3.5" /> : <LogIn className="size-3.5" />}
+            {signedIn ? dict.account.title : dict.account.signInTab}
           </Link>
           <FavoritesChip locale={locale} />
           <LanguageSwitcher locale={locale} />
-          <MobileNav locale={locale} dict={dict} />
+          <MobileNav locale={locale} dict={dict} signedIn={signedIn} />
         </div>
       </div>
     </header>

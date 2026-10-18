@@ -24,9 +24,12 @@ import { Logo } from "./logo"
 export function MobileNav({
   locale,
   dict,
+  signedIn = false,
 }: {
   locale: Locale
   dict: Dictionary
+  /** Swaps the account entry between "sign in" and "my account". */
+  signedIn?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
@@ -54,11 +57,19 @@ export function MobileNav({
     }
   }, [open])
 
+  const accountEntry = signedIn
+    ? { label: dict.account.title, href: `/${locale}/account`, icon: UserCog }
+    : {
+        label: dict.account.signInTab,
+        href: `/${locale}/login`,
+        icon: LogIn,
+      }
+
   const links = [
     { label: dict.nav.home, href: `/${locale}`, icon: Home },
     { label: dict.nav.properties, href: `/${locale}/properties`, icon: Building2 },
     { label: dict.common.favorites, href: `/${locale}/properties?favorites=1`, icon: Heart },
-    { label: dict.account.title, href: `/${locale}/account`, icon: UserCog },
+    accountEntry,
     { label: dict.report.title, href: `/${locale}/report`, icon: FlagIcon },
   ]
 
@@ -98,8 +109,8 @@ export function MobileNav({
             </button>
           </div>
 
-          <div className="relative flex-1 overflow-y-auto px-5 pb-6">
-            <nav className="mt-4 flex flex-col gap-1.5">
+          <div className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-2 pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
+            <nav className="flex flex-col gap-1.5">
               {links.map(({ label, href, icon: Icon }) => {
                 const [path] = href.split("?")
                 const active = pathname === path
@@ -127,38 +138,43 @@ export function MobileNav({
               })}
             </nav>
 
-            <div className="mt-6 grid gap-2.5">
-              {actions.map(({ label, href, icon: Icon, primary }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className={`flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-extrabold transition active:scale-[0.98] ${
-                    primary
-                      ? "bg-gold-400 text-ink-950"
-                      : "border border-white/12 bg-white/[0.05] text-white/85"
-                  }`}
+            <div className="mt-6 border-t border-white/[0.08] pt-6">
+              <p className="mb-3 px-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-white/40">
+                {dict.footer.quickLinks}
+              </p>
+              <div className="grid gap-2.5">
+                {actions.map(({ label, href, icon: Icon, primary }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-extrabold transition active:scale-[0.98] ${
+                      primary
+                        ? "bg-gold-400 text-ink-950"
+                        : "border border-white/12 bg-white/[0.05] text-white/85"
+                    }`}
+                  >
+                    <Icon className="size-4.5" />
+                    {label}
+                  </Link>
+                ))}
+                <a
+                  href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white transition active:scale-[0.98]"
                 >
-                  <Icon className="size-4.5" />
-                  {label}
-                </Link>
-              ))}
-              <a
-                href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white transition active:scale-[0.98]"
-              >
-                <MessageCircle className="size-4.5" />
-                {dict.common.whatsapp}
-              </a>
-              <a
-                href={`tel:${site.phoneHref}`}
-                className="flex items-center justify-center gap-2 rounded-2xl border border-white/12 px-5 py-3.5 text-sm font-extrabold text-white/85 transition active:scale-[0.98]"
-              >
-                <Phone className="size-4.5" />
-                <span dir="ltr">{site.phone}</span>
-              </a>
+                  <MessageCircle className="size-4.5" />
+                  {dict.common.whatsapp}
+                </a>
+                <a
+                  href={`tel:${site.phoneHref}`}
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-white/12 px-5 py-3.5 text-sm font-extrabold text-white/85 transition active:scale-[0.98]"
+                >
+                  <Phone className="size-4.5" />
+                  <span dir="ltr">{site.phone}</span>
+                </a>
+              </div>
             </div>
 
             <p className="mt-6 text-center text-xs font-semibold leading-relaxed text-white/35">
