@@ -230,6 +230,8 @@ const en = {
     codeSendFailed:
       "We could not send the code. Please try again.",
     resendButton: "Did not arrive? Send it again",
+    errorTooManySends:
+      "You have reached the sending limit. Message us on WhatsApp and we will activate your account.",
     haveAccount: "Already have an account?",
     noAccount: "Don't have an account?",
     loginLink: "Sign in",

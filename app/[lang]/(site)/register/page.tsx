@@ -7,7 +7,11 @@ import {
   resendCodeAction,
   verifyCodeAction,
 } from "@/app/[lang]/(site)/account/actions"
-import { getVerificationDelivery } from "@/lib/account-session"
+import { getAccountById, MAX_VERIFICATION_SENDS } from "@/lib/accounts"
+import {
+  getPendingVerificationId,
+  getVerificationDelivery,
+} from "@/lib/account-session"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 
 export const dynamic = "force-dynamic"
@@ -42,8 +46,15 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
   const t = dict.account
 
   // The code only ever travels by email, so nothing is read back out of the
-  // database here. This flag only decides which confirmation message to show.
+  // database for it. This flag only decides which confirmation message to show.
   const delivered = (await getVerificationDelivery()) === "email"
+
+  // How many of the three allowed sends have gone out, so the link can stop
+  // offering itself once there is nothing left to send.
+  const pendingId = await getPendingVerificationId()
+  const pendingAccount = pendingId ? await getAccountById(pendingId) : null
+  const sendsUsed = pendingAccount?.verifySends ?? 0
+  const sendsLeft = Math.max(0, MAX_VERIFICATION_SENDS - sendsUsed)
 
   const errors: Record<string, string> = {
     required: t.errorRequired,
@@ -51,6 +62,7 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
     mismatch: t.errorMismatch,
     identifier: t.errorIdentifier,
     restart: t.errorRestart,
+    tooManySends: t.errorTooManySends,
     taken: t.errorTaken,
     rate: t.errorRate,
     wrongCode: t.errorWrongCode,
@@ -116,18 +128,21 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
               </p>
             </div>
 
-            {/* Quiet retry: the code only ever travels by email, so if it does
-                not arrive this is how the visitor asks for another one. */}
-            <form action={resendCodeAction} className="mt-4 text-center">
-              <input type="hidden" name="lang" value={locale} />
-              <input type="hidden" name="website" value="" />
-              <button
-                type="submit"
-                className="cursor-pointer text-xs font-bold text-slate-500 underline underline-offset-4 transition hover:text-brand-700"
-              >
-                {t.resendButton}
-              </button>
-            </form>
+            {/* Quiet retry: the code only ever travels by email, so if it does not
+                arrive this is how the visitor asks for another one. It stops
+                offering itself once the three sends are used up. */}
+            {sendsLeft > 0 && (
+              <form action={resendCodeAction} className="mt-4 text-center">
+                <input type="hidden" name="lang" value={locale} />
+                <input type="hidden" name="website" value="" />
+                <button
+                  type="submit"
+                  className="cursor-pointer text-xs font-bold text-slate-500 underline underline-offset-4 transition hover:text-brand-700"
+                >
+                  {t.resendButton}
+                </button>
+              </form>
+            )}
 
             <form
               action={verifyCodeAction}

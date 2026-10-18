@@ -236,6 +236,7 @@ export interface AdminDict {
     statusPending: string
     statusSuspended: string
     verificationOpen: string
+    verificationSends: string
     revisionsTitle: string
     revisionsEmpty: string
     revisionsHint: string
@@ -523,6 +524,7 @@ const ar: AdminDict = {
     statusPending: "بانتظار التأكيد",
     statusSuspended: "موقوف",
     verificationOpen: "في كود تأكيد مفتوح",
+    verificationSends: "رسالة التأكيد",
     revisionsTitle: "طلبات تعديل على إعلانات منشورة",
     revisionsEmpty: "ما في طلبات تعديل مستنية.",
     revisionsHint:
@@ -813,6 +815,7 @@ const en: AdminDict = {
     statusPending: "Awaiting confirmation",
     statusSuspended: "Suspended",
     verificationOpen: "Verification code open",
+    verificationSends: "codes sent",
     revisionsTitle: "Edit requests on live listings",
     revisionsEmpty: "No edit requests waiting.",
     revisionsHint:

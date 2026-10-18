@@ -20,6 +20,7 @@ import {
   listOwnerListings,
   listReports,
   listRevisions,
+  MAX_VERIFICATION_SENDS,
   type AccountStatus,
 } from "@/lib/accounts"
 import { getCurrentUser } from "@/lib/auth"
@@ -178,6 +179,12 @@ export default async function AdminAccountsPage({ params, searchParams }: PagePr
                                   {account.pendingCode}
                                 </span>
                               ) : null}
+                            </span>
+                          )}
+                          {account.verifySends !== undefined && account.verifySends > 0 && (
+                            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-extrabold text-slate-600">
+                              {account.verifySends}/{MAX_VERIFICATION_SENDS}{" "}
+                              {a.verificationSends}
                             </span>
                           )}
                           <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-extrabold text-slate-600">

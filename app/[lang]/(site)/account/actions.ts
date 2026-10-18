@@ -18,12 +18,12 @@ import {
   recordAuthAttempt,
   recordLogin,
   releaseListing,
-  resendAccountCode,
   submissionIdFromSlug,
   updateAccountProfile,
   verifyAccountCode,
   verifySecret,
   activateAccount,
+  issueAccountCode,
 } from "@/lib/accounts"
 import {
   clearAccountCookie,
@@ -223,6 +223,10 @@ export async function verifyCodeAction(formData: FormData): Promise<void> {
 /**
  * Sends the code again. Runs off the signed verification cookie, so the
  * screen never has to ask for an email address or phone number.
+ *
+ * Capped at three sends per registration: without it one sign-up could be used
+ * to pump mail at the sending domain, and getting it throttled would lock out
+ * real users.
  */
 export async function resendCodeAction(formData: FormData): Promise<void> {
   const lang = langOf(formData)
@@ -241,10 +245,15 @@ export async function resendCodeAction(formData: FormData): Promise<void> {
     redirect(`${back}?error=restart`)
   }
 
+  const issued = await issueAccountCode(account.id)
+  if (!issued.ok) {
+    redirect(`${back}?error=${issued.reason === "missing" ? "restart" : "tooManySends"}`)
+  }
+
   const delivered = account.email
     ? await sendVerificationEmail({
         to: account.email,
-        code: await resendAccountCode(account.id),
+        code: issued.code,
         locale: lang === "en" ? "en" : "ar",
       })
     : false

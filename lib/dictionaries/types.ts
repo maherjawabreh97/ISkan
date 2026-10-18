@@ -285,6 +285,7 @@ export interface Dictionary {
     codeSent: string
     codeSendFailed: string
     resendButton: string
+    errorTooManySends: string
     haveAccount: string
     noAccount: string
     loginLink: string

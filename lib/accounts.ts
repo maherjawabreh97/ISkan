@@ -52,6 +52,8 @@ export interface Account {
   lastLoginAt?: number
   /** Live one-time code, only present while one is unspent and unexpired. */
   pendingCode?: string
+  /** How many codes have already gone out for this account. */
+  verifySends?: number
 }
 
 interface AccountRow {
@@ -66,6 +68,7 @@ interface AccountRow {
   status: string
   verify_hash: string | null
   verify_plain: string | null
+  verify_sends: number
   verify_channel: string | null
   verify_expires: number | null
   verify_attempts: number
@@ -79,8 +82,9 @@ interface AccountRow {
 
 const COLUMNS =
   "id,name,full_name,gender,nationality,email,phone,password_hash,status," +
-  "verify_hash,verify_plain,verify_channel,verify_expires,verify_attempts,verified_at," +
-  "approved_by,approved_at,created_at,updated_at,last_login_at"
+  "verify_hash,verify_plain,verify_sends,verify_channel,verify_expires," +
+  "verify_attempts,verified_at,approved_by,approved_at,created_at,updated_at," +
+  "last_login_at"
 
 function rowToAccount(row: AccountRow): Account {
   return {
@@ -96,6 +100,7 @@ function rowToAccount(row: AccountRow): Account {
     createdAt: row.created_at,
     lastLoginAt: row.last_login_at ?? undefined,
     pendingCode: liveCode(row),
+    verifySends: row.verify_sends ?? 0,
   }
 }
 
@@ -244,6 +249,7 @@ export async function createAccount(
     status: "pending_verification",
     verify_hash: hashSecret(input.code),
     verify_plain: input.code,
+    verify_sends: 1,
     verify_channel: channel,
     verify_expires: now + CODE_TTL_MS,
     verify_attempts: 0,
@@ -260,7 +266,7 @@ export async function createAccount(
     await db
       .prepare(
         `INSERT INTO user_accounts (${COLUMNS})
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       )
       .bind(
         row.id,
@@ -274,6 +280,7 @@ export async function createAccount(
         row.status,
         row.verify_hash,
         row.verify_plain,
+        row.verify_sends,
         row.verify_channel,
         row.verify_expires,
         row.verify_attempts,
@@ -415,39 +422,69 @@ export async function verifyAccountCode(
 }
 
 /**
+ * How many codes may go out for a single registration.
+ *
+ * The first code counts as send #1, so this allows two resends. Without a cap
+ * a single sign-up could be used to pump mail at the sending domain and get it
+ * throttled or blacklisted, which would block real users.
+ */
+export const MAX_VERIFICATION_SENDS = 3
+
+export type IssueCodeResult =
+  | { ok: true; code: string; sent: number }
+  | { ok: false; reason: "exhausted" | "missing" }
+
+/**
  * Issues a fresh code for an account that has not been confirmed yet.
  *
- * The previous one is discarded, and the plaintext copy is replaced along with
- * its hash so an older email can never be replayed.
+ * The previous one is discarded — hash and plaintext together — so an older
+ * email can never be replayed. Refuses once the cap is reached.
  */
-export async function resendAccountCode(id: string): Promise<string> {
-  const code = generateCode()
-  const now = Date.now()
+export async function issueAccountCode(id: string): Promise<IssueCodeResult> {
   const db = getDb()
-  if (db) {
-    await db
-      .prepare(
-        `UPDATE user_accounts
-         SET verify_hash = ?, verify_plain = ?, verify_expires = ?,
-             verify_attempts = 0, updated_at = ?
-         WHERE id = ?`,
-      )
-      .bind(hashSecret(code), code, now + CODE_TTL_MS, now, id)
-      .run()
-    return code
-  }
-  const row = memAccounts.get(id)
-  if (row) {
+  const now = Date.now()
+
+  if (!db) {
+    const row = memAccounts.get(id)
+    if (!row) return { ok: false, reason: "missing" }
+    if ((row.verify_sends ?? 0) >= MAX_VERIFICATION_SENDS) {
+      return { ok: false, reason: "exhausted" }
+    }
+    const code = generateCode()
     memAccounts.set(id, {
       ...row,
       verify_hash: hashSecret(code),
       verify_plain: code,
+      verify_sends: (row.verify_sends ?? 0) + 1,
       verify_expires: now + CODE_TTL_MS,
       verify_attempts: 0,
       updated_at: now,
     })
+    return { ok: true, code, sent: (row.verify_sends ?? 0) + 1 }
   }
-  return code
+
+  // Read the counter first so the check and the increment cannot race.
+  const current = await db
+    .prepare("SELECT verify_sends FROM user_accounts WHERE id = ?")
+    .bind(id)
+    .first<{ verify_sends: number }>()
+  if (!current) return { ok: false, reason: "missing" }
+
+  const sent = (current.verify_sends ?? 0) + 1
+  if (sent > MAX_VERIFICATION_SENDS) return { ok: false, reason: "exhausted" }
+
+  const code = generateCode()
+  await db
+    .prepare(
+      `UPDATE user_accounts
+       SET verify_hash = ?, verify_plain = ?, verify_sends = ?, verify_expires = ?,
+           verify_attempts = 0, updated_at = ?
+       WHERE id = ?`,
+    )
+    .bind(hashSecret(code), code, sent, now + CODE_TTL_MS, now, id)
+    .run()
+
+  return { ok: true, code, sent }
 }
 
 export async function recordLogin(id: string): Promise<void> {

@@ -49,6 +49,9 @@ CREATE TABLE IF NOT EXISTS user_accounts (
   -- is wired up yet. Cleared the moment the code is verified and swept by the
   -- expiry in verify_expires. Remove this column once a provider is connected.
   verify_plain    TEXT,
+  -- How many codes have gone out for this account. Capped so a single
+  -- registration cannot be used to pump mail at the sending domain.
+  verify_sends    INTEGER NOT NULL DEFAULT 0,
   verify_channel  TEXT,
   verify_expires  INTEGER,
   verify_attempts INTEGER NOT NULL DEFAULT 0,
