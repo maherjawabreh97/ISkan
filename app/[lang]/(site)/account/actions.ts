@@ -1,0 +1,413 @@
+"use server"
+
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { requireAccount } from "@/lib/account-auth"
+import {
+  claimListing,
+  countRecentAuthAttempts,
+  createAccount,
+  createReport,
+  createRevision,
+  lookupAccountByIdentifier,
+  generateCode,
+  getAccountById,
+  getListingOwner,
+  isPendingSlug,
+  normalizeEmail,
+  normalizePhone,
+  pendingSlug,
+  recordAuthAttempt,
+  recordLogin,
+  releaseListing,
+  resendAccountCode,
+  submissionIdFromSlug,
+  updateAccountProfile,
+  verifyAccountCode,
+  verifySecret,
+} from "@/lib/accounts"
+import {
+  clearAccountCookie,
+  clearPendingVerification,
+  getPendingVerificationId,
+  setAccountCookie,
+  setPendingVerification,
+} from "@/lib/account-session"
+import { getStoredProperty, removeProperty } from "@/lib/properties-store"
+import {
+  getSubmission,
+  setSubmissionStatus,
+} from "@/lib/submissions-store"
+import { deleteUploads } from "@/lib/uploads"
+import { isStoredVideoUrl } from "@/lib/videos"
+import type { CityKey, PropertyTypeKey } from "@/lib/dictionaries/types"
+import type { CurrencyKey } from "@/lib/format"
+import { hasLocale } from "@/lib/i18n"
+
+const MAX_REGISTER_PER_HOUR = 5
+const MAX_LOGIN_PER_HOUR = 12
+
+function text(formData: FormData, key: string): string {
+  return String(formData.get(key) ?? "").trim()
+}
+
+function langOf(formData: FormData): string {
+  const value = text(formData, "lang")
+  return hasLocale(value) ? value : "ar"
+}
+
+function numberValue(formData: FormData, key: string): number | undefined {
+  const raw = String(formData.get(key) ?? "").trim()
+  if (!raw) return undefined
+  const value = Number(raw)
+  return Number.isFinite(value) && value >= 0 ? value : undefined
+}
+
+function priceValue(formData: FormData, key: string): number | undefined {
+  const digits = String(formData.get(key) ?? "").replace(/[^\d]/g, "")
+  if (!digits) return undefined
+  const value = Number(digits)
+  return Number.isFinite(value) && value > 0 ? value : undefined
+}
+
+async function clientIp(): Promise<string> {
+  const store = await headers()
+  return (
+    store.get("cf-connecting-ip")?.trim() ||
+    store.get("x-real-ip")?.trim() ||
+    store.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown"
+  )
+}
+
+/** Honeypot: hidden from humans, irresistible to bots. */
+function isBot(formData: FormData): boolean {
+  return text(formData, "website").length > 0
+}
+
+/**
+ * Sign-up. The account starts as `pending_verification`; nothing can be posted
+ * or edited until the emailed / texted code is confirmed.
+ */
+export async function registerAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const back = `/${lang}/register`
+
+  if (isBot(formData)) redirect(`${back}?done=1`)
+
+  const ip = await clientIp()
+  if ((await countRecentAuthAttempts("register", ip)) >= MAX_REGISTER_PER_HOUR) {
+    redirect(`${back}?error=rate`)
+  }
+
+  const name = text(formData, "name")
+  const fullName = text(formData, "fullName")
+  const gender = text(formData, "gender")
+  const nationality = text(formData, "nationality")
+  const rawIdentifier = text(formData, "identifier")
+  const password = String(formData.get("password") ?? "")
+  const passwordConfirm = String(formData.get("passwordConfirm") ?? "")
+
+  if (!name || !fullName || !gender || !nationality || !rawIdentifier) {
+    redirect(`${back}?error=required`)
+  }
+  if (password.length < 8) redirect(`${back}?error=weak`)
+  if (password !== passwordConfirm) redirect(`${back}?error=mismatch`)
+
+  const isEmail = rawIdentifier.includes("@")
+  const email = isEmail ? normalizeEmail(rawIdentifier) : ""
+  const phone = isEmail ? "" : normalizePhone(rawIdentifier)
+  if (!email && !phone) redirect(`${back}?error=identifier`)
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    redirect(`${back}?error=identifier`)
+  }
+  if (phone && phone.length < 10) redirect(`${back}?error=identifier`)
+
+  if (await lookupAccountByIdentifier(rawIdentifier)) {
+    redirect(`${back}?error=taken`)
+  }
+
+  await recordAuthAttempt("register", ip)
+
+  const code = generateCode()
+  const { account } = await createAccount({
+    name,
+    fullName,
+    gender,
+    nationality,
+    email: email || undefined,
+    phone: phone || undefined,
+    password,
+    code,
+  })
+
+  // Only the account id goes into the cookie. The code is rendered from D1 on
+  // the next page load (no mail/SMS provider yet) — it never touches a URL.
+  await setPendingVerification(account.id)
+  redirect(`${back}?verify=1`)
+}
+
+export async function verifyCodeAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const back = `/${lang}/register`
+
+  if (isBot(formData)) redirect(back)
+
+  const code = text(formData, "code")
+  if (!code) redirect(`${back}?verify=1&error=required`)
+
+  const ip = await clientIp()
+  if ((await countRecentAuthAttempts("verify", ip)) >= MAX_LOGIN_PER_HOUR * 2) {
+    redirect(`${back}?error=rate`)
+  }
+  await recordAuthAttempt("verify", ip)
+
+  // Resolve the account from the signed verification cookie when possible, so a
+  // wrong code does not let anyone probe which identifiers are registered.
+  const pendingId = await getPendingVerificationId()
+  const account = pendingId
+    ? await getAccountById(pendingId)
+    : await lookupAccountByIdentifier(text(formData, "identifier"))
+
+  if (!account) redirect(`${back}?verify=1&error=identifier`)
+  if (account.status === "active") {
+    await setAccountCookie(account.id)
+    await clearPendingVerification()
+    redirect(`/${lang}/account`)
+  }
+
+  const outcome = await verifyAccountCode(account.id, code)
+  if (outcome === "verified") {
+    await recordLogin(account.id)
+    await setAccountCookie(account.id)
+    await clearPendingVerification()
+    redirect(`/${lang}/account`)
+  }
+  if (outcome === "expired") redirect(`${back}?verify=1&error=expired`)
+  if (outcome === "locked") redirect(`${back}?verify=1&error=locked`)
+  redirect(`${back}?verify=1&error=wrongCode`)
+}
+
+export async function resendCodeAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const back = `/${lang}/register`
+
+  if (isBot(formData)) redirect(back)
+
+  const ip = await clientIp()
+  if ((await countRecentAuthAttempts("resend", ip)) >= 10) {
+    redirect(`${back}?error=rate`)
+  }
+  await recordAuthAttempt("resend", ip)
+
+  const pendingId = await getPendingVerificationId()
+  const account = pendingId
+    ? await getAccountById(pendingId)
+    : await lookupAccountByIdentifier(text(formData, "identifier"))
+
+  if (!account || account.status === "active") {
+    redirect(`${back}?verify=1&error=identifier`)
+  }
+
+  await resendAccountCode(account.id)
+  await setPendingVerification(account.id)
+  redirect(`${back}?verify=1`)
+}
+
+export async function loginAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const back = `/${lang}/login`
+
+  if (isBot(formData)) redirect(`${back}?done=1`)
+
+  const ip = await clientIp()
+  if ((await countRecentAuthAttempts("login", ip)) >= MAX_LOGIN_PER_HOUR) {
+    redirect(`${back}?error=rate`)
+  }
+
+  const identifier = text(formData, "identifier")
+  const password = String(formData.get("password") ?? "")
+  if (!identifier || !password) redirect(`${back}?error=required`)
+
+  await recordAuthAttempt("login", ip)
+
+  const account = await lookupAccountByIdentifier(identifier)
+  // Same message for "no such account" and "wrong password" so the form
+  // cannot be used to discover which identifiers are registered.
+  if (!account || !verifySecret(password, account.password_hash)) {
+    redirect(`${back}?error=invalid`)
+  }
+  if (account.status === "pending_verification") {
+    redirect(`${back}?error=unverified`)
+  }
+  if (account.status === "suspended") {
+    redirect(`${back}?error=suspended`)
+  }
+
+  await recordLogin(account.id)
+  await setAccountCookie(account.id)
+  redirect(`/${lang}/account`)
+}
+
+export async function logoutAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await clearAccountCookie()
+  redirect(`/${lang}`)
+}
+
+/** Public abuse report about an advertiser. */
+export async function reportUserAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const back = `/${lang}/report`
+
+  if (isBot(formData)) redirect(`${back}?done=1`)
+
+  const targetUserId = text(formData, "targetUserId")
+  const reason = text(formData, "reason")
+  const details = text(formData, "details")
+  if (!targetUserId || !reason) redirect(`${back}?error=required`)
+
+  const ip = await clientIp()
+  if ((await countRecentAuthAttempts("report", ip)) >= 10) {
+    redirect(`${back}?error=rate`)
+  }
+  await recordAuthAttempt("report", ip)
+
+  await createReport({
+    targetUserId,
+    reporterName: text(formData, "reporterName"),
+    reporterEmail: text(formData, "reporterEmail"),
+    reason,
+    details,
+  })
+
+  redirect(`${back}?done=1`)
+}
+
+// ---------------------------------------------------------------------------
+// Advertiser self-service
+// ---------------------------------------------------------------------------
+
+/**
+ * Ask for a change to a live listing. The live copy keeps running until an
+ * admin approves, so the ad never goes dark while it is being reviewed.
+ */
+export async function requestEditAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const account = await requireAccount(lang)
+  const back = `/${lang}/account`
+
+  if (isBot(formData)) redirect(`${back}?edit=1`)
+
+  const slug = text(formData, "slug")
+  const owner = slug ? await getListingOwner(slug) : null
+  if (!owner || owner.ownerId !== account.id || isPendingSlug(slug)) {
+    redirect(`${back}?error=notOwned`)
+  }
+
+  // Only these fields can be changed by the owner; everything else on the
+  // listing (city, type, currency, admin-only flags) stays under our control.
+  const patch: Record<string, unknown> = {}
+  const title = text(formData, "title")
+  const description = text(formData, "description")
+  const address = text(formData, "address")
+  if (title) patch.title = title
+  if (description) patch.description = description
+  if (address) patch.address = address
+  const price = priceValue(formData, "price")
+  if (price) patch.price = price
+  for (const key of [
+    "area",
+    "bedrooms",
+    "bathrooms",
+    "livingRooms",
+    "floor",
+  ] as const) {
+    const value = numberValue(formData, key)
+    if (value !== undefined) patch[key] = value
+  }
+  const furnished = text(formData, "furnished")
+  if (furnished) patch.furnished = furnished === "yes"
+
+  const existingImages = formData.getAll("existingImages").map(String).filter(Boolean)
+  const removedImages = new Set(formData.getAll("removeImage").map(String))
+  const newImages = formData.getAll("newImages").map(String).filter(Boolean)
+  const images = [...existingImages.filter((url) => !removedImages.has(url)), ...newImages]
+  if (images.length) patch.images = images
+
+  const existingVideos = formData
+    .getAll("existingVideos")
+    .map(String)
+    .filter(isStoredVideoUrl)
+  const removedVideos = new Set(formData.getAll("removeVideo").map(String))
+  const newVideos = formData.getAll("newVideos").map(String).filter(isStoredVideoUrl)
+  const videos = [...existingVideos.filter((url) => !removedVideos.has(url)), ...newVideos]
+  if (videos.length) patch.videos = videos
+
+  if (Object.keys(patch).length === 0) redirect(`${back}?error=noChange`)
+
+  await createRevision({
+    slug,
+    ownerId: account.id,
+    data: patch,
+    note: text(formData, "note") || undefined,
+  })
+
+  redirect(`${back}?edit=${encodeURIComponent(slug)}`)
+}
+
+/** Withdraw one of the advertiser's own listings. */
+export async function removeOwnListingAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const account = await requireAccount(lang)
+  const back = `/${lang}/account`
+
+  const slug = text(formData, "slug")
+  const owner = slug ? await getListingOwner(slug) : null
+  if (!owner || owner.ownerId !== account.id) {
+    redirect(`${back}?error=notOwned`)
+  }
+
+  if (isPendingSlug(slug)) {
+    // Never published: drop it from the moderation queue and delete its media.
+    const submissionId = submissionIdFromSlug(slug)
+    const submission = await getSubmission(submissionId)
+    if (submission) {
+      await deleteUploads([...submission.images, ...(submission.videos ?? [])])
+      await setSubmissionStatus(submissionId, "rejected")
+    }
+  } else {
+    const property = await getStoredProperty(slug)
+    await removeProperty(slug)
+    if (property) {
+      await deleteUploads([...property.images, ...(property.videos ?? [])])
+    }
+  }
+
+  await releaseListing(slug)
+  redirect(`${back}?removed=1`)
+}
+
+/** Update the non-sensitive profile details the advertiser can change. */
+export async function updateProfileAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const account = await requireAccount(lang)
+  const back = `/${lang}/account`
+
+  if (isBot(formData)) redirect(back)
+
+  const name = text(formData, "name")
+  const fullName = text(formData, "fullName")
+  const gender = text(formData, "gender")
+  const nationality = text(formData, "nationality")
+  if (!name || !fullName) redirect(`${back}?error=required`)
+
+  await updateAccountProfile(account.id, {
+    name,
+    fullName,
+    gender,
+    nationality,
+  })
+
+  redirect(`${back}?saved=1`)
+}

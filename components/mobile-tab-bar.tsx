@@ -2,7 +2,14 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Building2, Heart, Home, MessageCircle, Plus } from "lucide-react"
+import {
+  Building2,
+  Heart,
+  Home,
+  MessageCircle,
+  Plus,
+  UserCog,
+} from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
@@ -31,35 +38,32 @@ export function MobileTabBar({
       href: `/${locale}`,
       icon: Home,
       active: pathname === `/${locale}`,
-      tone: "text-white/55",
-      activeTone: "text-gold-300",
     },
     {
       label: dict.nav.properties,
       href: `/${locale}/properties`,
       icon: Building2,
       active: pathname.startsWith(`/${locale}/properties`),
-      tone: "text-white/55",
-      activeTone: "text-gold-300",
     },
   ]
 
   const isFavorites = pathname.includes("favorites=1")
   const isSubmit = pathname.startsWith(`/${locale}/submit`)
+  const isAccount = pathname.startsWith(`/${locale}/account`)
 
   return (
     <nav
       aria-label={dict.nav.properties}
       className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.08] bg-ink-950/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
     >
-      <div className="mx-auto grid max-w-lg grid-cols-4 items-end gap-1 px-2 pt-2">
-        {tabs.map(({ label, href, icon: Icon, active, tone, activeTone }) => (
+      <div className="mx-auto grid max-w-lg grid-cols-5 items-end gap-0.5 px-1.5 pt-2">
+        {tabs.map(({ label, href, icon: Icon, active }) => (
           <Link
             key={href}
             href={href}
             aria-current={active ? "page" : undefined}
             className={`flex flex-col items-center gap-1 rounded-xl px-1 py-1.5 text-[10px] font-bold transition ${
-              active ? activeTone : tone
+              active ? "text-gold-300" : "text-white/55"
             }`}
           >
             <span
@@ -100,6 +104,23 @@ export function MobileTabBar({
             <Heart className="size-5" />
           </span>
           <span className="leading-none">{dict.common.favorites}</span>
+        </Link>
+
+        <Link
+          href={`/${locale}/account`}
+          aria-current={isAccount ? "page" : undefined}
+          className={`flex flex-col items-center gap-1 rounded-xl px-1 py-1.5 text-[10px] font-bold transition ${
+            isAccount ? "text-gold-300" : "text-white/55"
+          }`}
+        >
+          <span
+            className={`grid size-9 place-items-center rounded-xl transition ${
+              isAccount ? "bg-gold-400/15 ring-1 ring-gold-400/30" : ""
+            }`}
+          >
+            <UserCog className="size-5" />
+          </span>
+          <span className="leading-none">{dict.manage.badge}</span>
         </Link>
       </div>
     </nav>

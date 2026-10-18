@@ -3,13 +3,21 @@ import {
   ArrowUpRight,
   BadgeDollarSign,
   Building2,
+  Contact,
+  Flag,
   House,
   Inbox,
   MessageSquareQuote,
+  Pencil,
   Plus,
   ShieldCheck,
   Users,
 } from "lucide-react"
+import {
+  countAccountsByStatus,
+  countOpenReports,
+  countPendingRevisions,
+} from "@/lib/accounts"
 import { getCurrentUser } from "@/lib/auth"
 import { getAdminDict } from "@/lib/dictionaries/admin"
 import { formatPrice } from "@/lib/format"
@@ -39,6 +47,16 @@ export default async function AdminDashboardPage({ params }: PageProps) {
     user && user.role !== "viewer" ? await pendingSubmissionCount() : 0
   const pendingReviews =
     user && user.role !== "viewer" ? await pendingTestimonialCount() : 0
+  // Public advertiser accounts live in D1, admin users in Supabase — counted
+  // separately so the two never get confused.
+  const isAdmin = user?.role === "admin"
+  const [accountCounts, pendingEdits, openReports] = isAdmin
+    ? await Promise.all([
+        countAccountsByStatus(),
+        countPendingRevisions(),
+        countOpenReports(),
+      ])
+    : [null, 0, 0]
   const recent = properties.slice(0, 5)
 
   const stats = [
@@ -141,6 +159,72 @@ export default async function AdminDashboardPage({ params }: PageProps) {
           </span>
           <ArrowUpRight className="size-5 text-brand-600 rtl:-scale-x-100" />
         </Link>
+      )}
+
+      {accountCounts && (
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Link
+            href={`/${locale}/admin/accounts`}
+            className="group flex items-center justify-between rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition hover:ring-brand-400"
+          >
+            <span className="flex items-center gap-3">
+              <span className="grid size-11 place-items-center rounded-2xl bg-brand-600/10 text-brand-700">
+                <Contact className="size-5" />
+              </span>
+              <span>
+                <span className="block text-sm font-extrabold text-ink-900">
+                  {t.accounts.tabAccounts}
+                </span>
+                <span className="block text-xs font-bold text-slate-400">
+                  {accountCounts.active} {t.accounts.statusActive} ·{" "}
+                  {accountCounts.pending_verification}{" "}
+                  {t.accounts.statusPending}
+                </span>
+              </span>
+            </span>
+            <ArrowUpRight className="size-5 text-slate-400 transition group-hover:text-brand-700 rtl:-scale-x-100" />
+          </Link>
+
+          <Link
+            href={`/${locale}/admin/accounts?tab=revisions`}
+            className="group flex items-center justify-between rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition hover:ring-brand-400"
+          >
+            <span className="flex items-center gap-3">
+              <span className="grid size-11 place-items-center rounded-2xl bg-gold-400/20 text-gold-600">
+                <Pencil className="size-5" />
+              </span>
+              <span>
+                <span className="block text-sm font-extrabold text-ink-900">
+                  {t.accounts.tabRevisions}
+                </span>
+                <span className="block text-xs font-bold text-slate-400">
+                  {pendingEdits} {t.accounts.revisionsTitle}
+                </span>
+              </span>
+            </span>
+            <ArrowUpRight className="size-5 text-slate-400 transition group-hover:text-brand-700 rtl:-scale-x-100" />
+          </Link>
+
+          <Link
+            href={`/${locale}/admin/accounts?tab=reports`}
+            className="group flex items-center justify-between rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition hover:ring-brand-400"
+          >
+            <span className="flex items-center gap-3">
+              <span className="grid size-11 place-items-center rounded-2xl bg-rose-50 text-rose-600">
+                <Flag className="size-5" />
+              </span>
+              <span>
+                <span className="block text-sm font-extrabold text-ink-900">
+                  {t.accounts.tabReports}
+                </span>
+                <span className="block text-xs font-bold text-slate-400">
+                  {openReports} {t.accounts.reportsTitle}
+                </span>
+              </span>
+            </span>
+            <ArrowUpRight className="size-5 text-slate-400 transition group-hover:text-brand-700 rtl:-scale-x-100" />
+          </Link>
+        </div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -5,13 +5,15 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   Building2,
+  Flag as FlagIcon,
   Heart,
   Home,
-  KeyRound,
+  LogIn,
   Menu,
   MessageCircle,
   Phone,
   Plus,
+  UserCog,
   X,
 } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
@@ -29,10 +31,14 @@ export function MobileNav({
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
 
-  // Close whenever the route changes or the viewport grows to the desktop nav.
-  useEffect(() => {
+  // Close whenever the route changes. Adjusting state during render (rather
+  // than in an effect) keeps the drawer from flashing open for one frame after
+  // a navigation.
+  const [lastPath, setLastPath] = useState(pathname)
+  if (pathname !== lastPath) {
+    setLastPath(pathname)
     setOpen(false)
-  }, [pathname])
+  }
 
   useEffect(() => {
     if (!open) return
@@ -51,9 +57,16 @@ export function MobileNav({
   const links = [
     { label: dict.nav.home, href: `/${locale}`, icon: Home },
     { label: dict.nav.properties, href: `/${locale}/properties`, icon: Building2 },
-    { label: dict.nav.submit, href: `/${locale}/submit`, icon: Plus },
     { label: dict.common.favorites, href: `/${locale}/properties?favorites=1`, icon: Heart },
-    { label: dict.manage.badge, href: `/${locale}/manage`, icon: KeyRound },
+    { label: dict.account.title, href: `/${locale}/account`, icon: UserCog },
+    { label: dict.report.title, href: `/${locale}/report`, icon: FlagIcon },
+  ]
+
+  // Sign-in sits directly under "post your ad" — the two things a visitor is
+  // most likely to want right after reading a listing.
+  const actions = [
+    { label: dict.nav.submit, href: `/${locale}/submit`, icon: Plus, primary: true },
+    { label: dict.account.loginButton, href: `/${locale}/login`, icon: LogIn, primary: false },
   ]
 
   return (
@@ -115,6 +128,21 @@ export function MobileNav({
             </nav>
 
             <div className="mt-6 grid gap-2.5">
+              {actions.map(({ label, href, icon: Icon, primary }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-extrabold transition active:scale-[0.98] ${
+                    primary
+                      ? "bg-gold-400 text-ink-950"
+                      : "border border-white/12 bg-white/[0.05] text-white/85"
+                  }`}
+                >
+                  <Icon className="size-4.5" />
+                  {label}
+                </Link>
+              ))}
               <a
                 href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
                 target="_blank"
@@ -126,7 +154,7 @@ export function MobileNav({
               </a>
               <a
                 href={`tel:${site.phoneHref}`}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-gold-400 px-5 py-3.5 text-sm font-extrabold text-ink-950 transition active:scale-[0.98]"
+                className="flex items-center justify-center gap-2 rounded-2xl border border-white/12 px-5 py-3.5 text-sm font-extrabold text-white/85 transition active:scale-[0.98]"
               >
                 <Phone className="size-4.5" />
                 <span dir="ltr">{site.phone}</span>

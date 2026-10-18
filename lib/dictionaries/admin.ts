@@ -22,6 +22,7 @@ export interface AdminDict {
     testimonials: string
     users: string
     security: string
+    accounts: string
     viewSite: string
     signOut: string
   }
@@ -214,6 +215,44 @@ export interface AdminDict {
     reasons: Record<string, string>
     eventTypes: Record<string, string>
   }
+  accounts: {
+    title: string
+    subtitle: string
+    separationNote: string
+    tabAccounts: string
+    tabRevisions: string
+    tabReports: string
+    empty: string
+    identity: string
+    gender: string
+    nationality: string
+    joined: string
+    lastLogin: string
+    never: string
+    activate: string
+    suspend: string
+    restore: string
+    statusActive: string
+    statusPending: string
+    statusSuspended: string
+    verificationOpen: string
+    revisionsTitle: string
+    revisionsEmpty: string
+    revisionsHint: string
+    approve: string
+    reject: string
+    proposed: string
+    reportsTitle: string
+    reportsEmpty: string
+    reporter: string
+    reason: string
+    details: string
+    target: string
+    resolve: string
+    listingsOwned: string
+    erase: string
+    eraseConfirm: string
+  }
   errors: {
     forbidden: string
     notFound: string
@@ -245,6 +284,7 @@ const ar: AdminDict = {
     testimonials: "التعليقات",
     users: "المستخدمون",
     security: "الحماية",
+    accounts: "حسابات المعلنين",
     viewSite: "عرض الموقع",
     signOut: "خروج",
   },
@@ -455,7 +495,52 @@ const ar: AdminDict = {
       bot_blocked: "منع بوت",
       manage_failed: "فشل إدارة إعلان",
       listing_removed: "حذف إعلان بالمعلن",
+      account_activated: "تفعيل حساب معلن",
+      account_suspended: "إيقاف حساب معلن",
+      account_deleted: "حذف حساب معلن",
     },
+  },
+  accounts: {
+    title: "حسابات المعلنين",
+    subtitle:
+      "الحسابات المنشأة من الموقع. منفصلة تماماً عن حسابات الأدمن ولا تملك أي صلاحية على اللوحة.",
+    separationNote:
+      "هالقسم محفوظ بقاعدة بيانات منفصلة (D1) عن حسابات الأدمن (Supabase). ما في أي سكربت بيوصل من حساب معلن للوحة التحكم.",
+    tabAccounts: "الحسابات",
+    tabRevisions: "طلبات التعديل",
+    tabReports: "البلاغات",
+    empty: "ما في أي حساب مسجّل بعد.",
+    identity: "البريد أو الهاتف",
+    gender: "الجنس",
+    nationality: "الجنسية",
+    joined: "تاريخ التسجيل",
+    lastLogin: "آخر دخول",
+    never: "لم يسجّل دخول بعد",
+    activate: "تفعيل",
+    suspend: "إيقاف",
+    restore: "إرجاع",
+    statusActive: "مفعّل",
+    statusPending: "بانتظار التأكيد",
+    statusSuspended: "موقوف",
+    verificationOpen: "في كود تأكيد مفتوح",
+    revisionsTitle: "طلبات تعديل على إعلانات منشورة",
+    revisionsEmpty: "ما في طلبات تعديل مستنية.",
+    revisionsHint:
+      "الإعلان بضل ظاهر بحالته الحالية لحد ما تعتمد التعديل — ما منرح تنزل الإعلان وقت المراجعة.",
+    approve: "اعتماد التعديل",
+    reject: "رفض",
+    proposed: "المقترح",
+    reportsTitle: "بلاغات المستخدمين",
+    reportsEmpty: "ما في بلاغات مفتوحة.",
+    reporter: "البلاغ عنه",
+    reason: "السبب",
+    details: "التفاصيل",
+    target: "الحساب المُبلّغ عنه",
+    resolve: "إغلاق البلاغ",
+    listingsOwned: "إعلانات",
+    erase: "حذف الحساب",
+    eraseConfirm:
+      "حذف الحساب نهائياً؟ ما رح تنحذف إعلاناته المنشورة، بس بتنفك ارتباطها بالحساب.",
   },
   errors: {
     forbidden: "ليس لديك صلاحية للوصول إلى هذه الصفحة.",
@@ -488,6 +573,7 @@ const en: AdminDict = {
     testimonials: "Testimonials",
     users: "Users",
     security: "Security",
+    accounts: "Advertisers",
     viewSite: "View site",
     signOut: "Sign out",
   },
@@ -699,7 +785,52 @@ const en: AdminDict = {
       bot_blocked: "Bot blocked",
       manage_failed: "Listing management failed",
       listing_removed: "Listing removed by owner",
+      account_activated: "Advertiser activated",
+      account_suspended: "Advertiser suspended",
+      account_deleted: "Advertiser erased",
     },
+  },
+  accounts: {
+    title: "Advertiser accounts",
+    subtitle:
+      "Accounts created from the public site. Completely separate from admin users — they carry no dashboard permission at all.",
+    separationNote:
+      "These live in a separate database (D1) from the admin users (Supabase). No code path lets a public account reach the dashboard.",
+    tabAccounts: "Accounts",
+    tabRevisions: "Edit requests",
+    tabReports: "Reports",
+    empty: "No accounts have registered yet.",
+    identity: "Email or phone",
+    gender: "Gender",
+    nationality: "Nationality",
+    joined: "Registered",
+    lastLogin: "Last sign-in",
+    never: "Never signed in",
+    activate: "Activate",
+    suspend: "Suspend",
+    restore: "Restore",
+    statusActive: "Active",
+    statusPending: "Awaiting confirmation",
+    statusSuspended: "Suspended",
+    verificationOpen: "Verification code open",
+    revisionsTitle: "Edit requests on live listings",
+    revisionsEmpty: "No edit requests waiting.",
+    revisionsHint:
+      "The listing keeps running as it is until you approve — it never goes dark while it is being reviewed.",
+    approve: "Approve edit",
+    reject: "Reject",
+    proposed: "Proposed",
+    reportsTitle: "User reports",
+    reportsEmpty: "No open reports.",
+    reporter: "Reported by",
+    reason: "Reason",
+    details: "Details",
+    target: "Reported account",
+    resolve: "Close report",
+    listingsOwned: "listings",
+    erase: "Delete account",
+    eraseConfirm:
+      "Erase this account permanently? Its published listings are kept and simply become unowned.",
   },
   errors: {
     forbidden: "You do not have permission to access this page.",

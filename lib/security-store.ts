@@ -93,6 +93,9 @@ export type SecurityEventType =
   | "bot_blocked"
   | "manage_failed"
   | "listing_removed"
+  | "account_activated"
+  | "account_suspended"
+  | "account_deleted"
 
 export interface SecurityEvent {
   type: SecurityEventType

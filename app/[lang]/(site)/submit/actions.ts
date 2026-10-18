@@ -2,12 +2,8 @@
 
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { rememberManageCode } from "@/lib/manage-cookie"
-import {
-  generateManageCode,
-  pendingManagerSlug,
-  registerListingManager,
-} from "@/lib/listing-managers"
+import { getSignedInAccount } from "@/lib/account-auth"
+import { claimListing, pendingSlug } from "@/lib/accounts"
 import { logEvent } from "@/lib/security-store"
 import { countRecentSubmissions, createSubmission } from "@/lib/submissions-store"
 import { isStoredVideoUrl } from "@/lib/videos"
@@ -17,12 +13,13 @@ import { hasLocale } from "@/lib/i18n"
 
 const MAX_SUBMISSIONS_PER_HOUR = 5
 
-const PURPOSES: PurposeKey[] = ["sale", "rent"]
+const PURPOSES: PurposeKey[] = ["rent", "sale"]
 const TYPES: PropertyTypeKey[] = [
   "apartment",
   "villa",
   "office",
   "land",
+  "tourist_apartment",
 ]
 const CITIES: CityKey[] = [
   "kadikoy",
@@ -37,6 +34,30 @@ const CITIES: CityKey[] = [
   "esenyurt",
   "eyupsultan",
   "kucukcekmece",
+  "avcilar",
+  "beylikduzu",
+  "buyukcekmece",
+  "catalca",
+  "cekmekoy",
+  "esenler",
+  "gungoren",
+  "kagithane",
+  "kartal",
+  "maltepe",
+  "pendik",
+  "sancaktepe",
+  "sultanbeyli",
+  "tuzla",
+  "umraniye",
+  "uskudar",
+  "zeytinburnu",
+  "arnavutkoy",
+  "atasehir",
+  "bahcelievler",
+  "bayrampasa",
+  "gaziosmanpasa",
+  "sultangazi",
+  "beykoz",
 ]
 const CURRENCIES: CurrencyKey[] = ["TRY", "USD", "EUR"]
 
@@ -77,6 +98,10 @@ async function clientIp(): Promise<string> {
  * Public "list your property" submission: validates, applies bot protection and
  * stores the listing in the moderation queue. It is never published until an
  * admin approves it from the dashboard.
+ *
+ * Ownership is only recorded when the visitor happens to be signed in — posting
+ * stays open to anyone, but a signed-in advertiser gets the listing attached to
+ * their account so they can manage it afterwards.
  */
 export async function submitListingAction(formData: FormData): Promise<void> {
   const langValue = text(formData, "lang")
@@ -106,28 +131,12 @@ export async function submitListingAction(formData: FormData): Promise<void> {
     redirect(`${back}?error=rate`)
   }
 
-  // Cloudflare Turnstile (skipped automatically when not configured).
-  // Commented out to disable Turnstile check: the honeypot + rate limit
-  // provide sufficient bot protection without requiring client-side widgets.
-  // const captcha = await verifyTurnstile(formData, ip)
-  // if (!captcha.ok) {
-  //   redirect(`${back}?error=captcha`)
-  // }
-  
   const contactName = text(formData, "contactName")
   const phone = text(formData, "phone")
   const title = text(formData, "title")
   const description = text(formData, "description")
-  const password = String(formData.get("password") ?? "")
-  const passwordConfirm = String(formData.get("passwordConfirm") ?? "")
   if (!contactName || !phone || !title || !description) {
     redirect(`${back}?error=required`)
-  }
-  if (password.length < 4) {
-    redirect(`${back}?error=password`)
-  }
-  if (password !== passwordConfirm) {
-    redirect(`${back}?error=passwordMatch`)
   }
 
   const purpose = oneOf(text(formData, "purpose"), PURPOSES, "rent")
@@ -144,7 +153,7 @@ export async function submitListingAction(formData: FormData): Promise<void> {
       city: oneOf(text(formData, "city"), CITIES, "kayashehir"),
       price: priceValue(formData, "price"),
       currency: oneOf(text(formData, "currency"), CURRENCIES, "TRY"),
-      pricePerMonth: purpose === "rent",
+      pricePerMonth: purpose === "rent" ? formData.get("pricePerMonth") !== null : false,
       area: numberValue(formData, "area"),
       bedrooms: numberValue(formData, "bedrooms"),
       bathrooms: numberValue(formData, "bathrooms"),
@@ -162,15 +171,14 @@ export async function submitListingAction(formData: FormData): Promise<void> {
     { ip, userAgent },
   )
 
-  // Let the advertiser manage (and later remove) their own listing.
-  const manageCode = generateManageCode()
-  await registerListingManager({
-    slug: pendingManagerSlug(submission.id),
-    manageCode,
-    password,
-    submissionId: submission.id,
-  })
-  await rememberManageCode(manageCode)
+  // Attach it to the advertiser's account when they are signed in, so they can
+  // see, edit or withdraw it later without any extra code.
+  const account = await getSignedInAccount()
+  if (account) {
+    await claimListing(pendingSlug(submission.id), account.id, "pending_review")
+  }
 
-  redirect(`${back}?sent=1`)
+  redirect(
+    account ? `/${lang}/account?posted=${submission.id}` : `${back}?sent=1`,
+  )
 }

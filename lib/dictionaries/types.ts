@@ -153,6 +153,8 @@ export interface Dictionary {
     browseNow: string
     locationOnMap: string
     all: string
+    yes: string
+    no: string
     favorites: string
     save: string
     saved: string
@@ -244,16 +246,6 @@ export interface Dictionary {
     videosHelp: string
     videosEmpty: string
     removeVideo: string
-    manageSection: string
-    manageHelp: string
-    managePassword: string
-    managePasswordConfirm: string
-    managePasswordPlaceholder: string
-    manageCodeTitle: string
-    manageCodeBody: string
-    manageCta: string
-    errorPassword: string
-    errorPasswordMatch: string
     consent: string
     privacyLink: string
     submitButton: string
@@ -273,22 +265,86 @@ export interface Dictionary {
   }
   manage: {
     badge: string
+  }
+  account: {
+    registerTitle: string
+    registerSubtitle: string
+    verifyTitle: string
+    verifySubtitle: string
+    name: string
+    fullName: string
+    gender: string
+    genderOptions: string[]
+    nationality: string
+    identifier: string
+    identifierPlaceholder: string
+    identifierHelp: string
+    password: string
+    passwordConfirm: string
+    registerButton: string
+    verifyButton: string
+    resendButton: string
+    resendIdentifier: string
+    codeLabel: string
+    codeNote: string
+    haveAccount: string
+    noAccount: string
+    loginLink: string
+    registerLink: string
+    backHome: string
+    choose: string
+    loginTitle: string
+    loginSubtitle: string
+    loginButton: string
     title: string
     subtitle: string
-    backHome: string
-    formTitle: string
-    formBody: string
-    code: string
-    password: string
-    submit: string
-    warning: string
-    contactUs: string
-    removedTitle: string
-    removedPending: string
-    removedLive: string
+    profileTitle: string
+    myListings: string
+    noListings: string
+    noListingsDesc: string
+    addListing: string
+    editListing: string
+    viewListing: string
+    removeListing: string
+    removeConfirm: string
+    editSent: string
+    editSentBody: string
+    logout: string
+    signedInAs: string
+    statusPending: string
+    statusPublished: string
+    statusChanges: string
+    errorRequired: string
+    errorWeakPassword: string
+    errorMismatch: string
+    errorIdentifier: string
+    errorTaken: string
     errorRate: string
-    errorMissing: string
+    errorWrongCode: string
+    errorExpired: string
+    errorLocked: string
     errorInvalid: string
+    errorUnverified: string
+    errorSuspended: string
+    errorForbidden: string
+    errorNotOwned: string
+    errorNoChange: string
+    doneTitle: string
+    doneBody: string
+  }
+  report: {
+    title: string
+    subtitle: string
+    reason: string
+    reasons: string[]
+    details: string
+    detailsPlaceholder: string
+    yourName: string
+    yourEmail: string
+    submit: string
+    successTitle: string
+    successBody: string
+    backHome: string
   }
   propertyTypes: Record<PropertyTypeKey, string>
   propertyTypeDescriptions: Record<PropertyTypeKey, string>

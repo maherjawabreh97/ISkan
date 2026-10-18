@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Phone, Home, Building2, Plus } from "lucide-react"
+import { Phone, Home, Building2, Plus, UserCog } from "lucide-react"
 import Link from "next/link"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -69,6 +69,13 @@ export function SiteHeader({
           >
             <Plus className="size-3.5" />
             {dict.nav.submit}
+          </Link>
+          <Link
+            href={`/${locale}/account`}
+            className="hidden items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-2 text-sm font-black text-white transition hover:border-gold-400/50 hover:bg-white/10 lg:inline-flex"
+          >
+            <UserCog className="size-3.5" />
+            {dict.manage.badge}
           </Link>
           <FavoritesChip locale={locale} />
           <LanguageSwitcher locale={locale} />

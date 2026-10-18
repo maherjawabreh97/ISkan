@@ -19,10 +19,17 @@ import {
   unbanIp,
 } from "@/lib/security-store"
 import {
-  deleteListingManager,
-  moveManagerToSlug,
-  pendingManagerSlug,
-} from "@/lib/listing-managers"
+  clearPendingRevisions,
+  deleteAccount,
+  moveListingOwner,
+  pendingSlug,
+  releaseListing,
+  resolveReport,
+  resolveRevision,
+  setAccountStatus,
+  setListingState,
+  type AccountStatus,
+} from "@/lib/accounts"
 import type {
   AmenityKey,
   CityKey,
@@ -347,6 +354,7 @@ export async function deletePropertyAction(formData: FormData): Promise<void> {
   if (slug) {
     const property = await getStoredProperty(slug)
     await removeProperty(slug)
+    await releaseListing(slug)
     if (property) {
       await deleteUploads([...property.images, ...(property.videos ?? [])])
     }
@@ -455,9 +463,9 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
 
   await upsertProperty(property)
   await setSubmissionStatus(submission.id, "approved", slug)
-  // Hand the advertiser's own code/password over to the published listing so
-  // they can still take it down themselves later on.
-  await moveManagerToSlug(pendingManagerSlug(submission.id), slug)
+  // Hand the advertiser's own account over to the published listing so they can
+  // still manage it themselves later on.
+  await moveListingOwner(pendingSlug(submission.id), slug, "published")
   revalidatePath("/", "layout")
   // Send the admin straight to the editor so they can polish the listing.
   redirect(`/${lang}/admin/properties/${slug}`)
@@ -473,7 +481,7 @@ export async function rejectSubmissionAction(formData: FormData): Promise<void> 
   if (submission) {
     await deleteUploads([...submission.images, ...(submission.videos ?? [])])
     await setSubmissionStatus(submission.id, "rejected")
-    await deleteListingManager(pendingManagerSlug(submission.id))
+    await releaseListing(pendingSlug(submission.id))
   }
 
   revalidatePath(`/${lang}/admin/submissions`)
@@ -514,4 +522,165 @@ export async function deleteTestimonialAction(
   revalidatePath("/", "layout")
   revalidatePath(`/${lang}/admin/testimonials`)
   redirect(`/${lang}/admin/testimonials`)
+}
+
+// ---------------------------------------------------------------------------
+// Public advertiser accounts (D1, completely separate from the admin users)
+// ---------------------------------------------------------------------------
+
+/** Activate, suspend or restore a public advertiser account. */
+export async function setAccountStatusAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const actor = await requireActionUser(lang, ["admin"])
+
+  const id = text(formData, "id")
+  const status = (text(formData, "status") || "active") as AccountStatus
+  if (!id || !["active", "suspended"].includes(status)) {
+    redirect(`/${lang}/admin/accounts?error=1`)
+  }
+
+  await setAccountStatus(id, status, actor.username)
+  await logEvent({
+    type: status === "suspended" ? "account_suspended" : "account_activated",
+    ip: "admin",
+    at: Date.now(),
+    username: actor.username,
+    detail: id,
+  })
+
+  revalidatePath(`/${lang}/admin/accounts`)
+  redirect(`/${lang}/admin/accounts`)
+}
+
+/**
+ * Publish an edit an advertiser asked for. Only the whitelisted fields are
+ * merged into the live listing — everything else on the property is left alone.
+ */
+export async function approveRevisionAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin", "editor"])
+
+  const id = text(formData, "id")
+  if (!id) redirect(`/${lang}/admin/accounts?tab=revisions`)
+
+  const resolved = await resolveRevision(id, "approved")
+  if (!resolved) redirect(`/${lang}/admin/accounts?tab=revisions&error=notfound`)
+
+  const property = await getStoredProperty(resolved.slug)
+  if (property) {
+    const patch = resolved.data as Record<string, unknown>
+    const next: Property = { ...property }
+
+    if (typeof patch.title === "string" && patch.title) {
+      next.name = { en: patch.title, ar: patch.title }
+    }
+    if (typeof patch.address === "string") {
+      next.address = { en: patch.address, ar: patch.address }
+    }
+    if (typeof patch.description === "string" && patch.description) {
+      next.description = { en: patch.description, ar: patch.description }
+    }
+    if (typeof patch.price === "number" && patch.price > 0) {
+      next.price = patch.price
+    }
+    for (const key of [
+      "area",
+      "bedrooms",
+      "bathrooms",
+      "livingRooms",
+      "floor",
+      "parking",
+      "yearBuilt",
+    ] as const) {
+      const value = patch[key]
+      if (typeof value === "number" && value >= 0) {
+        if (key === "floor") next.floor = value || undefined
+        else next[key] = value
+      }
+    }
+    if (typeof patch.furnished === "boolean") {
+      next.amenities = patch.furnished
+        ? [...new Set([...property.amenities, "furnished" as AmenityKey])]
+        : property.amenities.filter((item) => item !== "furnished")
+    }
+    if (Array.isArray(patch.images)) {
+      next.images = patch.images.filter(
+        (item): item is string => typeof item === "string" && Boolean(item),
+      )
+    }
+    if (Array.isArray(patch.videos)) {
+      next.videos = patch.videos.filter(
+        (item): item is string => isStoredVideoUrl(item),
+      )
+    }
+
+    await upsertProperty(next)
+    await clearPendingRevisions(resolved.slug)
+    await setListingState(resolved.slug, "published")
+  }
+
+  revalidatePath("/", "layout")
+  revalidatePath(`/${lang}/admin/accounts`)
+  redirect(`/${lang}/admin/accounts?tab=revisions`)
+}
+
+/** Throw away an advertiser's edit request; the live listing is untouched. */
+export async function rejectRevisionAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin", "editor"])
+
+  const id = text(formData, "id")
+  if (!id) redirect(`/${lang}/admin/accounts?tab=revisions`)
+
+  const resolved = await resolveRevision(id, "rejected")
+  if (resolved) {
+    await clearPendingRevisions(resolved.slug)
+    await setListingState(resolved.slug, "published")
+  }
+
+  revalidatePath(`/${lang}/admin/accounts`)
+  redirect(`/${lang}/admin/accounts?tab=revisions`)
+}
+
+/** Close a report about a public advertiser. */
+export async function resolveReportAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  await requireActionUser(lang, ["admin"])
+
+  const id = text(formData, "id")
+  if (id) {
+    await resolveReport(id)
+  }
+
+  revalidatePath(`/${lang}/admin/accounts`)
+  redirect(`/${lang}/admin/accounts?tab=reports`)
+}
+
+/**
+ * Erase a public advertiser account (a data-deletion request, or spam).
+ *
+ * The listings themselves are left untouched — only the link to the owner is
+ * dropped, so removing an account can never take a live ad offline by surprise.
+ */
+export async function deleteAccountAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const actor = await requireActionUser(lang, ["admin"])
+
+  const id = text(formData, "id")
+  if (!id) redirect(`/${lang}/admin/accounts`)
+
+  const deleted = await deleteAccount(id)
+  if (!deleted) redirect(`/${lang}/admin/accounts?error=notfound`)
+
+  await logEvent({
+    type: "account_deleted",
+    ip: "admin",
+    at: Date.now(),
+    username: actor.username,
+    detail: id,
+  })
+
+  revalidatePath(`/${lang}/admin/accounts`)
+  revalidatePath(`/${lang}/admin`)
+  redirect(`/${lang}/admin/accounts`)
 }

@@ -13,6 +13,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Flag,
   Images,
   Layers,
   Mail,
@@ -31,6 +32,7 @@ import { StickyActions } from "@/components/sticky-actions"
 import { VideoTour } from "@/components/video-tour"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
+import { getListingOwner } from "@/lib/accounts"
 import { getProperties, getStoredProperty } from "@/lib/properties-store"
 import { defaultRentAdvertiser } from "@/lib/properties"
 
@@ -144,6 +146,13 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         advertiser.name.en,
       )
     : false
+
+  /**
+   * Ownership lives in D1, never in the property JSON — otherwise this id
+   * would be serialized into the RSC payload and readable by any visitor.
+   */
+  const ownership = await getListingOwner(property.slug)
+  const canReport = Boolean(ownership) && !isOfficeAdvertiser
 
   /** The single contact identity shown on the page. */
   const contact = advertiser
@@ -489,6 +498,15 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     <Mail className="size-4 text-brand-600" />
                     <span className="truncate">{property.agent.email}</span>
                   </a>
+                  {canReport && ownership && (
+                    <Link
+                      href={`/${locale}/report?user=${encodeURIComponent(ownership.ownerId)}`}
+                      className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
+                    >
+                      <Flag className="size-4" />
+                      {dict.report.title}
+                    </Link>
+                  )}
                 </div>
               </div>
 

@@ -2,7 +2,15 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Building2, Inbox, LayoutDashboard, MessageSquareQuote, ShieldCheck, Users } from "lucide-react"
+import {
+  Building2,
+  Contact,
+  Inbox,
+  LayoutDashboard,
+  MessageSquareQuote,
+  ShieldCheck,
+  Users,
+} from "lucide-react"
 import type { AdminDict } from "@/lib/dictionaries/admin"
 import type { Locale } from "@/lib/i18n"
 import type { Role } from "@/lib/users-store"
@@ -54,6 +62,12 @@ export function AdminNav({
             href: `/${locale}/admin/users`,
             label: t.nav.users,
             icon: Users,
+            exact: false,
+          },
+          {
+            href: `/${locale}/admin/accounts`,
+            label: t.nav.accounts,
+            icon: Contact,
             exact: false,
           },
           {

@@ -56,6 +56,13 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      // The old "manage code + password" page is gone; its link is replaced by
+      // the account area. Point stragglers and old bookmarks at the new flow
+      // instead of 404-ing them.
+      {
+        source: "/:lang(ar|en)/manage",
+        destination: "/:lang/login",
+      },
       {
         source: "/:path*",
         destination: "https://iskantr.com/:path*",

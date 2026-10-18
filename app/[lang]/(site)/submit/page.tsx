@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import {
   CheckCircle2,
   Info,
-  KeyRound,
   MessageCircle,
   Send,
   ShieldCheck,
@@ -11,7 +10,7 @@ import {
   Upload,
 } from "lucide-react"
 import { SubmitForm } from "@/components/site/submit-form"
-import { readManageCode } from "@/lib/manage-cookie"
+import { getSignedInAccount } from "@/lib/account-auth"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
 
@@ -40,7 +39,7 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
   const { sent, error } = await searchParams
 
   const t = dict.submit
-  const manageCode = sent ? await readManageCode() : null
+  const account = await getSignedInAccount()
   const waNumber = site.phoneHref.replace(/[^0-9]/g, "")
   const whatsapp = `https://wa.me/${waNumber}?text=${encodeURIComponent(
     t.whatsappPrefill,
@@ -51,11 +50,7 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
       ? t.errorRate
       : error === "required"
         ? t.errorRequired
-        : error === "password"
-          ? t.errorPassword
-          : error === "passwordMatch"
-            ? t.errorPasswordMatch
-            : ""
+        : ""
 
   return (
     <div className="bg-sand-50">
@@ -92,28 +87,13 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
                   {t.successBody}
                 </p>
 
-                {manageCode && (
-                  <div className="mx-auto mt-6 max-w-md rounded-2xl border-2 border-brand-200 bg-brand-50/70 p-5">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-700">
-                      {t.manageCodeTitle}
-                    </p>
-                    <p
-                      dir="ltr"
-                      className="mt-2 font-heading text-3xl font-bold tracking-[0.18em] text-ink-900"
-                    >
-                      {manageCode}
-                    </p>
-                    <p className="mt-3 text-[13px] font-semibold leading-6 text-slate-600">
-                      {t.manageCodeBody}
-                    </p>
-                    <Link
-                      href={`/${locale}/manage?code=${encodeURIComponent(manageCode)}`}
-                      className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-ink-800"
-                    >
-                      <KeyRound className="size-4" />
-                      {t.manageCta}
-                    </Link>
-                  </div>
+                {account && (
+                  <Link
+                    href={`/${locale}/account`}
+                    className="mx-auto mt-6 flex max-w-md items-center justify-center gap-2 rounded-2xl border border-brand-200 bg-brand-50/70 px-5 py-3.5 text-sm font-extrabold text-brand-800 transition hover:bg-brand-50"
+                  >
+                    {dict.account.myListings}
+                  </Link>
                 )}
 
                 <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">

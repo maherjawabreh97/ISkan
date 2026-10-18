@@ -38,7 +38,8 @@ export function SiteFooter({
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.properties, href: `/${locale}/properties` },
     { label: dict.nav.submit, href: `/${locale}/submit` },
-    { label: dict.manage.badge, href: `/${locale}/manage` },
+    { label: dict.manage.badge, href: `/${locale}/account` },
+    { label: dict.account.loginButton, href: `/${locale}/login` },
     { label: dict.footer.privacy, href: `/${locale}/privacy` },
     { label: dict.footer.cookies, href: `/${locale}/cookies` },
   ]
