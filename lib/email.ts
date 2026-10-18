@@ -19,13 +19,30 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails"
 /**
  * Where codes appear to come from.
  *
+ * Format is `Display Name <address>`, so the site name and domain can both
+ * show up in the recipient's inbox: "Iskan Real Estate | iskantr.com
+ * <noreply@iskantr.com>".
+ *
  * `onboarding@resend.dev` works immediately but only delivers to the Resend
- * account owner, so it is fine for testing. Once the sending domain is
- * verified in the Resend dashboard, set this in wrangler.jsonc to something
- * like "Iskan <noreply@notify.iskantr.com>".
+ * account owner, so it is only useful for testing.
  */
 function sender(): string {
-  return process.env.RESEND_FROM?.trim() || "onboarding@resend.dev"
+  return (
+    process.env.RESEND_FROM?.trim() ||
+    "Iskan Real Estate | iskantr.com <onboarding@resend.dev>"
+  )
+}
+
+/**
+ * Replies go to the real inbox. The sending address is a no-reply one, so
+ * without this a reply would simply bounce.
+ */
+function replyTo(): string | undefined {
+  const value = process.env.RESEND_REPLY_TO?.trim()
+  if (!value) return undefined
+  // Reject anything that is not a plain address, so a misconfigured variable
+  // can never reshape the header.
+  return /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(value) ? value : undefined
 }
 
 async function post(payload: Record<string, unknown>): Promise<boolean> {
@@ -35,6 +52,9 @@ async function post(payload: Record<string, unknown>): Promise<boolean> {
     return false
   }
 
+  const reply = replyTo()
+  const body = reply ? { ...payload, reply_to: reply } : payload
+
   try {
     const response = await fetch(RESEND_ENDPOINT, {
       method: "POST",
@@ -42,7 +62,7 @@ async function post(payload: Record<string, unknown>): Promise<boolean> {
         Authorization: `Bearer ${key}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
     })
 
     if (!response.ok) {

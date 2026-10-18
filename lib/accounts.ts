@@ -414,6 +414,42 @@ export async function verifyAccountCode(
   return "verified"
 }
 
+/**
+ * Issues a fresh code for an account that has not been confirmed yet.
+ *
+ * The previous one is discarded, and the plaintext copy is replaced along with
+ * its hash so an older email can never be replayed.
+ */
+export async function resendAccountCode(id: string): Promise<string> {
+  const code = generateCode()
+  const now = Date.now()
+  const db = getDb()
+  if (db) {
+    await db
+      .prepare(
+        `UPDATE user_accounts
+         SET verify_hash = ?, verify_plain = ?, verify_expires = ?,
+             verify_attempts = 0, updated_at = ?
+         WHERE id = ?`,
+      )
+      .bind(hashSecret(code), code, now + CODE_TTL_MS, now, id)
+      .run()
+    return code
+  }
+  const row = memAccounts.get(id)
+  if (row) {
+    memAccounts.set(id, {
+      ...row,
+      verify_hash: hashSecret(code),
+      verify_plain: code,
+      verify_expires: now + CODE_TTL_MS,
+      verify_attempts: 0,
+      updated_at: now,
+    })
+  }
+  return code
+}
+
 export async function recordLogin(id: string): Promise<void> {
   const now = Date.now()
   const db = getDb()

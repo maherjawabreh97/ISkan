@@ -2,12 +2,12 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { ArrowLeft, ShieldCheck } from "lucide-react"
-import { registerAction, verifyCodeAction } from "@/app/[lang]/(site)/account/actions"
-import { getAccountById } from "@/lib/accounts"
 import {
-  getPendingVerificationId,
-  getVerificationDelivery,
-} from "@/lib/account-session"
+  registerAction,
+  resendCodeAction,
+  verifyCodeAction,
+} from "@/app/[lang]/(site)/account/actions"
+import { getVerificationDelivery } from "@/lib/account-session"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 
 export const dynamic = "force-dynamic"
@@ -41,17 +41,9 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
 
   const t = dict.account
 
-  // The code is read straight from D1 for this browser only. It is never put in
-  // the URL, so it cannot leak through history, `Referer` headers or logs.
-  const pendingId = await getPendingVerificationId()
-  const pendingAccount = pendingId ? await getAccountById(pendingId) : null
+  // The code only ever travels by email, so nothing is read back out of the
+  // database here. This flag only decides which confirmation message to show.
   const delivered = (await getVerificationDelivery()) === "email"
-  // If the email went out, there is no reason to put the code back on screen.
-  const showCode = !delivered
-  const code =
-    showCode && pendingAccount?.status === "pending_verification"
-      ? pendingAccount.pendingCode
-      : undefined
 
   const errors: Record<string, string> = {
     required: t.errorRequired,
@@ -105,28 +97,37 @@ export default async function RegisterPage({ params, searchParams }: PageProps) 
               </p>
             )}
 
-            <div className="rounded-2xl border-2 border-brand-200 bg-brand-50/70 p-5 text-center">
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-700">
+            <div
+              className={`rounded-2xl border-2 p-5 text-center ${
+                delivered
+                  ? "border-brand-200 bg-brand-50/70"
+                  : "border-amber-200 bg-amber-50/80"
+              }`}
+            >
+              <p
+                className={`text-[11px] font-bold uppercase tracking-[0.14em] ${
+                  delivered ? "text-brand-700" : "text-amber-700"
+                }`}
+              >
                 {t.codeLabel}
               </p>
-              {code ? (
-                <>
-                  <p
-                    dir="ltr"
-                    className="mt-2 font-heading text-4xl font-bold tracking-[0.2em] text-ink-900"
-                  >
-                    {code}
-                  </p>
-                  <p className="mt-3 text-[13px] font-semibold leading-6 text-slate-600">
-                    {t.codeNote}
-                  </p>
-                </>
-              ) : (
-                <p className="mt-3 text-sm font-bold text-ink-900">
-                  {dict.account.codeSent}
-                </p>
-              )}
+              <p className="mt-3 text-sm font-bold text-ink-900">
+                {delivered ? t.codeSent : t.codeSendFailed}
+              </p>
             </div>
+
+            {/* Quiet retry: the code only ever travels by email, so if it does
+                not arrive this is how the visitor asks for another one. */}
+            <form action={resendCodeAction} className="mt-4 text-center">
+              <input type="hidden" name="lang" value={locale} />
+              <input type="hidden" name="website" value="" />
+              <button
+                type="submit"
+                className="text-xs font-bold text-slate-500 underline underline-offset-4 transition hover:text-brand-700"
+              >
+                {t.resendButton}
+              </button>
+            </form>
 
             <form
               action={verifyCodeAction}

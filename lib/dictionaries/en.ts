@@ -226,9 +226,10 @@ const en = {
     registerButton: "Create account",
     verifyButton: "Confirm and sign in",
     codeLabel: "Verification code",
-    codeNote:
-      "Message did not arrive? The code is shown here, and it is also visible in our dashboard.",
     codeSent: "We sent the code to your email address",
+    codeSendFailed:
+      "We could not send the code. Please try again.",
+    resendButton: "Did not arrive? Send it again",
     haveAccount: "Already have an account?",
     noAccount: "Don't have an account?",
     loginLink: "Sign in",

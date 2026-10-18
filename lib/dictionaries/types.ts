@@ -282,8 +282,9 @@ export interface Dictionary {
     registerButton: string
     verifyButton: string
     codeLabel: string
-    codeNote: string
     codeSent: string
+    codeSendFailed: string
+    resendButton: string
     haveAccount: string
     noAccount: string
     loginLink: string

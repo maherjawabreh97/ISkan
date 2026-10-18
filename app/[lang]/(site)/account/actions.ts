@@ -18,6 +18,7 @@ import {
   recordAuthAttempt,
   recordLogin,
   releaseListing,
+  resendAccountCode,
   submissionIdFromSlug,
   updateAccountProfile,
   verifyAccountCode,
@@ -217,6 +218,39 @@ export async function verifyCodeAction(formData: FormData): Promise<void> {
   if (outcome === "expired") redirect(`${back}?verify=1&error=expired`)
   if (outcome === "locked") redirect(`${back}?verify=1&error=locked`)
   redirect(`${back}?verify=1&error=wrongCode`)
+}
+
+/**
+ * Sends the code again. Runs off the signed verification cookie, so the
+ * screen never has to ask for an email address or phone number.
+ */
+export async function resendCodeAction(formData: FormData): Promise<void> {
+  const lang = langOf(formData)
+  const back = `/${lang}/register`
+
+  if (isBot(formData)) redirect(back)
+
+  const ip = await clientIp()
+  if ((await countRecentAuthAttempts("resend", ip)) >= 10) {
+    redirect(`${back}?error=rate`)
+  }
+  await recordAuthAttempt("resend", ip)
+
+  const account = await getAccountById((await getPendingVerificationId()) ?? "")
+  if (!account || account.status !== "pending_verification") {
+    redirect(`${back}?error=restart`)
+  }
+
+  const delivered = account.email
+    ? await sendVerificationEmail({
+        to: account.email,
+        code: await resendAccountCode(account.id),
+        locale: lang === "en" ? "en" : "ar",
+      })
+    : false
+  await setVerificationDelivery(delivered ? "email" : "manual")
+
+  redirect(`${back}?verify=1`)
 }
 
 export async function loginAction(formData: FormData): Promise<void> {

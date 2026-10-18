@@ -53,6 +53,9 @@
     // Sender shown on verification emails. `iskantr.com` is verified in Resend
     // (SPF and DKIM), so this reaches every recipient. The pending inbound MX
     // is only for receiving mail and does not affect sending.
-    "RESEND_FROM": "Iskan <noreply@iskantr.com>",
+    "RESEND_FROM": "Iskan Real Estate | iskantr.com <noreply@iskantr.com>",
+    // Where replies to a verification code should land. The sending address is
+    // deliberately a no-reply one, so without this a reply would go nowhere.
+    "RESEND_REPLY_TO": "Iskan Real Estate <Iskanrealestatetr@gmail.com>",
   }
 }
