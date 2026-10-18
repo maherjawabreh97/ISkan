@@ -93,7 +93,7 @@ export function MobileNav({
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-ink-950">
+        <div className="fixed inset-x-0 top-0 z-50 flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-ink-950">
           <div className="pointer-events-none absolute -top-32 start-[-6rem] size-80 rounded-full bg-brand-600/20 blur-3xl" />
           <div className="pointer-events-none absolute bottom-0 end-[-6rem] size-80 rounded-full bg-gold-500/10 blur-3xl" />
 
@@ -109,7 +109,7 @@ export function MobileNav({
             </button>
           </div>
 
-          <div className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-2 pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
+          <div className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-2 pb-[calc(2.5rem+env(safe-area-inset-bottom))] [overscroll-behavior:contain]">
             <nav className="flex flex-col gap-1.5">
               {links.map(({ label, href, icon: Icon }) => {
                 const [path] = href.split("?")

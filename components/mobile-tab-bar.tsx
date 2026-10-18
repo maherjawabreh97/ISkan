@@ -7,13 +7,11 @@ import {
   Heart,
   Home,
   LogIn,
-  MessageCircle,
   Plus,
   UserCog,
 } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
-import { site } from "@/lib/site"
 
 /**
  * Mobile bottom tab bar — the pattern people expect from a marketplace app.
@@ -34,8 +32,7 @@ export function MobileTabBar({
   const pathname = usePathname()
 
   // Detail pages have their own sticky action bar; two bars would collide.
-  const isDetail = /^\/(ar|en)\/properties\/[^/]+\/?$/.test(pathname)
-  if (isDetail) return null
+  if (/^\/(ar|en)\/properties\/[^/]+\/?$/.test(pathname)) return null
 
   const accountHref = signedIn ? `/${locale}/account` : `/${locale}/login`
   const accountLabel = signedIn ? dict.account.title : dict.account.signInTab
@@ -65,20 +62,6 @@ export function MobileTabBar({
       aria-label={dict.nav.properties}
       className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.08] bg-ink-950/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
     >
-      {/* Anchored to the bar itself rather than to a guessed offset, so it can
-          never end up underneath it however tall the bar grows. */}
-      {!isDetail && (
-        <a
-          href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={dict.common.whatsapp}
-          className="absolute -top-14 end-4 z-10 grid size-12 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_12px_30px_-8px_rgba(37,211,102,0.7)] ring-1 ring-white/25 transition active:scale-95"
-        >
-          <MessageCircle className="size-6" />
-        </a>
-      )}
-
       <div className="mx-auto grid max-w-lg grid-cols-5 items-end gap-0.5 px-1.5 pt-2">
         {tabs.map(({ label, href, icon: Icon, active }) => (
           <Link

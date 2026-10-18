@@ -197,7 +197,7 @@ const en = {
     errorCaptcha: "Security check failed. Please try again.",
     errorRate:
       "You submitted several listings in a short time. Please try again later.",
-    asideTitle: "Prefer us to do it for you?",
+    asideTitle: "Need a hand?",
     asideBody:
       "Send the photos and details on WhatsApp and our team will prepare the listing for you.",
     whatsappCta: "Chat on WhatsApp",
