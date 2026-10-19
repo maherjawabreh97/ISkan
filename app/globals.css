@@ -52,6 +52,11 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
+  /* Prices, areas, room counts and phone numbers all sit in columns on this
+     site. Fixed-width figures keep those digits aligned; proportional ones
+     make each price a slightly different width, which reads as untidy. */
+  font-variant-numeric: tabular-nums;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {

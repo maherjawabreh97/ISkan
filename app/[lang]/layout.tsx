@@ -47,13 +47,21 @@ export const metadata: Metadata = {
 const cairo = Cairo({
   variable: "--font-cairo",
   subsets: ["arabic", "latin"],
+  // Stated rather than assumed: without it a slow connection can sit on
+  // invisible text until the font finally lands.
+  display: "swap",
 })
 
 // Display face for headings — a warmer, humanist counterpart to Cairo.
+// Capped at 700 because that is the heaviest weight El Messiri ships. Asking
+// for 800 or 900 would be faked by the browser and reads as smudged in
+// Arabic, where added weight reshapes the letterforms rather than just
+// thickening the stem.
 const messiri = El_Messiri({
   variable: "--font-messiri",
   subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 })
 
 export async function generateStaticParams() {

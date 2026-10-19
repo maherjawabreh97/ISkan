@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Phone, Home, Building2, Plus, UserCog, LogIn } from "lucide-react"
+import { MessageCircle, Phone, Home, Building2, Plus, UserCog, LogIn } from "lucide-react"
 import Link from "next/link"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -57,6 +57,21 @@ export function SiteHeader({
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* Mobile gets WhatsApp, desktop gets the dial button. On a phone the
+              drawer is two taps away, and WhatsApp is how most people in
+              Turkey actually reach an agency — so it is the one contact action
+              worth surfacing in the bar itself. */}
+          <a
+            href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="grid size-10 shrink-0 place-items-center rounded-full bg-[#25D366] text-white transition hover:bg-[#1eb85a] lg:hidden"
+            aria-label={dict.common.whatsapp}
+            title={dict.common.whatsapp}
+          >
+            <MessageCircle className="size-4.5" />
+          </a>
+
           {/* Icon only: the number used to run the width of the bar and pushed
               the account and language controls out of line. Still a real
               tel: link, just without the digits spelled out. */}
