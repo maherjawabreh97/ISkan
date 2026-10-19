@@ -60,12 +60,15 @@ export function SiteHeader({
           {/* Mobile gets WhatsApp, desktop gets the dial button. On a phone the
               drawer is two taps away, and WhatsApp is how most people in
               Turkey actually reach an agency — so it is the one contact action
-              worth surfacing in the bar itself. */}
+              worth surfacing in the bar itself.
+
+              Brand gold rather than WhatsApp green: the bar has one accent
+              colour and a second one next to it just reads as a mistake. */}
           <a
             href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="grid size-10 shrink-0 place-items-center rounded-full bg-[#25D366] text-white transition hover:bg-[#1eb85a] lg:hidden"
+            className="grid size-10 shrink-0 place-items-center rounded-full bg-gold-400 text-ink-950 shadow-sm shadow-black/20 transition hover:bg-gold-300 lg:hidden"
             aria-label={dict.common.whatsapp}
             title={dict.common.whatsapp}
           >
@@ -77,7 +80,7 @@ export function SiteHeader({
               tel: link, just without the digits spelled out. */}
           <a
             href={`tel:${site.phoneHref}`}
-            className="hidden size-10 shrink-0 place-items-center rounded-full border border-white/12 bg-white/[0.05] text-gold-300 transition hover:border-gold-400/40 hover:bg-white/10 lg:grid"
+            className="hidden size-10 shrink-0 place-items-center rounded-full border border-white/25 bg-white/[0.08] text-gold-300 transition hover:border-gold-400/60 hover:bg-white/[0.14] lg:grid"
             aria-label={site.phone}
             title={site.phone}
           >

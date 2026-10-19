@@ -1,4 +1,4 @@
-import { Cairo, El_Messiri } from "next/font/google"
+import { Tajawal } from "next/font/google"
 import { notFound } from "next/navigation"
 import { headers } from "next/headers"
 import type { Metadata } from "next"
@@ -44,23 +44,20 @@ export const metadata: Metadata = {
   },
 }
 
-const cairo = Cairo({
-  variable: "--font-cairo",
+// One family for the whole site. Tajawal is geometric and carries real 800 and
+// 900 weights, which the previous display face capped out at 700 — so headings
+// that asked for extra weight were getting it faked by the browser.
+//
+// 600 is deliberately absent from the loaded set: Tajawal does not ship it.
+// The code uses `font-semibold` in about 120 places and those land on 500,
+// which is the closest real weight. Listing it here as a comment beats
+// discovering it later as text that quietly looks lighter than intended.
+const tajawal = Tajawal({
+  variable: "--font-tajawal",
   subsets: ["arabic", "latin"],
+  weight: ["400", "500", "700", "800", "900"],
   // Stated rather than assumed: without it a slow connection can sit on
   // invisible text until the font finally lands.
-  display: "swap",
-})
-
-// Display face for headings — a warmer, humanist counterpart to Cairo.
-// Capped at 700 because that is the heaviest weight El Messiri ships. Asking
-// for 800 or 900 would be faked by the browser and reads as smudged in
-// Arabic, where added weight reshapes the letterforms rather than just
-// thickening the stem.
-const messiri = El_Messiri({
-  variable: "--font-messiri",
-  subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 })
 
@@ -86,7 +83,7 @@ export default async function RootLayout({
     <html
       lang={lang}
       dir={directionOf(locale)}
-      className={`${cairo.variable} ${messiri.variable}`}
+      className={tajawal.variable}
     >
       <head>
         <Analytics nonce={nonce} />

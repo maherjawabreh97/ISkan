@@ -19,7 +19,7 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
     <button
       type="button"
       onClick={toggle}
-      className="grid size-10 shrink-0 place-items-center rounded-full border border-white/12 bg-white/[0.05] text-white transition hover:border-gold-400/40 hover:bg-white/10"
+      className="grid size-10 shrink-0 place-items-center rounded-full border border-white/25 bg-white/[0.08] text-white transition hover:border-gold-400/60 hover:bg-white/[0.14]"
       aria-label={`Switch language to ${localeName[target]}`}
       title={localeName[target]}
     >

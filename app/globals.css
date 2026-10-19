@@ -2,8 +2,11 @@
 @import "leaflet/dist/leaflet.css";
 
 @theme {
-  --font-sans: var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-messiri), var(--font-cairo), Georgia, serif;
+  /* One family for both. `font-heading` stays defined because every heading in
+     the code asks for it by name; pointing it at the same face keeps those
+     classes working and means an @font-face swap covers the whole site. */
+  --font-sans: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
 
   --color-brand-50: #e9f7f1;
   --color-brand-100: #cdeee0;
