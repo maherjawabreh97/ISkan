@@ -135,11 +135,51 @@ export async function registerAction(formData: FormData): Promise<void> {
   }
   if (phone && phone.length < 10) redirect(`${back}?error=identifier`)
 
-  if (await lookupAccountByIdentifier(rawIdentifier)) {
-    redirect(`${back}?error=taken`)
-  }
-
   await recordAuthAttempt("register", ip)
+
+  const existing = await lookupAccountByIdentifier(rawIdentifier)
+  if (existing) {
+    // An account still waiting on its code is not really "taken" — the person
+    // simply never got round to finishing. Bouncing them back to the form with
+    // an error turned a lost or unread email into a dead end, so pick up where
+    // they left off instead.
+    if (existing.status !== "pending_verification") {
+      redirect(`${back}?error=taken`)
+    }
+
+    await setPendingVerification(existing.id)
+
+    // `lookupAccountByIdentifier` hands back the raw row; the mapped account is
+    // the one that knows whether a code is still unspent and unexpired.
+    const account = await getAccountById(existing.id)
+
+    // A code is still live, so do not spend another send: the three allowed
+    // per registration are a scarce resource. Just point them back at it.
+    if (account?.pendingCode) {
+      await setVerificationDelivery(existing.email ? "email" : "manual")
+      redirect(`${back}?verify=1`)
+    }
+
+    // Expired, or already burned on a wrong guess. Issue a fresh one where the
+    // cap allows, and say so plainly when it does not.
+    const issued = await issueAccountCode(existing.id)
+    if (!issued.ok) {
+      redirect(
+        `${back}?error=${issued.reason === "missing" ? "restart" : "tooManySends"}`,
+      )
+    }
+
+    const resent = existing.email
+      ? await sendVerificationEmail({
+          to: existing.email,
+          code: issued.code,
+          locale: lang === "en" ? "en" : "ar",
+        })
+      : false
+    await setVerificationDelivery(resent ? "email" : "manual")
+
+    redirect(`${back}?verify=1`)
+  }
 
   const code = generateCode()
   const { account } = await createAccount({
