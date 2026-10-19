@@ -10,7 +10,6 @@ import { LanguageSwitcher } from "./language-switcher"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
 import { NavLink } from "./nav-link"
-import { FavoritesChip } from "./favorites-chip"
 
 export function SiteHeader({
   locale,
@@ -57,13 +56,17 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          {/* Icon only: the number used to run the width of the bar and pushed
+              the account and language controls out of line. Still a real
+              tel: link, just without the digits spelled out. */}
           <a
             href={`tel:${site.phoneHref}`}
-            className="hidden items-center gap-2 rounded-full bg-gold-400/15 px-3 py-2 text-sm font-bold text-gold-300 ring-1 ring-gold-400/25 transition hover:bg-gold-400 hover:text-ink-950 hover:ring-gold-400 lg:inline-flex"
+            className="hidden size-10 shrink-0 place-items-center rounded-full border border-white/12 bg-white/[0.05] text-gold-300 transition hover:border-gold-400/40 hover:bg-white/10 lg:grid"
+            aria-label={site.phone}
+            title={site.phone}
           >
-            <Phone className="size-3.5" />
-            <span dir="ltr">{site.phone}</span>
+            <Phone className="size-4" />
           </a>
           <Link
             href={`/${locale}/submit`}
@@ -79,7 +82,6 @@ export function SiteHeader({
             {signedIn ? <UserCog className="size-3.5" /> : <LogIn className="size-3.5" />}
             {signedIn ? dict.account.title : dict.account.signInTab}
           </Link>
-          <FavoritesChip locale={locale} signedIn={signedIn} />
           <LanguageSwitcher locale={locale} />
           <MobileNav locale={locale} dict={dict} signedIn={signedIn} />
         </div>
