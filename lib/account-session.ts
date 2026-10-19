@@ -133,7 +133,10 @@ export async function setVerificationDelivery(
   mode: "email" | "manual",
 ): Promise<void> {
   const store = await cookies()
-  store.set(DELIVERY_COOKIE, sign(mode), {
+  // `mode.signature`, the same shape createAccountToken uses. An HMAC is one
+  // way, so the mode has to travel alongside its signature — storing only the
+  // signature leaves nothing to check the signature against.
+  store.set(DELIVERY_COOKIE, `${mode}.${sign(mode)}`, {
     httpOnly: true,
     sameSite: "lax",
     secure: true,
@@ -146,8 +149,16 @@ export async function getVerificationDelivery(): Promise<"email" | "manual"> {
   const store = await cookies()
   const value = store.get(DELIVERY_COOKIE)?.value
   if (!value) return "manual"
-  const a = Buffer.from(value)
-  const b = Buffer.from(sign(value))
+
+  // Cookies written before this fix hold a bare signature and split into one
+  // part, so they fall through to "manual" — which only makes the page show the
+  // code on screen, the same as a genuine send failure.
+  const [mode, signature] = value.split(".")
+  if (!mode || !signature) return "manual"
+
+  const a = Buffer.from(signature)
+  const b = Buffer.from(sign(mode))
   if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return "manual"
-  return value === "email" ? "email" : "manual"
+
+  return mode === "email" ? "email" : "manual"
 }
