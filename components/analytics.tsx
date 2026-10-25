@@ -1,4 +1,4 @@
-const MEASUREMENT_IDS = ["G-G8H7V5Q24S", "G-3WMHLEHJLK"]
+const MEASUREMENT_IDS = ["G-8YG8BYG8CJ"]
 
 /**
  * Google Analytics, loaded without a third-party inline script.
