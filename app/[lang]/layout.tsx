@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     creator: "@iskan",
   },
   verification: {
-    google: "G-8YG8BYG8CJ",
+    google: "G-3WMHLEHJLK",
   },
 }
 
