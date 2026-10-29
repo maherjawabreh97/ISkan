@@ -239,6 +239,10 @@ export interface Dictionary {
     furnished: string
     address: string
     addressPlaceholder: string
+    advertiserSection: string
+    advertiserNameAr: string
+    advertiserNameEn: string
+    advertiserWhatsapp: string
     description: string
     descriptionPlaceholder: string
     photosSection: string

@@ -322,6 +322,50 @@ export function SubmitForm({
         />
       </Section>
 
+      <Section title={t.advertiserSection}>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className={labelCls} htmlFor="sf-advertiserNameAr">
+              {t.advertiserNameAr}
+            </label>
+            <input
+              id="sf-advertiserNameAr"
+              name="advertiserNameAr"
+              placeholder={t.namePlaceholder}
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="sf-advertiserNameEn">
+              {t.advertiserNameEn}
+            </label>
+            <input
+              id="sf-advertiserNameEn"
+              name="advertiserNameEn"
+              placeholder={t.namePlaceholder}
+              className={inputCls}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelCls} htmlFor="sf-advertiserWhatsapp">
+              {t.advertiserWhatsapp}
+            </label>
+            <input
+              id="sf-advertiserWhatsapp"
+              name="advertiserWhatsapp"
+              type="tel"
+              inputMode="tel"
+              dir="ltr"
+              placeholder="+905XXXXXXXXX"
+              className={inputCls}
+            />
+            <p className="mt-2 text-xs font-semibold text-slate-400">
+              {t.emailOptional}
+            </p>
+          </div>
+        </div>
+      </Section>
+
       <label className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3.5 text-xs font-semibold leading-relaxed text-slate-500 ring-1 ring-slate-200/70">
         <input
           type="checkbox"

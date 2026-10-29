@@ -499,12 +499,15 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
     images: submission.images,
     videos: submission.videos ?? [],
     agent: office,
-    // Carry the submitter's identity onto the published listing so the public
-    // card and detail page can show who is selling it. Before this, only the
-    // admin's internal record knew, and the published property had no advertiser.
+    // Carry the advertiser onto the published listing. Prefer the name the
+    // submitter gave explicitly (Arabic/English, as on the admin form); fall
+    // back to the contact name and phone otherwise, so nothing is lost.
     advertiser: {
-      name: { en: submission.contactName, ar: submission.contactName },
-      whatsapp: submission.phone,
+      name: {
+        ar: submission.advertiserNameAr || submission.contactName,
+        en: submission.advertiserNameEn || submission.contactName,
+      },
+      whatsapp: submission.advertiserWhatsapp || submission.phone,
     },
   }
 

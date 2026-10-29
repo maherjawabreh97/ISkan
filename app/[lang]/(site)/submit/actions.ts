@@ -161,6 +161,9 @@ export async function submitListingAction(formData: FormData): Promise<void> {
       floor: floor ? numberValue(formData, "floor") : undefined,
       furnished: formData.get("furnished") !== null,
       address: text(formData, "address"),
+      advertiserNameAr: text(formData, "advertiserNameAr") || undefined,
+      advertiserNameEn: text(formData, "advertiserNameEn") || undefined,
+      advertiserWhatsapp: text(formData, "advertiserWhatsapp") || undefined,
       description,
       images: formData.getAll("newImages").map(String).filter(Boolean),
       videos: formData

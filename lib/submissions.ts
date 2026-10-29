@@ -26,6 +26,11 @@ export interface SubmissionInput {
   furnished: boolean
   address: string
   description: string
+  // Optional advertiser identity for the published listing. Falls back to the
+  // submitter's contact details when left blank.
+  advertiserNameAr?: string
+  advertiserNameEn?: string
+  advertiserWhatsapp?: string
   images: string[]
   videos?: string[]
 }
