@@ -499,6 +499,13 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
     images: submission.images,
     videos: submission.videos ?? [],
     agent: office,
+    // Carry the submitter's identity onto the published listing so the public
+    // card and detail page can show who is selling it. Before this, only the
+    // admin's internal record knew, and the published property had no advertiser.
+    advertiser: {
+      name: { en: submission.contactName, ar: submission.contactName },
+      whatsapp: submission.phone,
+    },
   }
 
   await upsertProperty(property)
