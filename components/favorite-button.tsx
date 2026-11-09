@@ -1,17 +1,22 @@
 "use client"
 
 import { Heart } from "lucide-react"
+import { toast } from "sonner"
+import type { Dictionary } from "@/lib/dictionaries/types"
 import { toggleFavorite, useFavorites } from "@/lib/use-favorites"
 
 export function FavoriteButton({
   slug,
   className = "",
   compact = false,
+  dict,
 }: {
   slug: string
   className?: string
   /** List rows are short, so a 40px target would swamp the artwork. */
   compact?: boolean
+  /** When supplied, saving/removing is confirmed with a toast. */
+  dict?: Dictionary
 }) {
   const favorites = useFavorites()
   const active = favorites.includes(slug)
@@ -22,7 +27,19 @@ export function FavoriteButton({
       onClick={(event) => {
         event.preventDefault()
         event.stopPropagation()
+        const next = !active
         toggleFavorite(slug)
+        if (dict) {
+          toast(
+            next
+              ? dict.common.savedToFavorites
+              : dict.common.removedFromFavorites,
+            {
+              duration: 1800,
+              icon: <Heart className="size-4" />,
+            },
+          )
+        }
       }}
       aria-pressed={active}
       aria-label="Save to favorites"

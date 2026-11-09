@@ -18,7 +18,6 @@ import {
   Layers,
   Mail,
   MapPin,
-  MessageCircle,
   Phone,
   Ruler,
   ShieldAlert,
@@ -35,6 +34,7 @@ import { formatPrice } from "@/lib/format"
 import { getListingOwner } from "@/lib/accounts"
 import { getProperties, getStoredProperty } from "@/lib/properties-store"
 import { defaultRentAdvertiser } from "@/lib/properties"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export const dynamic = "force-dynamic"
 
@@ -296,6 +296,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   slug={property.slug}
                   name={name}
                   locale={locale}
+                  dict={dict}
                 />
               </div>
 
@@ -509,7 +510,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-600/20 transition hover:bg-[#1eb85a]"
                   >
-                    <MessageCircle className="size-4.5" />
+                    <WhatsAppIcon className="size-4.5" />
                     {dict.common.whatsapp}
                   </a>
                   <a

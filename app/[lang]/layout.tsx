@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { headers } from "next/headers"
 import type { Metadata } from "next"
 import { Analytics } from "@/components/analytics"
+import { AppToaster } from "@/components/app-toaster"
 import {
   directionOf,
   hasLocale,
@@ -188,6 +189,7 @@ export default async function RootLayout({
       </head>
       <body className="flex min-h-dvh flex-col bg-sand-50 font-sans text-ink-900 antialiased">
         {children}
+        <AppToaster />
       </body>
     </html>
   )

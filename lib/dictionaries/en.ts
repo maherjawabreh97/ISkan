@@ -94,6 +94,8 @@ const en = {
     favorites: "Favorites",
     save: "Save",
     saved: "Saved",
+    savedToFavorites: "Added to favorites",
+    removedFromFavorites: "Removed from favorites",
     whatsapp: "WhatsApp",
   },
   sections: {

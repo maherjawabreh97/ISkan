@@ -161,6 +161,8 @@ export interface Dictionary {
     favorites: string
     save: string
     saved: string
+    savedToFavorites: string
+    removedFromFavorites: string
     whatsapp: string
   }
   sections: {

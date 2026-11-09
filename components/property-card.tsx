@@ -2,12 +2,14 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Bath, BedDouble, MapPin, MessageCircle, Ruler, Sofa } from "lucide-react"
+import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import type { Property } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
+import { PropertyCardGallery } from "@/components/property-card-gallery"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 /** Names we run ourselves, which get the office logo instead of a plain label. */
 const OFFICE_NAMES =
@@ -68,17 +70,10 @@ export function PropertyCard({
       className={`card-raised group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 hover:border-brand-200 ${className}`}
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-        <Image
-          src={property.images[0]}
-          alt={name}
-          fill
-          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition duration-700 group-hover:scale-[1.06]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/75 via-ink-950/5 to-transparent" />
+        <PropertyCardGallery images={property.images} alt={name} />
 
         <span
-          className={`absolute start-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur ${
+          className={`pointer-events-none absolute start-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur ${
             property.purpose === "rent"
               ? "bg-brand-400/90 text-white"
               : "bg-gold-400/95 text-ink-950"
@@ -87,7 +82,7 @@ export function PropertyCard({
           {purposeLabel}
         </span>
 
-        <div className="absolute inset-x-0 bottom-0 px-3 pb-2.5">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 px-3 pb-2.5">
           <p className="font-heading text-base font-bold leading-none text-white drop-shadow">
             {formatPrice(property.price, property.currency)}
             <span className="ms-0.5 text-[10px] font-medium text-white/75">
@@ -147,14 +142,14 @@ export function PropertyCard({
           <span className="flex shrink-0 items-center gap-1.5">
             {advertiser && (
               <span
-                className="inline-flex items-center gap-1 rounded-lg bg-[#25D366] px-2 py-1 text-[10px] font-bold text-white"
+                className="inline-flex items-center gap-1 rounded-lg bg-gold-400 px-2 py-1 text-[10px] font-bold text-ink-950"
                 aria-hidden
               >
-                <MessageCircle className="size-3" />
+                <WhatsAppIcon className="size-3" />
                 {dict.common.whatsapp}
               </span>
             )}
-            <FavoriteButton slug={property.slug} compact />
+            <FavoriteButton slug={property.slug} compact dict={dict} />
           </span>
         </div>
       </div>

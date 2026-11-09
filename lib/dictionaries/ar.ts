@@ -94,6 +94,8 @@ const ar = {
     favorites: "المفضلة",
     save: "احفظ",
     saved: "محفوظ",
+    savedToFavorites: "أُضيف إلى المفضلة",
+    removedFromFavorites: "أُزيل من المفضلة",
     whatsapp: "واتساب",
   },
   sections: {

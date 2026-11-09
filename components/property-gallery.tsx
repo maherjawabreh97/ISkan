@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
+import type { Dictionary } from "@/lib/dictionaries/types"
 import { FavoriteButton } from "@/components/favorite-button"
 
 export function PropertyGallery({
@@ -11,11 +12,13 @@ export function PropertyGallery({
   slug,
   name,
   locale,
+  dict,
 }: {
   images: string[]
   slug: string
   name: string
   locale: Locale
+  dict?: Dictionary
 }) {
   const [index, setIndex] = useState(0)
   const [open, setOpen] = useState(false)
@@ -73,7 +76,11 @@ export function PropertyGallery({
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-950/40 via-transparent to-transparent" />
-        <FavoriteButton slug={slug} className="absolute end-4 top-4 z-10" />
+        <FavoriteButton
+          slug={slug}
+          className="absolute end-4 top-4 z-10"
+          dict={dict}
+        />
 
         {images.length > 1 && (
           <>

@@ -2,12 +2,13 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Bath, BedDouble, MapPin, MessageCircle, Ruler, Sofa } from "lucide-react"
+import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import type { Property } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 /** Names we run ourselves, which get the office logo instead of a plain label. */
 const OFFICE_NAMES =
@@ -154,14 +155,14 @@ export function PropertyListRow({
             <span className="flex shrink-0 items-center gap-1.5">
               {advertiser && (
                 <span
-                  className="inline-flex items-center gap-1 rounded-lg bg-[#25D366] px-2 py-0.5 text-[10px] font-bold text-white"
+                  className="inline-flex items-center gap-1 rounded-lg bg-gold-400 px-2 py-0.5 text-[10px] font-bold text-ink-950"
                   aria-hidden
                 >
-                  <MessageCircle className="size-3" />
+                  <WhatsAppIcon className="size-3" />
                   {dict.common.whatsapp}
                 </span>
               )}
-              <FavoriteButton slug={property.slug} compact />
+              <FavoriteButton slug={property.slug} compact dict={dict} />
             </span>
           </div>
         </div>

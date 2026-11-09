@@ -10,7 +10,6 @@ import {
   Home,
   LogIn,
   Menu,
-  MessageCircle,
   Phone,
   Plus,
   UserCog,
@@ -20,6 +19,7 @@ import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
 import { Logo } from "./logo"
+import { WhatsAppIcon } from "./whatsapp-icon"
 
 export function MobileNav({
   locale,
@@ -162,9 +162,9 @@ export function MobileNav({
                   href={`https://wa.me/${site.phoneHref.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white transition active:scale-[0.98]"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-gold-400 px-5 py-3.5 text-sm font-extrabold text-ink-950 transition active:scale-[0.98]"
                 >
-                  <MessageCircle className="size-4.5" />
+                  <WhatsAppIcon className="size-4.5" />
                   {dict.common.whatsapp}
                 </a>
                 <a

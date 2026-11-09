@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Heart, Phone, MessageCircle } from "lucide-react"
+import { Heart, Phone } from "lucide-react"
 import { toggleFavorite, useFavorites } from "@/lib/use-favorites"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 const WHATSAPP_BASE = "https://wa.me/905432466309"
 
@@ -69,7 +70,7 @@ export function StickyActions({
           rel="noopener noreferrer"
           className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-emerald-600/20 transition active:scale-[0.98]"
         >
-          <MessageCircle className="size-4.5" />
+          <WhatsAppIcon className="size-4.5" />
           WhatsApp
         </a>
       </div>

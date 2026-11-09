@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import {
   CheckCircle2,
   Info,
-  MessageCircle,
   Send,
   ShieldCheck,
   Sparkles,
@@ -13,6 +12,7 @@ import { SubmitForm } from "@/components/site/submit-form"
 import { getSignedInAccount } from "@/lib/account-auth"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export const dynamic = "force-dynamic"
 
@@ -106,7 +106,7 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-emerald-600"
                   >
-                    <MessageCircle className="size-4" />
+                    <WhatsAppIcon className="size-4" />
                     {t.successWhatsapp}
                   </a>
                   <Link
@@ -147,7 +147,7 @@ export default async function SubmitPage({ params, searchParams }: PageProps) {
                 rel="noopener noreferrer"
                 className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3.5 text-sm font-extrabold text-white transition hover:bg-emerald-600"
               >
-                <MessageCircle className="size-4" />
+                <WhatsAppIcon className="size-4" />
                 {t.whatsappCta}
               </a>
               <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-white/50">

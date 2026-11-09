@@ -5,7 +5,6 @@ import {
   ChevronRight,
   Mail,
   MapPin,
-  MessageCircle,
   Phone,
   Plus,
 } from "lucide-react"
@@ -13,6 +12,7 @@ import type { Dictionary, PropertyTypeKey } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
 import { Logo } from "./logo"
+import { WhatsAppIcon } from "./whatsapp-icon"
 import {
   FacebookIcon,
   InstagramIcon,
@@ -99,9 +99,9 @@ export function SiteFooter({
                 href={`https://wa.me/905432466309`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/10 px-6 py-3 text-sm font-extrabold text-[#6ee7a8] transition hover:bg-[#25D366] hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-6 py-3 text-sm font-extrabold text-gold-300 transition hover:bg-gold-400 hover:text-ink-950"
               >
-                <MessageCircle className="size-4" />
+                <WhatsAppIcon className="size-4" />
                 WhatsApp
               </a>
               <Link
@@ -218,8 +218,8 @@ export function SiteFooter({
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 transition hover:text-gold-300"
                 >
-                  <span className={iconWrap("text-[#25D366]")}>
-                    <MessageCircle className="size-4" />
+                  <span className={iconWrap("text-gold-400")}>
+                    <WhatsAppIcon className="size-4" />
                   </span>
                   <span>WhatsApp</span>
                 </a>

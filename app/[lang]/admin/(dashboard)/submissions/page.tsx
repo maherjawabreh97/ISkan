@@ -8,7 +8,6 @@ import {
   ExternalLink,
   Inbox,
   Mail,
-  MessageCircle,
   Phone,
 } from "lucide-react"
 import {
@@ -22,6 +21,7 @@ import { formatPrice } from "@/lib/format"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { listSubmissions } from "@/lib/submissions-store"
 import type { SubmissionStatus } from "@/lib/submissions"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export const dynamic = "force-dynamic"
 
@@ -200,7 +200,7 @@ export default async function AdminSubmissionsPage({
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 text-emerald-600 hover:text-emerald-700"
                         >
-                          <MessageCircle className="size-3.5" />
+                          <WhatsAppIcon className="size-3.5" />
                           WhatsApp
                         </a>
                       )}

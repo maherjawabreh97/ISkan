@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
@@ -13,7 +12,6 @@ import {
   Hotel,
   Map,
   MapPin,
-  MessageCircle,
   Plus,
   Send,
   ShieldCheck,
@@ -28,6 +26,7 @@ import { Counter } from "@/components/counter"
 import type { PropertyTypeKey } from "@/lib/dictionaries/types"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
+import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export const dynamic = "force-dynamic"
 
@@ -194,12 +193,17 @@ export default async function HomePage({
                 <Reveal key={key} delay={index * 0.04} className="h-full">
                   <Link
                     href={`/${locale}/properties?type=${key}`}
-                    className="group flex h-full items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 transition duration-300 hover:border-brand-300 hover:shadow-soft"
+                    className="group relative flex h-full items-center gap-3 overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-lg hover:shadow-brand-900/5"
                   >
-                    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-700 transition duration-300 group-hover:bg-brand-600 group-hover:text-white">
+                    {/* A hairline that draws in from the start edge on hover:
+                        cheap, and it makes the whole tile feel responsive. */}
+                    <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-brand-600 to-gold-400 transition-transform duration-300 group-hover:scale-x-100 rtl:origin-right" />
+
+                    <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand-50 to-sand-100 text-brand-700 ring-1 ring-brand-100 transition duration-300 group-hover:from-brand-600 group-hover:to-brand-800 group-hover:text-white group-hover:ring-brand-600">
                       <Icon className="size-5" />
                     </span>
-                    <div className="min-w-0">
+
+                    <div className="min-w-0 flex-1">
                       <h3 className="truncate font-heading text-base font-bold text-ink-900 transition group-hover:text-brand-700">
                         {dict.propertyTypes[key]}
                       </h3>
@@ -207,6 +211,8 @@ export default async function HomePage({
                         {count} {dict.common.properties}
                       </p>
                     </div>
+
+                    <ArrowUpRight className="size-4 shrink-0 text-slate-300 transition duration-300 group-hover:-translate-y-0.5 group-hover:text-brand-600 rtl:-scale-x-100" />
                   </Link>
                 </Reveal>
               )
@@ -334,7 +340,7 @@ export default async function HomePage({
                   rel="noopener noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 sm:w-auto"
                 >
-                  <MessageCircle className="size-4 text-gold-300" />
+                  <WhatsAppIcon className="size-4 text-gold-300" />
                   {dict.common.whatsapp}
                 </a>
                 <a
