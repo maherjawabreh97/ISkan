@@ -9,57 +9,126 @@ import {
   locales,
   type Locale,
 } from "@/lib/i18n"
+import { getDictionary } from "@/lib/i18n"
 import "../globals.css"
 
-export const metadata: Metadata = {
-  icons: {
-    icon: "/iskan-icon.png",
-    shortcut: "/iskan-icon.png",
-    apple: "/apple-touch-icon.png",
-  },
-  title: {
-    default: "Iskan \u2014 Real Estate in Istanbul",
-    template: "%s | Iskan",
-  },
-  description: "Discover luxury apartments, villas and offices across Istanbul's finest districts. Transparent pricing, verified listings.",
-  metadataBase: new URL("https://iskantr.com"),
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    alternateLocale: "ar_TR",
-    siteName: "Iskan",
-    title: "Iskan \u2014 Real Estate in Istanbul",
-    description: "Discover luxury apartments, villas and offices across Istanbul's finest districts.",
-    images: ["/iskan-icon.png"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Iskan \u2014 Real Estate in Istanbul",
-    description: "Discover luxury apartments, villas and offices across Istanbul's finest districts.",
-    images: ["/iskan-icon.png"],
-    creator: "@iskan",
-  },
-  verification: {
-    google: "G-3WMHLEHJLK",
-  },
-}
-
-// One family for the whole site. Tajawal is geometric and carries real 800 and
-// 900 weights, which the previous display face capped out at 700 — so headings
-// that asked for extra weight were getting it faked by the browser.
-//
-// 600 is deliberately absent from the loaded set: Tajawal does not ship it.
-// The code uses `font-semibold` in about 120 places and those land on 500,
-// which is the closest real weight. Listing it here as a comment beats
-// discovering it later as text that quietly looks lighter than intended.
 const tajawal = Tajawal({
   variable: "--font-tajawal",
   subsets: ["arabic", "latin"],
   weight: ["400", "500", "700", "800", "900"],
-  // Stated rather than assumed: without it a slow connection can sit on
-  // invisible text until the font finally lands.
   display: "swap",
 })
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
+  const { lang } = await params
+  const locale = hasLocale(lang) ? lang : "ar"
+  const dict = await getDictionary(locale)
+  const isAr = locale === "ar"
+
+  const title = isAr
+    ? "إسكان — عقارات للبيع وإيجار في إسطنبول | شقق، فلل، مكاتب"
+    : "Iskan — Real Estate for Sale & Rent in Istanbul | Apartments, Villas, Offices"
+
+  const description = isAr
+    ? "اكتشف أفضل العقارات في إسطنبول — شقق، فلل، بنتهاوس، مكاتب وأراضي للبيع والإيجار. أسعار شفافة، إدراجات موثقة، استشارات عقارية احترافية. مكتب إسكان العقاري."
+    : "Discover premium real estate in Istanbul — apartments, villas, penthouses, offices and land for sale and rent. Transparent pricing, verified listings, professional real estate consultancy. Iskan Real Estate."
+
+  const keywords = isAr
+    ? [
+        "عقارات إسطنبول",
+        "شقق للبيع إسطنبول",
+        "فلل إسطنبول",
+        "بنتهاوس إسطنبول",
+        "مكاتب إسطنبول",
+        "أراضي إسطنبول",
+        "إيجار شقق إسطنبول",
+        "عقارات تركيا",
+        "شراء عقار إسطنبول",
+        "مكتب عقاري إسطنبول",
+        "عقارات باشاكشهر",
+        "عقارات كاياشهر",
+        "استثمار عقاري إسطنبول",
+        "جنسية تركية عقار",
+        "استشارات عقارية",
+      ]
+    : [
+        "real estate Istanbul",
+        "apartments for sale Istanbul",
+        "villas Istanbul",
+        "penthouses Istanbul",
+        "offices Istanbul",
+        "land for sale Istanbul",
+        "rent apartment Istanbul",
+        "property Turkey",
+        "buy property Istanbul",
+        "real estate agency Istanbul",
+        "Istanbul property investment",
+        "Turkish citizenship by investment",
+        "Basaksehir real estate",
+        "Kayashehir properties",
+        "Istanbul apartments sale",
+        "rental properties Istanbul",
+      ]
+
+  return {
+    title: {
+      default: title,
+      template: "%s | Iskan Real Estate",
+    },
+    description,
+    keywords,
+    metadataBase: new URL("https://iskantr.com"),
+    alternates: {
+      canonical: `https://iskantr.com/${locale}`,
+      languages: {
+        ar: "https://iskantr.com/ar",
+        en: "https://iskantr.com/en",
+      },
+    },
+    openGraph: {
+      type: "website",
+      locale: isAr ? "ar_TR" : "en_US",
+      alternateLocale: isAr ? "en_US" : "ar_TR",
+      siteName: "Iskan Real Estate",
+      title,
+      description,
+      url: `https://iskantr.com/${locale}`,
+      images: [
+        {
+          url: "/iskan-icon.png",
+          width: 1200,
+          height: 630,
+          alt: isAr ? "إسكان — عقارات في إسطنبول" : "Iskan — Real Estate in Istanbul",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/iskan-icon.png"],
+      creator: "@iskanrealestate",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    verification: {
+      google: "G-3WMHLEHJLK",
+    },
+  }
+}
 
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -76,7 +145,6 @@ export default async function RootLayout({
   if (!hasLocale(lang)) notFound()
   const locale: Locale = lang
 
-  // Generated per request in proxy.ts; inline scripts must carry it.
   const nonce = (await headers()).get("x-nonce") ?? undefined
 
   return (
@@ -89,6 +157,34 @@ export default async function RootLayout({
         <Analytics nonce={nonce} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
+        {/* Structured data for search engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "RealEstateAgent",
+              name: "Iskan Real Estate",
+              url: "https://iskantr.com",
+              logo: "https://iskantr.com/iskan-icon.png",
+              description: locale === "ar"
+                ? "مكتب إسكان العقاري — عقارات للبيع وإيجار في إسطنبول"
+                : "Iskan Real Estate — properties for sale and rent in Istanbul",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Istanbul",
+                addressCountry: "TR",
+              },
+              telephone: "+905432466309",
+              email: "Iskanrealestatetr@gmail.com",
+              areaServed: {
+                "@type": "City",
+                name: "Istanbul",
+              },
+              sameAs: [],
+            }),
+          }}
+        />
       </head>
       <body className="flex min-h-dvh flex-col bg-sand-50 font-sans text-ink-900 antialiased">
         {children}

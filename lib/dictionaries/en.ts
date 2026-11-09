@@ -471,19 +471,19 @@ const en = {
     ],
   },
   meta: {
-    homeTitle: "Iskan \u2014 Your property in Istanbul",
+    homeTitle: "Istanbul Real Estate — Apartments, Villas & Offices for Sale & Rent | Iskan",
     homeDescription:
-      "Discover apartments, villas, penthouses and offices across Istanbul's finest districts. Transparent pricing, verified listings.",
-    propertiesTitle: "All properties \u2014 Iskan",
+      "Discover premium real estate in Istanbul — apartments, villas, penthouses, offices and land for sale and rent. Transparent pricing, verified listings, professional real estate consultancy. Iskan Real Estate.",
+    propertiesTitle: "All Properties in Istanbul — Apartments, Villas, Offices | Iskan",
     propertiesDescription:
-      "Browse our full catalog of apartments, villas, offices and land for sale and rent in Istanbul.",
+      "Browse our full catalog of apartments, villas, offices and land for sale and rent in Istanbul. Filter by price, area, rooms and district.",
     privacyTitle: "Privacy Policy \u2014 Iskan",
     privacyDescription: "How Iskan Real Estate collects, uses and protects your personal information.",
     cookiesTitle: "Cookie Policy \u2014 Iskan",
     cookiesDescription: "What cookies Iskan uses and how you can control them.",
-    submitTitle: "List your property \u2014 Iskan",
+    submitTitle: "List Your Property for Free \u2014 Iskan Istanbul",
     submitDescription:
-      "Showcase your apartment or villa on Iskan for free. Fill the form and we review and publish your listing.",
+      "List your apartment, villa or office on Iskan for free. Fill the form, we review and publish your listing. Contact us on WhatsApp for consultation.",
   },
 } satisfies Dictionary
 

@@ -188,8 +188,46 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     ),
   ].slice(0, 3)
 
+  // Structured data for search engines (RealEstateListing schema).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: property.name[locale],
+    description: property.description[locale],
+    url: `https://iskantr.com/${locale}/properties/${property.slug}`,
+    datePosted: property.dateAdded,
+    image: property.images[0],
+    offers: {
+      "@type": "Offer",
+      price: property.price,
+      priceCurrency: property.currency || "TRY",
+      availability: "https://schema.org/InStock",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: property.address[locale],
+      addressCountry: "TR",
+    },
+    numberOfRooms: property.bedrooms,
+    numberOfBathroomsTotal: property.bathrooms,
+    floorSize: {
+      "@type": "QuantitativeValue",
+      value: property.area,
+      unitCode: "MTK",
+    },
+    provider: {
+      "@type": "RealEstateAgent",
+      name: "Iskan Real Estate",
+      url: "https://iskantr.com",
+    },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ============================== Listing ============================== */}
       <section className="bg-sand-50">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">

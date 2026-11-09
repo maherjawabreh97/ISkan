@@ -19,6 +19,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: dict.meta.propertiesTitle,
     description: dict.meta.propertiesDescription,
+    keywords: locale === "ar"
+      ? ["شقق للبيع إسطنبول", "فلل للبيع إسطنبول", "مكاتب إسطنبول", "أراضي إسطنبول", "إيجار شقق إسطنبول", "عقارات باشاكشهر", "عقارات كاياشهر", "عقارات بيليك دوزو", "عقارات إسطنبول"]
+      : ["apartments for sale Istanbul", "villas for sale Istanbul", "offices Istanbul", "land for sale Istanbul", "rent apartment Istanbul", "real estate Basaksehir", "real estate Kayashehir", "real estate Beylikduzu", "Istanbul property listings"],
   }
 }
 

@@ -28,6 +28,9 @@ export async function generateMetadata({ params }: PageProps) {
   return {
     title: dict.meta.submitTitle,
     description: dict.meta.submitDescription,
+    keywords: locale === "ar"
+      ? ["أضف عقارك", "نشر إعلان عقاري", "عرض شقة للبيع", "عرض عقار للإيجار", "إسطنبول عقارات"]
+      : ["list your property", "post real estate listing", "advertise apartment", "list property Istanbul", "free listing"],
   }
 }
 
