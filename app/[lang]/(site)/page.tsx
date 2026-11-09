@@ -23,6 +23,7 @@ import {
 import { PropertyCard } from "@/components/property-card"
 import { SearchBox } from "@/components/search-box"
 import { Reveal } from "@/components/reveal"
+import { HeroParallax } from "@/components/hero-parallax"
 import { Counter } from "@/components/counter"
 import type { PropertyTypeKey } from "@/lib/dictionaries/types"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
@@ -125,17 +126,10 @@ export default async function HomePage({
     <>
       {/* ============================== HERO ============================== */}
       <section className="relative overflow-hidden bg-ink-950 text-white">
-        <div className="absolute inset-0">
-          <Image
-            src={heroImage}
-            alt=""
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-ink-950/95 via-ink-950/85 to-brand-900/85" />
-        </div>
+        <HeroParallax src={heroImage} alt="" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ink-950/95 via-ink-950/85 to-brand-900/85" />
+        {/* Subtle grain overlay for texture */}
+        <div className="grain absolute inset-0" />
 
         <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-gold-300">

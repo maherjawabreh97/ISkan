@@ -72,7 +72,7 @@ export function PropertyListRow({
   return (
     <Link
       href={href}
-      className={`card-raised group relative flex overflow-hidden rounded-xl border border-slate-200/80 bg-white ${className}`}
+      className={`card-raised group relative flex overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-900/8 hover:border-brand-200 ${className}`}
     >
       <div className="relative w-32 shrink-0 overflow-hidden bg-slate-100 sm:w-56">
         <div className="absolute inset-0">

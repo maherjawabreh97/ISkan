@@ -65,7 +65,7 @@ export function PropertyCard({
   return (
     <Link
       href={href}
-      className={`card-raised group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white ${className}`}
+      className={`card-raised group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 hover:border-brand-200 ${className}`}
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
         <Image
