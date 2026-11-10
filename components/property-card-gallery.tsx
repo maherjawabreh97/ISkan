@@ -26,13 +26,39 @@ export function PropertyCardGallery({
   images: string[]
   alt: string
 }) {
-  const slides = images.filter(Boolean).slice(0, MAX_SLIDES)
+  // Duplicate URLs in the stored list (the demo listing ships the same two
+  // photos twice) would otherwise show the same frame twice in a row.
+  const slides = Array.from(new Set(images.filter(Boolean))).slice(0, MAX_SLIDES)
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     duration: 24,
     align: "start",
   })
   const [selected, setSelected] = useState(0)
+
+  // Slides that sit outside the card are clipped by `overflow-hidden`, so the
+  // browser treats them as offscreen and never starts their lazy load. The
+  // first swipe then lands on an empty frame while the photo downloads. Once
+  // the card itself is near the viewport, load every slide eagerly so the
+  // photos are already decoded by the time anyone swipes.
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const element = rootRef.current
+    if (!element || typeof IntersectionObserver === "undefined") return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "300px" },
+    )
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     if (!emblaApi) return
@@ -71,6 +97,10 @@ export function PropertyCardGallery({
   }
 
   const onPointerDown = (event: PointerEvent) => {
+    // Fallback for environments where IntersectionObserver is throttled (a
+    // background tab, for instance): the moment someone touches the gallery,
+    // let every slide start loading.
+    setInView(true)
     origin.current = { x: event.clientX, y: event.clientY }
     dragged.current = false
   }
@@ -100,6 +130,7 @@ export function PropertyCardGallery({
 
   return (
     <div
+      ref={rootRef}
       className="absolute inset-0"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -118,7 +149,7 @@ export function PropertyCardGallery({
                 fill
                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover transition duration-700 group-hover:scale-[1.06]"
-                loading={index === 0 ? undefined : "lazy"}
+                loading={index === 0 || inView ? "eager" : "lazy"}
               />
             </div>
           ))}
