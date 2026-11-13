@@ -17,7 +17,7 @@ import { cn } from "@/lib/cn"
  */
 
 /** More than this and the extra slides cost more bandwidth than they are worth. */
-const MAX_SLIDES = 5
+const MAX_SLIDES = 4
 
 export function PropertyCardGallery({
   images,
@@ -36,30 +36,11 @@ export function PropertyCardGallery({
   })
   const [selected, setSelected] = useState(0)
 
-  // Slides that sit outside the card are clipped by `overflow-hidden`, so the
-  // browser treats them as offscreen and never starts their lazy load. The
-  // first swipe then lands on an empty frame while the photo downloads. Once
-  // the card itself is near the viewport, load every slide eagerly so the
-  // photos are already decoded by the time anyone swipes.
-  const rootRef = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-
-  useEffect(() => {
-    const element = rootRef.current
-    if (!element || typeof IntersectionObserver === "undefined") return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setInView(true)
-          observer.disconnect()
-        }
-      },
-      { rootMargin: "300px" },
-    )
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [])
-
+  // Embla moves slides with a CSS transform, but Chrome's lazy loader keys off
+  // the element's *layout* position, which never changes. A lazy slide that is
+  // swiped into view therefore never starts loading and stays empty. Rendering
+  // every slide eagerly avoids that entirely; `fetchPriority` keeps the first
+  // photo (the one actually painted) ahead of the rest.
   useEffect(() => {
     if (!emblaApi) return
     const sync = () => setSelected(emblaApi.selectedScrollSnap())
@@ -90,6 +71,8 @@ export function PropertyCardGallery({
           fill
           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition duration-700 group-hover:scale-[1.06]"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/75 via-ink-950/5 to-transparent" />
       </div>
@@ -97,10 +80,6 @@ export function PropertyCardGallery({
   }
 
   const onPointerDown = (event: PointerEvent) => {
-    // Fallback for environments where IntersectionObserver is throttled (a
-    // background tab, for instance): the moment someone touches the gallery,
-    // let every slide start loading.
-    setInView(true)
     origin.current = { x: event.clientX, y: event.clientY }
     dragged.current = false
   }
@@ -130,7 +109,6 @@ export function PropertyCardGallery({
 
   return (
     <div
-      ref={rootRef}
       className="absolute inset-0"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -149,7 +127,8 @@ export function PropertyCardGallery({
                 fill
                 sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover transition duration-700 group-hover:scale-[1.06]"
-                loading={index === 0 || inView ? "eager" : "lazy"}
+                loading="eager"
+                fetchPriority={index === 0 ? "high" : "low"}
               />
             </div>
           ))}
