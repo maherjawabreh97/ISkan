@@ -306,54 +306,6 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== POPULAR DISTRICTS ========================== */}
-      <section className="bg-gradient-to-b from-sand-50 to-white py-10 lg:py-12">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <SectionHead
-            title={locale === "ar" ? "أحياء شائعة" : "Popular districts"}
-            subtitle={
-              locale === "ar"
-                ? "استكشف الأحياء الأكثر طلباً في إسطنبول."
-                : "Explore the most sought-after districts in Istanbul."
-            }
-          />
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {[
-              "basaksehir",
-              "sisli",
-              "beylikduzu",
-              "kadikoy",
-              "uskudar",
-              "fatih",
-            ].map((city, i) => {
-              const count = properties.filter((p) => p.city === city).length
-              return (
-                <Reveal key={city} delay={i * 0.04}>
-                  <Link
-                    href={`/${locale}/properties?city=${city}`}
-                    className="group block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-md"
-                  >
-                    <div className="relative aspect-[4/3] bg-gradient-to-br from-brand-100 to-sand-200">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <MapPin className="size-6 text-brand-600/60" />
-                      </div>
-                      <span className="absolute bottom-2 start-2 rounded-full bg-ink-950/70 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur">
-                        {count} {dict.common.properties}
-                      </span>
-                    </div>
-                    <div className="p-3">
-                      <p className="truncate font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
-                        {dict.cities[city as keyof typeof dict.cities]}
-                      </p>
-                    </div>
-                  </Link>
-                </Reveal>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* ========================== INVESTMENT OPPORTUNITIES ========================== */}
       <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -573,46 +525,6 @@ export default async function HomePage({
                     {step.t}
                   </h3>
                   <p className="mt-1.5 text-sm leading-6 text-slate-500">{step.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================== TESTIMONIALS ========================== */}
-      <section className="bg-white py-10 lg:py-12">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <SectionHead
-            title={locale === "ar" ? "آراء عملائنا" : "What our clients say"}
-            subtitle={
-              locale === "ar"
-                ? "تجارب حقيقية من مستثمرين وساكنين."
-                : "Real experiences from investors and residents."
-            }
-          />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {(locale === "ar"
-              ? [
-                  { name: "أحمد المحمدي", text: "خدمة احترافية من البداية للنهاية. وجدوا لي شقة في باشاكشهر خلال أسبوع." },
-                  { name: "فاطمة الزهراء", text: "شفافية في الأسعار والعقود. أنصح إسكان لكل من يبحث عن عقار في إسطنبول." },
-                  { name: "محمد علي", text: "ساعدوني في الحصول على الجنسية التركية عبر الاستثمار العقاري. متابعة ممتازة." },
-                ]
-              : [
-                  { name: "Ahmed Al-Mohammadi", text: "Professional service from start to finish. They found me an apartment in Basaksehir within a week." },
-                  { name: "Fatima Al-Zahra", text: "Transparent pricing and contracts. I recommend Iskan to anyone looking for property in Istanbul." },
-                  { name: "Mohammed Ali", text: "Helped me get Turkish citizenship through property investment. Excellent follow-up." },
-                ]
-            ).map((t, i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="rounded-2xl bg-sand-50 p-5 ring-1 ring-slate-200/70">
-                  <div className="flex items-center gap-1 text-gold-400">
-                    {"★★★★★"}
-                  </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">“{t.text}”</p>
-                  <p className="mt-3 font-heading text-sm font-bold text-ink-900">
-                    {t.name}
-                  </p>
                 </div>
               </Reveal>
             ))}

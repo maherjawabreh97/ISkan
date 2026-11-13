@@ -36,10 +36,18 @@ export function SiteFooter({
   dict: Dictionary
   signedIn?: boolean
 }) {
+  const isAr = locale === "ar"
+
   const quickLinks = [
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.properties, href: `/${locale}/properties` },
     { label: dict.nav.submit, href: `/${locale}/submit` },
+    { label: isAr ? "خدماتنا" : "Services", href: `/${locale}/services` },
+    { label: isAr ? "بع عقارك" : "Sell your property", href: `/${locale}/sell` },
+    { label: isAr ? "دليل المشتري" : "Buyer's guide", href: `/${locale}/buyer-guide` },
+    { label: isAr ? "الجنسية التركية" : "Turkish citizenship", href: `/${locale}/citizenship` },
+    { label: isAr ? "من نحن" : "About us", href: `/${locale}/about` },
+    { label: isAr ? "تواصل معنا" : "Contact us", href: `/${locale}/contact` },
     signedIn
       ? { label: dict.account.title, href: `/${locale}/account` }
       : { label: dict.account.signInTab, href: `/${locale}/login` },
