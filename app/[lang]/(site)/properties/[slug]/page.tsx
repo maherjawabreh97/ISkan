@@ -672,6 +672,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         dict={dict}
         slug={property.slug}
         name={name}
+        whatsapp={contact.whatsapp}
       />
     </>
   )

@@ -7,18 +7,20 @@ import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
-const WHATSAPP_BASE = "https://wa.me/905432466309"
+const OFFICE_WHATSAPP = "905432466309"
 
 export function StickyActions({
   locale,
   dict,
   slug,
   name,
+  whatsapp,
 }: {
   locale: Locale
   dict: Dictionary
   slug: string
   name: string
+  whatsapp?: string
 }) {
   const favorites = useFavorites()
   const saved = favorites.includes(slug)
@@ -31,8 +33,11 @@ export function StickyActions({
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  const whatsappHref = `${WHATSAPP_BASE}?text=${encodeURIComponent(
-    `Hello Iskan! I'm interested in: ${name}`,
+  const waNumber = (whatsapp ?? OFFICE_WHATSAPP).replace(/\D/g, "")
+  const whatsappHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(
+    locale === "ar"
+      ? `مرحباً إسكان! شفت الإعلان: ${name}. بدي أعرف تفاصيل أكثر.`
+      : `Hello Iskan! I saw this listing: ${name}. I'd like more details.`,
   )}`
 
   return (
@@ -57,7 +62,7 @@ export function StickyActions({
         </button>
 
         <a
-          href={`tel:+905432466309`}
+          href={`tel:+${waNumber}`}
           className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-ink-900 px-5 py-3.5 text-sm font-extrabold text-white transition active:scale-[0.98]"
         >
           <Phone className="size-4.5" />
