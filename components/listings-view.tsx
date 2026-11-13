@@ -3,16 +3,17 @@
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "motion/react"
-import { Heart, LayoutGrid, List, RefreshCcw, Search, SearchX, X } from "lucide-react"
+import { Heart, LayoutGrid, List, Map as MapIcon, RefreshCcw, Search, SearchX, X } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import type { Property } from "@/lib/properties"
 import { PropertyCard } from "@/components/property-card"
 import { PropertyListRow } from "@/components/property-list-row"
+import { ListingsMap } from "@/components/listings-map"
 import { useFavorites } from "@/lib/use-favorites"
 
 type Tab = "all" | "sale" | "rent" | "favorites"
-type View = "grid" | "list"
+type View = "grid" | "list" | "map"
 
 /** Key used to remember the choice between visits. */
 const VIEW_STORAGE_KEY = "iskan:listings-view"
@@ -73,11 +74,12 @@ export function ListingsView({
   // fall back to whatever this browser picked last time. Read lazily because
   // localStorage does not exist during the server render.
   const [view, setView] = useState<View>(() => {
-    if (filters.view === "list" || filters.view === "grid") return filters.view
+    if (filters.view === "list" || filters.view === "grid" || filters.view === "map") return filters.view
     if (typeof window === "undefined") return "grid"
     try {
       const stored = window.localStorage.getItem(VIEW_STORAGE_KEY)
-      return stored === "list" ? "list" : "grid"
+      if (stored === "list" || stored === "map") return stored
+      return "grid"
     } catch {
       return "grid"
     }
@@ -104,6 +106,7 @@ export function ListingsView({
       if (tab === "favorites") params.set("favorites", "1")
       if (tab === "sale" || tab === "rent") params.set("purpose", tab)
       if (view === "list") params.set("view", "list")
+      if (view === "map") params.set("view", "map")
       const query = params.toString()
       const target = `/${locale}/properties${query ? `?${query}` : ""}`
 
@@ -453,6 +456,7 @@ export function ListingsView({
               [
                 { key: "grid" as const, icon: LayoutGrid, label: dict.common.viewGrid },
                 { key: "list" as const, icon: List, label: dict.common.viewList },
+                 { key: "map" as const, icon: MapIcon, label: locale === "ar" ? "خريطة" : "Map" },
               ]
             ).map(({ key, icon: Icon, label }) => {
               const active = view === key
@@ -490,7 +494,11 @@ export function ListingsView({
       </div>
 
       {filtered.length > 0 ? (
-        view === "list" ? (
+        view === "map" ? (
+          <div className="mt-6">
+            <ListingsMap properties={filtered} locale={locale} dict={dict} />
+          </div>
+        ) : view === "list" ? (
           <motion.div
             key="list"
             className="mt-6 flex flex-col gap-3"

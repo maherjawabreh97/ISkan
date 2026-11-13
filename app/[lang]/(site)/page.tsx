@@ -20,6 +20,7 @@ import {
   Building,
 } from "lucide-react"
 import { PropertyCard } from "@/components/property-card"
+import { PriceDisplay } from "@/components/price-display"
 import { SearchBox } from "@/components/search-box"
 import { Reveal } from "@/components/reveal"
 import { HeroParallax } from "@/components/hero-parallax"
@@ -301,7 +302,7 @@ export default async function HomePage({
                     {featured[0].name[locale]}
                   </h3>
                   <p className="text-3xl font-bold text-gold-300">
-                    {formatPrice(featured[0].price, featured[0].currency)}
+                    <PriceDisplay value={featured[0].price} currency={featured[0].currency} />
                     {featured[0].pricePerMonth ? (
                       <span className="ms-1.5 text-sm font-medium text-white/60">
                         {dict.common.perMonth}

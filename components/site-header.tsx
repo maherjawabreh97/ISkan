@@ -7,6 +7,7 @@ import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { site } from "@/lib/site"
 import { LanguageSwitcher } from "./language-switcher"
+import { CurrencySwitcher } from "./currency-switcher"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
 import { NavLink } from "./nav-link"
@@ -86,6 +87,7 @@ export function SiteHeader({
             {signedIn ? <UserCog className="size-3.5" /> : <LogIn className="size-3.5" />}
             {signedIn ? dict.account.title : dict.account.signInTab}
           </Link>
+          <CurrencySwitcher locale={locale} />
           <LanguageSwitcher locale={locale} />
           <MobileNav locale={locale} dict={dict} signedIn={signedIn} />
         </div>

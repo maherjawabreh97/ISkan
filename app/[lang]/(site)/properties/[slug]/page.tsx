@@ -26,6 +26,7 @@ import {
   User,
 } from "lucide-react"
 import { PropertyGallery } from "@/components/property-gallery"
+import { PriceDisplay } from "@/components/price-display"
 import { PropertyMap } from "@/components/admin/location-picker"
 import { StickyActions } from "@/components/sticky-actions"
 import { VideoTour } from "@/components/video-tour"
@@ -342,7 +343,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                 </span>
               </p>
               <p className="mt-4 font-heading text-[1.75rem] font-bold leading-none text-ink-900">
-                {formatPrice(property.price, property.currency)}
+                <PriceDisplay value={property.price} currency={property.currency} />
                 <span className="ms-1.5 text-sm font-medium text-slate-400">
                   {perMonth}
                 </span>
@@ -496,7 +497,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     {dict.common.price}
                   </p>
                   <p className="mt-1 font-heading text-3xl font-bold leading-none">
-                    {formatPrice(property.price, property.currency)}
+                    <PriceDisplay value={property.price} currency={property.currency} />
                     <span className="ms-1.5 text-sm font-medium text-white/60">
                       {perMonth}
                     </span>
@@ -707,7 +708,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                       </p>
                     </div>
                     <p className="shrink-0 text-sm font-bold text-ink-900">
-                      {formatPrice(item.price, item.currency)}
+                      <PriceDisplay value={item.price} currency={item.currency} />
                     </p>
                   </div>
                 </Link>

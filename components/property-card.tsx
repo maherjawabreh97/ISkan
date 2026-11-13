@@ -6,6 +6,8 @@ import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
+import { useCurrency } from "@/lib/use-currency"
+import { formatDisplayPrice } from "@/lib/currency"
 import type { Property } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
 import { PropertyCardGallery } from "@/components/property-card-gallery"
@@ -64,6 +66,8 @@ export function PropertyCard({
   const advertiserName = advertiser?.name[locale]
   const isOffice = advertiserName ? OFFICE_NAMES.test(advertiserName) : false
 
+  const [displayCurrency] = useCurrency()
+
   return (
     <Link
       href={href}
@@ -118,7 +122,7 @@ export function PropertyCard({
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 px-3 pb-2.5">
           <p className="font-heading text-base font-bold leading-none text-white drop-shadow">
-            {formatPrice(property.price, property.currency)}
+            {formatDisplayPrice(property.price, property.currency, displayCurrency)}
             <span className="ms-0.5 text-[10px] font-medium text-white/75">
               {perMonth}
             </span>

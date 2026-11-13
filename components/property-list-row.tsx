@@ -6,6 +6,8 @@ import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
+import { useCurrency } from "@/lib/use-currency"
+import { formatDisplayPrice } from "@/lib/currency"
 import type { Property } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
 import { WhatsAppIcon } from "@/components/whatsapp-icon"
@@ -35,6 +37,7 @@ export function PropertyListRow({
   const href = `/${locale}/properties/${property.slug}`
   const name = property.name[locale]
   const city = dict.cities[property.city]
+  const [displayCurrency] = useCurrency()
   const purposeLabel =
     property.purpose === "rent" ? dict.common.forRent : dict.common.forSale
   const perMonth = property.pricePerMonth ? ` ${dict.common.perMonth}` : ""
@@ -105,7 +108,7 @@ export function PropertyListRow({
               <span className="truncate">{city}</span>
             </div>
             <p className="font-heading text-base font-bold leading-none text-ink-900">
-              {formatPrice(property.price, property.currency)}
+              {formatDisplayPrice(property.price, property.currency, displayCurrency)}
               <span className="ms-0.5 text-[10px] font-medium text-slate-400">
                 {perMonth}
               </span>

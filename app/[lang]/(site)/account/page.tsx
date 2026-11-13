@@ -24,6 +24,7 @@ import {
   type ListingState,
 } from "@/lib/accounts"
 import { formatPrice } from "@/lib/format"
+import { PriceDisplay } from "@/components/price-display"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getStoredProperty } from "@/lib/properties-store"
 import { getSubmission } from "@/lib/submissions-store"
@@ -296,7 +297,7 @@ export default async function AccountPage({ params, searchParams }: PageProps) {
                         {title}
                       </p>
                       <p className="mt-0.5 text-sm font-black text-brand-700">
-                        {formatPrice(price, currency)}
+                        <PriceDisplay value={price} currency={currency} />
                       </p>
                       <span
                         className={`mt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-extrabold ring-1 ${badge.className}`}
