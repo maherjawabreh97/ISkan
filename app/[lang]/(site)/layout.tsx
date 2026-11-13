@@ -27,7 +27,7 @@ export default async function SiteLayout({
     <>
       <SiteHeader locale={locale} dict={dict} signedIn={signedIn} />
       {/* pb clears the fixed mobile tab bar. */}
-      <main className="flex-1 pt-16 pb-20 md:pb-0">{children}</main>
+      <main className="flex-1 pt-14 pb-20 md:pb-0">{children}</main>
       <SiteFooter locale={locale} dict={dict} signedIn={signedIn} />
       <MobileTabBar locale={locale} dict={dict} signedIn={signedIn} />
       <ScrollTop />

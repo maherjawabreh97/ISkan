@@ -57,7 +57,7 @@ function SectionHead({
     <div className="flex flex-wrap items-end justify-between gap-5">
       <div className="max-w-2xl">
         <span className="block h-px w-7 bg-gold-500" />
-        <h2 className="mt-4 font-heading text-2xl font-bold leading-tight text-ink-900 sm:text-[2rem]">
+        <h2 className="mt-4 font-heading text-xl font-bold leading-tight text-ink-900 sm:text-[1.6rem]">
           {title}
         </h2>
         {subtitle && (
@@ -170,7 +170,7 @@ export default async function HomePage({
             {dict.hero.badge}
           </span>
 
-          <h1 className="mt-5 max-w-3xl font-heading text-[2rem] font-bold leading-[1.12] sm:text-5xl lg:text-[3.4rem]">
+          <h1 className="mt-4 max-w-3xl font-heading text-[1.6rem] font-bold leading-[1.12] sm:text-4xl lg:text-[2.6rem]">
             {dict.hero.title1}{" "}
             <span className="text-gradient-gold">{dict.hero.titleHighlight}</span>
           </h1>
@@ -212,7 +212,7 @@ export default async function HomePage({
       </section>
 
       {/* ============================== CATEGORIES ============================== */}
-      <section className="bg-white py-14 lg:py-16">
+      <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
             title={dict.sections.browseTitle}
@@ -256,7 +256,7 @@ export default async function HomePage({
       </section>
 
       {/* ========================== FEATURED ========================== */}
-      <section className="bg-sand-50 py-14 lg:py-16">
+      <section className="bg-sand-50 py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
             title={dict.sections.featuredTitle}
@@ -298,7 +298,7 @@ export default async function HomePage({
                   <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gold-300">
                     {dict.cities[featured[0].city]}
                   </p>
-                  <h3 className="font-heading text-2xl font-bold leading-tight sm:text-3xl">
+                  <h3 className="font-heading text-xl font-bold leading-tight sm:text-2xl">
                     {featured[0].name[locale]}
                   </h3>
                   <p className="text-3xl font-bold text-gold-300">
@@ -338,7 +338,7 @@ export default async function HomePage({
 
       {/* ========================== LATEST ========================== */}
       {latest.length > 0 && (
-      <section className="bg-white py-14 lg:py-16">
+      <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
             title={dict.sections.latestTitle}
@@ -374,7 +374,7 @@ export default async function HomePage({
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="max-w-2xl">
             <span className="block h-px w-7 bg-gold-500" />
-            <h2 className="mt-4 font-heading text-2xl font-bold leading-tight sm:text-[2rem]">
+            <h2 className="mt-4 font-heading text-xl font-bold leading-tight sm:text-[1.6rem]">
               {dict.sections.whyTitle}
             </h2>
             <p className="mt-2 text-[15px] leading-7 text-white/60">
@@ -406,7 +406,7 @@ export default async function HomePage({
       />
 
       {/* ========================== FAQ ========================== */}
-      <section className="bg-white py-14 lg:py-16">
+      <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
           <SectionHead
             title={locale === "ar" ? "أسئلة شائعة" : "Frequently asked questions"}
@@ -436,12 +436,12 @@ export default async function HomePage({
       </section>
 
       {/* ========================== CTA ========================== */}
-      <section className="bg-white py-14 lg:py-16">
+      <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-900 via-ink-900 to-ink-950 px-6 py-12 text-white sm:px-12 sm:py-16">
             <div className="bg-grid-dark absolute inset-0 opacity-25" />
             <div className="relative mx-auto max-w-2xl text-center">
-              <h2 className="font-heading text-2xl font-bold leading-tight sm:text-[2rem]">
+              <h2 className="font-heading text-xl font-bold leading-tight sm:text-[1.6rem]">
                 {dict.sections.ctaTitle}
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-[15px] leading-7 text-white/65">

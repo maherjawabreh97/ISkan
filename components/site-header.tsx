@@ -44,7 +44,7 @@ export function SiteHeader({
     >
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/50 to-transparent" />
 
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
         <Logo locale={locale} name={dict.brand.name} />
 
         <nav className="hidden items-center gap-2 md:flex">

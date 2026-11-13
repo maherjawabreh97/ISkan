@@ -477,7 +477,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   )}
                 </div>
 
-                <p className="mt-4 font-heading text-[1.6rem] font-bold leading-[1.2] text-ink-900 sm:text-[2rem]">
+                <p className="mt-3 font-heading text-[1.3rem] font-bold leading-[1.2] text-ink-900 sm:text-[1.6rem]">
                   {name}
                 </p>
 
@@ -496,7 +496,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">
                     {dict.common.price}
                   </p>
-                  <p className="mt-1 font-heading text-3xl font-bold leading-none">
+                  <p className="mt-1 font-heading text-2xl font-bold leading-none">
                     <PriceDisplay value={property.price} currency={property.currency} />
                     <span className="ms-1.5 text-sm font-medium text-white/60">
                       {perMonth}

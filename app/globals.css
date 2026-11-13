@@ -63,7 +63,7 @@ body {
 /* Smooth, premium-feeling scroll for the whole site. */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 4rem;
 }
 
 /* Subtle focus ring that matches the brand. */

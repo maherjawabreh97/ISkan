@@ -74,7 +74,7 @@ export function PropertyCard({
       href={href}
       className={`card-raised group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 hover:border-brand-200 ${className}`}
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         <PropertyCardGallery images={property.images} alt={name} locale={locale} />
 
         <span
@@ -122,7 +122,7 @@ export function PropertyCard({
         </span>
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 px-3 pb-2.5">
-          <p className="font-heading text-base font-bold leading-none text-white drop-shadow">
+          <p className="font-heading text-sm font-bold leading-none text-white drop-shadow">
             {formatDisplayPrice(property.price, property.currency, displayCurrency)}
             <span className="ms-0.5 text-[10px] font-medium text-white/75">
               {perMonth}
@@ -131,13 +131,13 @@ export function PropertyCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-3">
-        <div className="flex items-center gap-1 text-[11px] font-semibold text-brand-700">
+      <div className="flex flex-1 flex-col p-2.5">
+        <div className="flex items-center gap-1 text-[10px] font-semibold text-brand-700">
           <MapPin className="size-3 shrink-0" />
           <span className="truncate">{city}</span>
         </div>
 
-        <h3 className="mt-1 line-clamp-2 font-heading text-[13px] font-bold leading-snug text-ink-900 transition-colors duration-300 group-hover:text-brand-700">
+        <h3 className="mt-1 line-clamp-2 font-heading text-[12px] font-bold leading-snug text-ink-900 transition-colors duration-300 group-hover:text-brand-700">
           {name}
         </h3>
 

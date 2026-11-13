@@ -2,10 +2,11 @@ export type DisplayCurrency = "TRY" | "USD" | "EUR" | "SAR"
 
 /** Approximate rates: 1 unit of `from` → `to`. Base TRY. */
 const RATES: Record<DisplayCurrency, number> = {
+  // 1 USD = 49.89 TRY (user-provided). Other rates derived.
   TRY: 1,
-  USD: 0.031,
-  EUR: 0.0285,
-  SAR: 0.116,
+  USD: 1 / 49.89,
+  EUR: 1 / 53.5,
+  SAR: 1 / 13.3,
 }
 
 export const DISPLAY_CURRENCIES: DisplayCurrency[] = ["TRY", "USD", "EUR", "SAR"]
