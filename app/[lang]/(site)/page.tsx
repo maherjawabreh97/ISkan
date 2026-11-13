@@ -110,6 +110,34 @@ export default async function HomePage({
     return acc
   }, {})
 
+  const faqs = locale === "ar"
+    ? [
+        { q: "كيف أشتري عقاراً في إسطنبول؟", a: "ابدأ بتحديد ميزانيتك والمنطقة المفضلة، ثم تواصل مع مستشارنا العقاري. نرافقك في اختيار العقار، ومراجعة العقد، ونقل الملكية (التابو) حتى تسليم المفاتيح." },
+        { q: "هل يمكن للأجانب شراء عقار في تركيا؟", a: "نعم، يمكن للمواطنين الأجانب شراء عقارات في تركيا (باستثناء مناطق عسكرية محددة). نحن نساعدك في جميع الإجراءات القانونية." },
+        { q: "ما هو الحد الأدنى لشراء عقار للحصول على الجنسية التركية؟", a: "الحد الأدنى currently 400,000 دولار أمريكي (مع تعهد بعدم البيع لمدة 3 سنوات). نحن نرشدك إلى العقارات المؤهلة." },
+        { q: "ما هي أفضل مناطق إسطنبول للاستثمار؟", a: "باشاكشهر، بيليك دوزو، بهجة شهير، شيشلي، كاياشهر، ساريير، أوسكودار، الفاتح — كل منطقة تناسب هدفاً مختلفاً (سكن عائلي، عائد إيجاري، plus-value)." },
+        { q: "هل تقدمون خدمة ما بعد البيع؟", a: "نعم: إدارة الأملاك، تأجير، صيانة، ومتابعة الإقامة/الجنسية." },
+        { q: "كيف أتحقق من ملكية العقار (Tapu)؟", a: "نقوم بفحص سند الملكية (Tapu) وسجلات التقييم (Ekspertiz) قبل أي عقد، لضمان خلو العقار من القيود." },
+      ]
+    : [
+        { q: "How do I buy property in Istanbul?", a: "Start by defining your budget and preferred area, then contact our consultant. We accompany you through selection, contract review, title deed (Tapu) transfer and key handover." },
+        { q: "Can foreigners buy property in Turkey?", a: "Yes — foreign nationals can buy real estate in Turkey (excluding certain military zones). We assist with all legal procedures." },
+        { q: "What is the minimum investment for Turkish citizenship?", a: "Currently USD 400,000 (with a 3-year no-sale commitment). We guide you to eligible properties." },
+        { q: "Best areas in Istanbul for investment?", a: "Basaksehir, Beylikduzu, Bahcesehir, Sisli, Kayashehir, Sariyer, Uskudar, Fatih — each fits a different goal (family living, rental yield, capital appreciation)." },
+        { q: "Do you offer after-sale service?", a: "Yes: property management, rental, maintenance, and residence/citizenship follow-up." },
+        { q: "How do I verify ownership (Tapu)?", a: "We check the title deed (Tapu) and valuation records (Ekspertiz) before any contract, ensuring the property is free of encumbrances." },
+      ]
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  }
+
   const stats = [
     { value: properties.length, suffix: "", label: dict.hero.statProperties, icon: Building },
     { value: 12, suffix: "", label: dict.hero.statCities, icon: MapPin },
@@ -314,6 +342,41 @@ export default async function HomePage({
                   <p className="mt-2 text-sm leading-7 text-white/55">{desc}</p>
                 </div>
               </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
+      {/* ========================== FAQ ========================== */}
+      <section className="bg-white py-14 lg:py-16">
+        <div className="mx-auto max-w-3xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "أسئلة شائعة" : "Frequently asked questions"}
+            subtitle={
+              locale === "ar"
+                ? "إجابات سريعة على أكثر الأسئلة شيوعاً."
+                : "Quick answers to the most common questions."
+            }
+          />
+          <div className="mt-8 space-y-3">
+            {faqs.map((f, i) => (
+              <details
+                key={i}
+                className="group rounded-2xl border border-slate-200/80 bg-sand-50 p-4 open:bg-white open:shadow-sm"
+              >
+                <summary className="cursor-pointer list-none font-heading text-base font-bold text-ink-900 marker:content-none">
+                  <span className="flex items-center justify-between gap-3">
+                    {f.q}
+                    <span className="text-gold-500 transition group-open:rotate-45">+</span>
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{f.a}</p>
+              </details>
             ))}
           </div>
         </div>
