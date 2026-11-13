@@ -221,7 +221,7 @@ export default async function HomePage({
       </section>
 
       {/* ============================== CATEGORIES ============================== */}
-      <section className="bg-white py-10 lg:py-12">
+      <section className="bg-gradient-to-b from-white to-sand-50 py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
             title={dict.sections.browseTitle}
@@ -265,7 +265,7 @@ export default async function HomePage({
       </section>
 
       {/* ========================== FEATURED ========================== */}
-      <section className="bg-sand-50 py-10 lg:py-12">
+      <section className="bg-gradient-to-b from-sand-50 to-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
             title={dict.sections.featuredTitle}
@@ -347,7 +347,7 @@ export default async function HomePage({
 
       {/* ========================== LATEST ========================== */}
       {latest.length > 0 && (
-      <section className="bg-white py-10 lg:py-12">
+      <section className="bg-gradient-to-b from-white to-sand-50 py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
             title={dict.sections.latestTitle}
@@ -415,7 +415,7 @@ export default async function HomePage({
       />
 
       {/* ========================== FAQ ========================== */}
-      <section className="bg-white py-10 lg:py-12">
+      <section className="bg-gradient-to-b from-white to-sand-50 py-10 lg:py-12">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
           <SectionHead
             title={locale === "ar" ? "أسئلة شائعة" : "Frequently asked questions"}
@@ -445,7 +445,7 @@ export default async function HomePage({
       </section>
 
       {/* ========================== CTA ========================== */}
-      <section className="bg-white py-10 lg:py-12">
+      <section className="bg-gradient-to-b from-white to-sand-50 py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-900 via-ink-900 to-ink-950 px-6 py-12 text-white sm:px-12 sm:py-16">
             <div className="bg-grid-dark absolute inset-0 opacity-25" />

@@ -74,8 +74,7 @@ export function PropertyCard({
   return (
     <Link
       href={href}
-      className={`card-raised group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 hover:border-brand-200 ${className}`}
-    >
+      className={`card-raised group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-[0_2px_8px_-4px_rgba(6,13,22,0.08),0_8px_24px_-12px_rgba(6,13,22,0.12)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_24px_-8px_rgba(6,13,22,0.18),0_20px_40px_-16px_rgba(6,13,22,0.2)] hover:border-brand-300/60 ${className}`}    >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         <PropertyCardGallery images={property.images} alt={name} locale={locale} />
 
@@ -123,10 +122,10 @@ export function PropertyCard({
           )}
         </span>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 px-3 pb-2.5">
-          <p className="font-heading text-sm font-bold leading-none text-white drop-shadow">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/80 via-ink-950/40 to-transparent px-3 pb-2.5 pt-8">
+          <p className="font-heading text-sm font-bold leading-none text-white drop-shadow-md">
             {formatDisplayPrice(property.price, property.currency, displayCurrency)}
-            <span className="ms-0.5 text-[10px] font-medium text-white/75">
+            <span className="ms-0.5 text-[10px] font-medium text-white/80">
               {perMonth}
             </span>
           </p>
