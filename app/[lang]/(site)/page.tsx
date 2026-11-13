@@ -414,6 +414,88 @@ export default async function HomePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
+      {/* ========================== HOW IT WORKS ========================== */}
+      <section className="bg-sand-50 py-10 lg:py-12">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "كيف نعمل" : "How it works"}
+            subtitle={
+              locale === "ar"
+                ? "4 خطوات بسيطة للعثور على عقارك المثالي."
+                : "4 simple steps to find your ideal property."
+            }
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {(locale === "ar"
+              ? [
+                  { n: "1", t: "استشارة", d: "نحدد ميزانيتك وأهدافك (سكن/استثمار/جنسية)." },
+                  { n: "2", t: "اختيار", d: "نقترح عقارات مناسبة ونظم جولات (عن بُعد أو حضورياً)." },
+                  { n: "3", t: "تحقق", d: "فحص Tapu و Ekspertiz قبل أي عقد." },
+                  { n: "4", t: "تسليم", d: "نقل الملكية (Tapu) وتسليم المفاتيح وما بعد البيع." },
+                ]
+              : [
+                  { n: "1", t: "Consult", d: "We define your budget and goals (living/investment/citizenship)." },
+                  { n: "2", t: "Select", d: "We propose matching properties and arrange tours (remote or in person)." },
+                  { n: "3", t: "Verify", d: "Tapu and Ekspertiz checks before any contract." },
+                  { n: "4", t: "Deliver", d: "Title deed (Tapu) transfer, key handover and after-sale support." },
+                ]
+            ).map((step) => (
+              <Reveal key={step.n} delay={0}>
+                <div className="relative rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
+                  <span className="font-heading text-3xl font-bold text-gold-400/40">
+                    {step.n}
+                  </span>
+                  <h3 className="mt-2 font-heading text-base font-bold text-ink-900">
+                    {step.t}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-6 text-slate-500">{step.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================== TESTIMONIALS ========================== */}
+      <section className="bg-white py-10 lg:py-12">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "آراء عملائنا" : "What our clients say"}
+            subtitle={
+              locale === "ar"
+                ? "تجارب حقيقية من مستثمرين وساكنين."
+                : "Real experiences from investors and residents."
+            }
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {(locale === "ar"
+              ? [
+                  { name: "أحمد المحمدي", text: "خدمة احترافية من البداية للنهاية. وجدوا لي شقة في باشاكشهر خلال أسبوع." },
+                  { name: "فاطمة الزهراء", text: "شفافية في الأسعار والعقود. أنصح إسكان لكل من يبحث عن عقار في إسطنبول." },
+                  { name: "محمد علي", text: "ساعدوني في الحصول على الجنسية التركية عبر الاستثمار العقاري. متابعة ممتازة." },
+                ]
+              : [
+                  { name: "Ahmed Al-Mohammadi", text: "Professional service from start to finish. They found me an apartment in Basaksehir within a week." },
+                  { name: "Fatima Al-Zahra", text: "Transparent pricing and contracts. I recommend Iskan to anyone looking for property in Istanbul." },
+                  { name: "Mohammed Ali", text: "Helped me get Turkish citizenship through property investment. Excellent follow-up." },
+                ]
+            ).map((t, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <div className="rounded-2xl bg-sand-50 p-5 ring-1 ring-slate-200/70">
+                  <div className="flex items-center gap-1 text-gold-400">
+                    {"★★★★★"}
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">“{t.text}”</p>
+                  <p className="mt-3 font-heading text-sm font-bold text-ink-900">
+                    {t.name}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ========================== FAQ ========================== */}
       <section className="bg-gradient-to-b from-white to-sand-50 py-10 lg:py-12">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
