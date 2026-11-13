@@ -141,6 +141,11 @@ export interface Dictionary {
     citizenshipNotEligible: string
     citizenshipEligible: string
     citizenshipEligibleShort: string
+    installment: string
+    underConstruction: string
+    readyToMove: string
+    luxury: string
+    seaView: string
     price: string
     cityLabel: string
     dateAdded: string

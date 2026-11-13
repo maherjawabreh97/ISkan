@@ -80,6 +80,11 @@ const en = {
     citizenshipEligible:
       "This property is eligible for Turkish citizenship through property investment.",
     citizenshipEligibleShort: "Citizenship eligible",
+    installment: "Installment",
+    underConstruction: "Under construction",
+    readyToMove: "Ready to move",
+    luxury: "Luxury",
+    seaView: "Sea view",
     price: "Price",
     cityLabel: "District",
     dateAdded: "Listed on",

@@ -67,6 +67,7 @@ export function ListingsView({
   const [minPrice, setMinPrice] = useState(() => filters.minPrice ?? "")
   const [maxPrice, setMaxPrice] = useState(() => filters.maxPrice ?? "")
   const [tab, setTab] = useState<Tab>(initialTab)
+  const [quickFilters, setQuickFilters] = useState<Set<string>>(() => new Set())
 
   // The URL wins so a shared link always shows what the sender saw; otherwise
   // fall back to whatever this browser picked last time. Read lazily because
@@ -129,6 +130,23 @@ export function ListingsView({
 
     if (city !== "all") list = list.filter((p) => p.city === city)
     if (type !== "all") list = list.filter((p) => p.type === type)
+    if (quickFilters.size > 0) {
+      list = list.filter((p) =>
+        [...quickFilters].every((key) => {
+          switch (key) {
+            case "citizenship": return p.citizenshipEligible === true
+            case "installment": return p.installment === true
+            case "underConstruction": return p.underConstruction === true
+            case "readyToMove": return p.readyToMove === true
+            case "luxury": return p.luxury === true
+            case "seaView": return p.seaView === true
+            case "european": return p.side === "european"
+            case "asian": return p.side === "asian"
+            default: return true
+          }
+        }),
+      )
+    }
     if (minPrice) {
       const min = Number(minPrice)
       if (Number.isFinite(min) && min > 0) list = list.filter((p) => p.price >= min)
@@ -160,7 +178,7 @@ export function ListingsView({
           new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
       )
     return sorted
-  }, [allProperties, favorites, q, city, type, sort, minPrice, maxPrice, tab, locale, dict])
+  }, [allProperties, favorites, q, city, type, sort, minPrice, maxPrice, tab, quickFilters, locale, dict])
 
   const counts = useMemo(() => {
     const byPurpose = (purpose: string) =>
@@ -176,9 +194,23 @@ export function ListingsView({
     }
   }, [allProperties, favorites])
 
+  const quickCounts = useMemo(() => {
+    const c = (pred: (p: Property) => boolean) => allProperties.filter(pred).length
+    return {
+      citizenship: c((p) => p.citizenshipEligible === true),
+      installment: c((p) => p.installment === true),
+      underConstruction: c((p) => p.underConstruction === true),
+      readyToMove: c((p) => p.readyToMove === true),
+      luxury: c((p) => p.luxury === true),
+      seaView: c((p) => p.seaView === true),
+      european: c((p) => p.side === "european"),
+      asian: c((p) => p.side === "asian"),
+    }
+  }, [allProperties])
+
   const hasActive =
     Boolean(q) || city !== "all" || type !== "all" || tab !== "all" ||
-    Boolean(minPrice) || Boolean(maxPrice)
+    Boolean(minPrice) || Boolean(maxPrice) || quickFilters.size > 0
 
   const clearAll = () => {
     setQ("")
@@ -238,6 +270,53 @@ export function ListingsView({
                   >
                     {item.count}
                   </span>
+                </span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          {(
+            [
+              ["citizenship", dict.common.citizenshipEligibleShort, "emerald"],
+              ["installment", dict.common.installment, "blue"],
+              ["underConstruction", dict.common.underConstruction, "amber"],
+              ["readyToMove", dict.common.readyToMove, "teal"],
+              ["luxury", dict.common.luxury, "ink"],
+              ["seaView", dict.common.seaView, "sky"],
+              ["european", locale === "ar" ? "الجانب الأوروبي" : "European side", "slate"],
+              ["asian", locale === "ar" ? "الجانب الآسيوي" : "Asian side", "slate"],
+            ] as const
+          ).map(([key, label]) => {
+            const active = quickFilters.has(key)
+            const count = quickCounts[key as keyof typeof quickCounts]
+            if (count === 0) return null
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() =>
+                  setQuickFilters((prev) => {
+                    const next = new Set(prev)
+                    if (next.has(key)) next.delete(key)
+                    else next.add(key)
+                    return next
+                  })
+                }
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                  active
+                    ? "bg-brand-600 text-white"
+                    : "bg-sand-50 text-slate-600 ring-1 ring-slate-200 hover:bg-sand-100"
+                }`}
+              >
+                {label}
+                <span
+                  className={`rounded-full px-1.5 py-0.5 text-[10px] font-black ${
+                    active ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600"
+                  }`}
+                >
+                  {count}
                 </span>
               </button>
             )

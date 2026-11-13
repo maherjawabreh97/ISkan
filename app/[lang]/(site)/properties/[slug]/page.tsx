@@ -302,6 +302,31 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     {dict.common.citizenshipEligibleShort}
                   </span>
                 )}
+                {property.installment && (
+                  <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-700 ring-1 ring-blue-200">
+                    {dict.common.installment}
+                  </span>
+                )}
+                {property.underConstruction && (
+                  <span className="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-amber-700 ring-1 ring-amber-200">
+                    {dict.common.underConstruction}
+                  </span>
+                )}
+                {property.readyToMove && (
+                  <span className="inline-flex items-center rounded-full bg-teal-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-teal-700 ring-1 ring-teal-200">
+                    {dict.common.readyToMove}
+                  </span>
+                )}
+                {property.luxury && (
+                  <span className="inline-flex items-center rounded-full bg-ink-900 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-gold-300 ring-1 ring-ink-900">
+                    {dict.common.luxury}
+                  </span>
+                )}
+                {property.seaView && (
+                  <span className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-sky-700 ring-1 ring-sky-200">
+                    {dict.common.seaView}
+                  </span>
+                )}
               </div>
               <h1 className="mt-3 font-heading text-[1.5rem] font-bold leading-[1.2] text-ink-900">
                 {name}
@@ -422,6 +447,31 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-emerald-700 ring-1 ring-emerald-200">
                       <ShieldCheck className="size-3.5" />
                       {dict.common.citizenshipEligibleShort}
+                    </span>
+                  )}
+                  {property.installment && (
+                    <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-700 ring-1 ring-blue-200">
+                      {dict.common.installment}
+                    </span>
+                  )}
+                  {property.underConstruction && (
+                    <span className="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-amber-700 ring-1 ring-amber-200">
+                      {dict.common.underConstruction}
+                    </span>
+                  )}
+                  {property.readyToMove && (
+                    <span className="inline-flex items-center rounded-full bg-teal-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-teal-700 ring-1 ring-teal-200">
+                      {dict.common.readyToMove}
+                    </span>
+                  )}
+                  {property.luxury && (
+                    <span className="inline-flex items-center rounded-full bg-ink-900 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-gold-300 ring-1 ring-ink-900">
+                      {dict.common.luxury}
+                    </span>
+                  )}
+                  {property.seaView && (
+                    <span className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-sky-700 ring-1 ring-sky-200">
+                      {dict.common.seaView}
                     </span>
                   )}
                 </div>

@@ -24,6 +24,18 @@ export interface Property {
   floor?: number
   floorLabel?: LocalizedString
   citizenshipEligible?: boolean
+  /** Available on installment / payment plan. */
+  installment?: boolean
+  /** Currently under construction (not yet delivered). */
+  underConstruction?: boolean
+  /** Ready to move in immediately. */
+  readyToMove?: boolean
+  /** Luxury / premium tier. */
+  luxury?: boolean
+  /** Sea view. */
+  seaView?: boolean
+  /** Which side of Istanbul (European/Asian). */
+  side?: "european" | "asian"
   city: CityKey
   featured: boolean
   dateAdded: string

@@ -80,6 +80,11 @@ const ar = {
     citizenshipEligible:
       "هذا العقار مناسب للحصول على الجنسية التركية عن طريق الاستثمار العقاري.",
     citizenshipEligibleShort: "مناسب للجنسية",
+    installment: "بالتقسيط",
+    underConstruction: "قيد الإنشاء",
+    readyToMove: "جاهز للسكن",
+    luxury: "فاخر",
+    seaView: "إطلالة بحرية",
     price: "السعر",
     cityLabel: "المدينة",
     dateAdded: "تاريخ الإضافة",

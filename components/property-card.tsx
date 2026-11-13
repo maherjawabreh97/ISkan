@@ -82,6 +82,40 @@ export function PropertyCard({
           {purposeLabel}
         </span>
 
+        {/* Special-attribute badges (top-end, stacked). */}
+        <span className="pointer-events-none absolute end-2.5 top-2.5 flex flex-col items-end gap-1">
+          {property.citizenshipEligible === true && (
+            <span className="rounded-full bg-emerald-500/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur">
+              {dict.common.citizenshipEligibleShort}
+            </span>
+          )}
+          {property.installment && (
+            <span className="rounded-full bg-blue-500/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur">
+              {dict.common.installment}
+            </span>
+          )}
+          {property.underConstruction && (
+            <span className="rounded-full bg-amber-500/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur">
+              {dict.common.underConstruction}
+            </span>
+          )}
+          {property.readyToMove && (
+            <span className="rounded-full bg-teal-500/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur">
+              {dict.common.readyToMove}
+            </span>
+          )}
+          {property.luxury && (
+            <span className="rounded-full bg-ink-950/80 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-gold-300 backdrop-blur">
+              {dict.common.luxury}
+            </span>
+          )}
+          {property.seaView && (
+            <span className="rounded-full bg-sky-500/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur">
+              {dict.common.seaView}
+            </span>
+          )}
+        </span>
+
         <div className="pointer-events-none absolute inset-x-0 bottom-0 px-3 pb-2.5">
           <p className="font-heading text-base font-bold leading-none text-white drop-shadow">
             {formatPrice(property.price, property.currency)}
