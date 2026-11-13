@@ -10,6 +10,7 @@ import { useCurrency } from "@/lib/use-currency"
 import { formatDisplayPrice } from "@/lib/currency"
 import type { Property } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
+import { toggleCompare, useCompare } from "@/lib/use-compare"
 import { PropertyCardGallery } from "@/components/property-card-gallery"
 import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
@@ -187,6 +188,21 @@ export function PropertyCard({
                 {dict.common.whatsapp}
               </span>
             )}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                toggleCompare(property.slug)
+              }}
+              aria-label="Compare"
+              className="grid size-8 place-items-center rounded-full bg-white/90 text-slate-500 ring-1 ring-slate-200 transition hover:text-brand-700"
+            >
+              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="7" height="18" rx="1" />
+                <rect x="14" y="3" width="7" height="18" rx="1" />
+              </svg>
+            </button>
             <FavoriteButton slug={property.slug} compact dict={dict} />
           </span>
         </div>

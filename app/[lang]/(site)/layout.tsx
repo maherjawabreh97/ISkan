@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { MobileTabBar } from "@/components/mobile-tab-bar"
+import { CompareBar } from "@/components/compare-bar"
 import { ScrollTop } from "@/components/scroll-top"
 import { getSignedInAccount } from "@/lib/account-auth"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
@@ -30,6 +31,7 @@ export default async function SiteLayout({
       <SiteFooter locale={locale} dict={dict} signedIn={signedIn} />
       <MobileTabBar locale={locale} dict={dict} signedIn={signedIn} />
       <ScrollTop />
+      <CompareBar locale={locale} />
     </>
   )
 }
