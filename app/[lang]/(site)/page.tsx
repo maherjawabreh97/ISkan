@@ -264,6 +264,130 @@ export default async function HomePage({
         </div>
       </section>
 
+      {/* ========================== SERVICES ========================== */}
+      <section className="bg-white py-10 lg:py-12">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "خدماتنا" : "Our services"}
+            subtitle={
+              locale === "ar"
+                ? "حلول عقارية شاملة من الاستشارة إلى التسليم."
+                : "End-to-end real estate solutions from consultation to delivery."
+            }
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {(locale === "ar"
+              ? [
+                  { icon: "🧭", t: "استشارات عقارية", d: "تحليل سوق، اختيار مناطق، تقييم عائد." },
+                  { icon: "📣", t: "تسويق عقاري", d: "عرض عقارك لشبكة واسعة من المشترين." },
+                  { icon: "🏢", t: "إدارة أملاك", d: "تأجير، صيانة، تحصيل إيجارات." },
+                  { icon: "🏗️", t: "تطوير عقاري", d: "شراكات تطوير ومشاريع حصرية." },
+                  { icon: "✈️", t: "جولات واستقبال", d: "استقبال مطار، جولات عقارية، ترتيبات إقامة." },
+                ]
+              : [
+                  { icon: "🧭", t: "Property consulting", d: "Market analysis, area selection, yield assessment." },
+                  { icon: "📣", t: "Property marketing", d: "Expose your listing to a wide buyer network." },
+                  { icon: "🏢", t: "Property management", d: "Renting, maintenance, rent collection." },
+                  { icon: "🏗️", t: "Property development", d: "Development partnerships and exclusive projects." },
+                  { icon: "✈️", t: "Tours & reception", d: "Airport pickup, property tours, accommodation." },
+                ]
+            ).map((s, i) => (
+              <Reveal key={i} delay={i * 0.04}>
+                <div className="group h-full rounded-2xl border border-slate-200/70 bg-sand-50 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:bg-white hover:shadow-md">
+                  <span className="text-2xl">{s.icon}</span>
+                  <h3 className="mt-3 font-heading text-base font-bold text-ink-900 group-hover:text-brand-700">
+                    {s.t}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-5 text-slate-500">{s.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================== POPULAR DISTRICTS ========================== */}
+      <section className="bg-gradient-to-b from-sand-50 to-white py-10 lg:py-12">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "أحياء شائعة" : "Popular districts"}
+            subtitle={
+              locale === "ar"
+                ? "استكشف الأحياء الأكثر طلباً في إسطنبول."
+                : "Explore the most sought-after districts in Istanbul."
+            }
+          />
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {[
+              "basaksehir",
+              "sisli",
+              "beylikduzu",
+              "kadikoy",
+              "uskudar",
+              "fatih",
+            ].map((city, i) => {
+              const count = properties.filter((p) => p.city === city).length
+              return (
+                <Reveal key={city} delay={i * 0.04}>
+                  <Link
+                    href={`/${locale}/properties?city=${city}`}
+                    className="group block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-md"
+                  >
+                    <div className="relative aspect-[4/3] bg-gradient-to-br from-brand-100 to-sand-200">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <MapPin className="size-6 text-brand-600/60" />
+                      </div>
+                      <span className="absolute bottom-2 start-2 rounded-full bg-ink-950/70 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur">
+                        {count} {dict.common.properties}
+                      </span>
+                    </div>
+                    <div className="p-3">
+                      <p className="truncate font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
+                        {dict.cities[city as keyof typeof dict.cities]}
+                      </p>
+                    </div>
+                  </Link>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================== INVESTMENT OPPORTUNITIES ========================== */}
+      <section className="bg-white py-10 lg:py-12">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "فرص استثمارية" : "Investment opportunities"}
+            subtitle={
+              locale === "ar"
+                ? "عقارات مؤهلة للجنسية، بالتقسيط، وقيد الإنشاء."
+                : "Properties eligible for citizenship, installment plans, and under construction."
+            }
+          />
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {properties
+              .filter((p) => p.citizenshipEligible || p.installment || p.underConstruction)
+              .slice(0, 4)
+              .map((property, index) => (
+                <Reveal key={property.slug} delay={index * 0.05} className="h-full">
+                  <PropertyCard
+                    property={property}
+                    locale={locale}
+                    dict={dict}
+                    className="h-full"
+                  />
+                </Reveal>
+              ))}
+          </div>
+          {properties.filter((p) => p.citizenshipEligible || p.installment || p.underConstruction).length === 0 && (
+            <p className="mt-4 text-center text-sm text-slate-500">
+              {locale === "ar" ? "لا توجد فرص حالياً." : "No opportunities at the moment."}
+            </p>
+          )}
+        </div>
+      </section>
+
       {/* ========================== FEATURED ========================== */}
       <section className="bg-gradient-to-b from-sand-50 to-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
