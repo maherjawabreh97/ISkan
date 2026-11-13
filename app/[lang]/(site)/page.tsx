@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 import {
@@ -26,6 +27,7 @@ import { Counter } from "@/components/counter"
 import type { PropertyTypeKey } from "@/lib/dictionaries/types"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
+import { formatPrice } from "@/lib/format"
 import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export const dynamic = "force-dynamic"
@@ -268,8 +270,58 @@ export default async function HomePage({
             </Link>
           </SectionHead>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {featured.map((property, index) => (
+          {featured.length > 0 && (
+            <Reveal delay={0} className="mb-6">
+              <Link
+                href={`/${locale}/properties/${featured[0].slug}`}
+                className="group relative grid overflow-hidden rounded-3xl bg-ink-950 text-white shadow-luxe lg:grid-cols-[1.15fr_1fr]"
+              >
+                <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[420px]">
+                  {featured[0].images[0] && (
+                    <Image
+                      src={featured[0].images[0]}
+                      alt={featured[0].name[locale]}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 55vw, 100vw"
+                      className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-ink-950/10 lg:to-ink-950/70" />
+                  <span className="absolute start-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-gold-400 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-950">
+                    <Award className="size-3.5" />
+                    {locale === "ar" ? "عرض مميز" : "Featured"}
+                  </span>
+                </div>
+                <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:p-10">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gold-300">
+                    {dict.cities[featured[0].city]}
+                  </p>
+                  <h3 className="font-heading text-2xl font-bold leading-tight sm:text-3xl">
+                    {featured[0].name[locale]}
+                  </h3>
+                  <p className="text-3xl font-bold text-gold-300">
+                    {formatPrice(featured[0].price, featured[0].currency)}
+                    {featured[0].pricePerMonth ? (
+                      <span className="ms-1.5 text-sm font-medium text-white/60">
+                        {dict.common.perMonth}
+                      </span>
+                    ) : null}
+                  </p>
+                  <p className="line-clamp-3 text-sm leading-7 text-white/70">
+                    {featured[0].description[locale]}
+                  </p>
+                  <span className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-gold-400 px-6 py-3 text-sm font-bold text-ink-950 transition group-hover:bg-gold-300">
+                    {dict.common.viewAll}
+                    <ArrowUpRight className="size-4 rtl:-scale-x-100" />
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
+          )}
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {featured.slice(1).map((property, index) => (
               <Reveal key={property.slug} delay={index * 0.05} className="h-full">
                 <PropertyCard
                   property={property}
