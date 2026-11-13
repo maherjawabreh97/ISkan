@@ -27,8 +27,9 @@ export function setCurrency(value: DisplayCurrency) {
 }
 
 export function useCurrency(): [DisplayCurrency, (v: DisplayCurrency) => void] {
-  const [currency, set] = useState<DisplayCurrency>(() => getCurrency())
+  const [currency, set] = useState<DisplayCurrency>("TRY")
   useEffect(() => {
+    set(getCurrency())
     const handler = () => set(getCurrency())
     window.addEventListener(EVENT, handler)
     window.addEventListener("storage", handler)

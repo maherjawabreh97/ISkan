@@ -29,11 +29,10 @@ export function toggleFavorite(slug: string) {
 }
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<string[]>(() =>
-    typeof window === "undefined" ? [] : readFavorites(),
-  )
+  const [favorites, setFavorites] = useState<string[]>([])
 
   useEffect(() => {
+    setFavorites(readFavorites())
     const handler = () => setFavorites(readFavorites())
     window.addEventListener(FAVORITES_EVENT, handler)
     // Keep tabs in sync: a favourite toggled in another tab updates this one.

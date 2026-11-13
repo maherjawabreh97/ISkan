@@ -28,8 +28,9 @@ export function setAreaUnit(value: AreaUnit) {
 }
 
 export function useAreaUnit(): [AreaUnit, (v: AreaUnit) => void] {
-  const [unit, set] = useState<AreaUnit>(() => getAreaUnit())
+  const [unit, set] = useState<AreaUnit>("m2")
   useEffect(() => {
+    set(getAreaUnit())
     const handler = () => set(getAreaUnit())
     window.addEventListener(EVENT, handler)
     window.addEventListener("storage", handler)

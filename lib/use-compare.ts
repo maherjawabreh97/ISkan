@@ -42,10 +42,9 @@ export function clearCompare() {
 }
 
 export function useCompare() {
-  const [items, setItems] = useState<string[]>(() =>
-    typeof window === "undefined" ? [] : readCompare(),
-  )
+  const [items, setItems] = useState<string[]>([])
   useEffect(() => {
+    setItems(readCompare())
     const handler = () => setItems(readCompare())
     window.addEventListener(EVENT, handler)
     window.addEventListener("storage", handler)
