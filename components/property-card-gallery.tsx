@@ -22,17 +22,20 @@ const MAX_SLIDES = 4
 export function PropertyCardGallery({
   images,
   alt,
+  locale = "ar",
 }: {
   images: string[]
   alt: string
+  locale?: "ar" | "en"
 }) {
   // Duplicate URLs in the stored list (the demo listing ships the same two
   // photos twice) would otherwise show the same frame twice in a row.
   const slides = Array.from(new Set(images.filter(Boolean))).slice(0, MAX_SLIDES)
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
+    loop: false,
     duration: 24,
-    align: "start",
+    align: "center",
+    direction: locale === "ar" ? "rtl" : "ltr",
   })
   const [selected, setSelected] = useState(0)
 

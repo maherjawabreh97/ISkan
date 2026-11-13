@@ -70,7 +70,7 @@ export function PropertyCard({
       className={`card-raised group relative flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 hover:border-brand-200 ${className}`}
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-        <PropertyCardGallery images={property.images} alt={name} />
+        <PropertyCardGallery images={property.images} alt={name} locale={locale} />
 
         <span
           className={`pointer-events-none absolute start-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur ${
