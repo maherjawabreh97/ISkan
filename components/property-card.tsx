@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import { cn } from "@/lib/cn"
 import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -212,8 +213,11 @@ export function PropertyCard({
                 e.stopPropagation()
                 toggleCompare(property.slug)
               }}
-              aria-label="Compare"
-              className="grid size-8 place-items-center rounded-full bg-white/90 text-slate-500 ring-1 ring-slate-200 transition hover:text-brand-700"
+              aria-label={locale === "ar" ? "أضف للمقارنة" : "Add to compare"}
+              className={cn(
+                "grid size-8 place-items-center rounded-full bg-white/90 text-slate-500 ring-1 ring-slate-200 transition hover:text-brand-700",
+                "flex items-center justify-center gap-1.5"
+              )}
             >
               <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="3" width="7" height="18" rx="1" />
