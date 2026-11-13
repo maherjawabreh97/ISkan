@@ -10,16 +10,15 @@ import {
 } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { LegalDocument } from "@/lib/dictionaries/legal-extra"
-import { listingRules, termsOfUse } from "@/lib/dictionaries/legal-extra"
+import { termsOfUse } from "@/lib/dictionaries/legal-extra"
 import type { Locale } from "@/lib/i18n"
 
-export type LegalKind = "privacy" | "cookies" | "terms" | "rules"
+export type LegalKind = "privacy" | "cookies" | "terms"
 
 const ICONS = {
   privacy: ShieldCheck,
   cookies: FileText,
   terms: Scale,
-  rules: FileText,
 } as const
 
 export function LegalPage({
@@ -48,16 +47,13 @@ export function LegalPage({
           date: dict.legal.cookiesDate,
           sections: dict.legal.cookiesSections,
         }
-      : kind === "terms"
-        ? termsOfUse[locale]
-        : listingRules[locale]
+      : termsOfUse[locale]
 
   const Icon = ICONS[kind]
   const related: Array<{ href: string; label: string }> = [
     { href: "privacy", label: dict.footer.privacy },
     { href: "cookies", label: dict.footer.cookies },
     { href: "terms", label: dict.footer.terms },
-    { href: "rules", label: dict.footer.listingRules },
   ].filter((item) => item.href !== kind)
 
   return (

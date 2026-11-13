@@ -2,6 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { ListingsView, type ListingsFilters } from "@/components/listings-view"
+import { RecentlyViewed } from "@/components/recently-viewed"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { getProperties } from "@/lib/properties-store"
 
@@ -49,6 +50,7 @@ export default async function PropertiesPage({
     sort: first(query.sort),
     minPrice: first(query.minPrice),
     maxPrice: first(query.maxPrice),
+    minBeds: first(query.minBeds),
     purpose: first(query.purpose),
     favorites: first(query.favorites),
     view: first(query.view),
@@ -85,6 +87,56 @@ export default async function PropertiesPage({
             allProperties={properties}
             filters={filters}
           />
+
+          <RecentlyViewed
+            properties={properties}
+            locale={locale}
+            dict={dict}
+            className="mt-12"
+          />
+
+          {/* Tools that help a visitor decide — matcher, calculator, market data. */}
+          <div className="mt-10 grid gap-3 sm:grid-cols-3">
+            <Link
+              href={`/${locale}/match`}
+              className="group rounded-2xl bg-white p-5 ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-md"
+            >
+              <p className="font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
+                {locale === "ar" ? "لاقي عقارك" : "Find your match"}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-slate-500">
+                {locale === "ar"
+                  ? "ثلاثة أسئلة سريعة للوصول للعقار المناسب."
+                  : "Three quick questions to reach the right property."}
+              </p>
+            </Link>
+            <Link
+              href={`/${locale}/calculator`}
+              className="group rounded-2xl bg-white p-5 ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-md"
+            >
+              <p className="font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
+                {locale === "ar" ? "حاسبة الاستثمار" : "Investment calculator"}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-slate-500">
+                {locale === "ar"
+                  ? "احسب العائد والدفعة الشهرية."
+                  : "Work out yield and monthly payment."}
+              </p>
+            </Link>
+            <Link
+              href={`/${locale}/market`}
+              className="group rounded-2xl bg-white p-5 ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-md"
+            >
+              <p className="font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
+                {locale === "ar" ? "مؤشرات السوق" : "Market insights"}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-slate-500">
+                {locale === "ar"
+                  ? "متوسط الأسعار وسعر المتر حسب الحي."
+                  : "Average prices and price per m² by district."}
+              </p>
+            </Link>
+          </div>
         </div>
       </section>
 

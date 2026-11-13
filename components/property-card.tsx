@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useState } from "react"
 import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
@@ -39,6 +40,14 @@ export function PropertyCard({
 
   const [displayCurrency] = useCurrency()
   const [areaUnit] = useAreaUnit()
+
+  // A listing counts as "new" for two weeks. Decided after mount so the server
+  // and client never disagree about the current time.
+  const [isNew, setIsNew] = useState(false)
+  useEffect(() => {
+    const added = new Date(property.dateAdded).getTime()
+    setIsNew(Number.isFinite(added) && Date.now() - added < 14 * 864e5)
+  }, [property.dateAdded])
 
   const specs = [
     property.bedrooms > 0 && {
@@ -78,14 +87,21 @@ export function PropertyCard({
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         <PropertyCardGallery images={property.images} alt={name} locale={locale} />
 
-        <span
-          className={`pointer-events-none absolute start-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur ${
-            property.purpose === "rent"
-              ? "bg-brand-400/90 text-white"
-              : "bg-gold-400/95 text-ink-950"
-          }`}
-        >
-          {purposeLabel}
+        <span className="pointer-events-none absolute start-2.5 top-2.5 flex flex-col items-start gap-1">
+          <span
+            className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur ${
+              property.purpose === "rent"
+                ? "bg-brand-400/90 text-white"
+                : "bg-gold-400/95 text-ink-950"
+            }`}
+          >
+            {purposeLabel}
+          </span>
+          {isNew && (
+            <span className="rounded-full bg-rose-500/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur">
+              {locale === "ar" ? "جديد" : "New"}
+            </span>
+          )}
         </span>
 
         {/* Special-attribute badges (top-end, stacked). */}

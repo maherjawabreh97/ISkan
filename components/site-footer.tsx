@@ -42,8 +42,10 @@ export function SiteFooter({
     { label: dict.nav.home, href: `/${locale}` },
     { label: dict.nav.properties, href: `/${locale}/properties` },
     { label: dict.nav.submit, href: `/${locale}/submit` },
-    { label: isAr ? "خدماتنا" : "Services", href: `/${locale}/services` },
     { label: isAr ? "بع عقارك" : "Sell your property", href: `/${locale}/sell` },
+    { label: isAr ? "لاقي عقارك" : "Find your match", href: `/${locale}/match` },
+    { label: isAr ? "حاسبة الاستثمار" : "Investment calculator", href: `/${locale}/calculator` },
+    { label: isAr ? "مؤشرات السوق" : "Market insights", href: `/${locale}/market` },
     { label: isAr ? "دليل المشتري" : "Buyer's guide", href: `/${locale}/buyer-guide` },
     { label: isAr ? "الجنسية التركية" : "Turkish citizenship", href: `/${locale}/citizenship` },
     { label: isAr ? "من نحن" : "About us", href: `/${locale}/about` },
@@ -54,7 +56,6 @@ export function SiteFooter({
     { label: dict.footer.privacy, href: `/${locale}/privacy` },
     { label: dict.footer.cookies, href: `/${locale}/cookies` },
     { label: dict.footer.terms, href: `/${locale}/terms` },
-    { label: dict.footer.listingRules, href: `/${locale}/rules` },
   ]
 
   const exploreLinks = (Object.keys(dict.propertyTypes) as PropertyTypeKey[]).map(

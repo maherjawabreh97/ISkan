@@ -30,6 +30,9 @@ import { PriceDisplay } from "@/components/price-display"
 import { PropertyMap } from "@/components/admin/location-picker"
 import { StickyActions } from "@/components/sticky-actions"
 import { VideoTour } from "@/components/video-tour"
+import { PropertyShare } from "@/components/property-share"
+import { TrackPropertyView } from "@/components/track-property-view"
+import { RecentlyViewed } from "@/components/recently-viewed"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import { getListingOwner } from "@/lib/accounts"
@@ -117,6 +120,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       ? "border-brand-500/30 bg-brand-500/10 text-brand-700"
       : "border-gold-500/40 bg-gold-500/10 text-gold-700"
   const perMonth = property.pricePerMonth ? ` ${dict.common.perMonth}` : ""
+  const pricePerM2 = property.area > 0 ? property.price / property.area : 0
 
   type Feature = {
     icon: typeof BedDouble
@@ -265,6 +269,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <TrackPropertyView slug={property.slug} />
       {/* ============================== Listing ============================== */}
       <section className="bg-sand-50">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -504,6 +509,20 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   </p>
                 </div>
 
+                {pricePerM2 > 0 && (
+                  <div className="mt-2 flex items-center justify-between rounded-xl bg-sand-50 px-3.5 py-2 text-xs">
+                    <span className="font-semibold text-slate-500">
+                      {locale === "ar" ? "سعر المتر المربع" : "Price per m²"}
+                    </span>
+                    <span className="font-heading font-bold text-ink-900">
+                      <PriceDisplay
+                        value={pricePerM2}
+                        currency={property.currency}
+                      />
+                    </span>
+                  </div>
+                )}
+
                 {quickFacts.length > 0 ? (
                   <dl className="mt-5 grid grid-cols-2 gap-2">
                     {quickFacts.map((fact) => (
@@ -561,6 +580,10 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                       {property.images.length} {dict.common.photos}
                     </p>
                   )}
+                </div>
+
+                <div className="mt-3 flex items-center gap-2">
+                  <PropertyShare locale={locale} title={name} className="flex-1 justify-center" />
                 </div>
               </div>
 
@@ -717,6 +740,15 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           </div>
         </section>
       )}
+
+      <section className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
+        <RecentlyViewed
+          properties={allProperties}
+          locale={locale}
+          dict={dict}
+          excludeSlug={property.slug}
+        />
+      </section>
 
       <StickyActions
         locale={locale}

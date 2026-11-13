@@ -34,39 +34,6 @@ export default async function BuyerGuidePage({
         { icon: Plane, t: "6. After sale", d: "Residence/citizenship, property management, rental, maintenance." },
       ]
 
-  const tips = isAr
-    ? [
-        "تحقق من سند الملكية (Tapu) قبل أي دفعة.",
-        "اطلب تقرير تقييم (Ekspertiz) — مطلوب للجنسية.",
-        "احسب التكاليف: ضريبة (4%)، رسوم طابو، تقييم، محامي.",
-        "للأجانب: جواز سفر مترجم وموثق، رقم ضريبي (Vergi No).",
-        "للتقسيط: تحقق من ضمان المطور (Banka Teminatı).",
-        "للتأجير: اطلب عقد إيجار مسجل (Kira Sözleşmesi).",
-      ]
-    : [
-        "Verify the title deed (Tapu) before any payment.",
-        "Request an appraisal report (Ekspertiz) — required for citizenship.",
-        "Budget for costs: tax (4%), title deed fees, appraisal, lawyer.",
-        "For foreigners: translated & notarized passport, tax number (Vergi No).",
-        "For installments: check the developer guarantee (Banka Teminatı).",
-        "For rental: request a registered lease (Kira Sözleşmesi).",
-      ]
-
-  const costs = isAr
-    ? [
-        { item: "ضريبة نقل الملكية (Tapu Harcı)", value: "4% من قيمة البيع" },
-        { item: "تقرير التقييم (Ekspertiz)", value: "~1,500 - 3,000 TRY" },
-        { item: "رسوم كاتب العدل (Noter)", value: "~500 - 1,500 TRY" },
-        { item: "ترجمة وتوثيق جواز السفر", value: "~500 - 1,000 TRY" },
-        { item: "رسوم وكيل (اختياري)", value: "1-3% من قيمة البيع" },
-      ]
-    : [
-        { item: "Title deed tax (Tapu Harcı)", value: "4% of sale price" },
-        { item: "Appraisal report (Ekspertiz)", value: "~1,500 - 3,000 TRY" },
-        { item: "Notary fees", value: "~500 - 1,500 TRY" },
-        { item: "Passport translation & notarization", value: "~500 - 1,000 TRY" },
-        { item: "Agent fee (optional)", value: "1-3% of sale price" },
-      ]
 
   return (
     <section className="mx-auto max-w-5xl px-5 py-12 sm:px-8">
@@ -93,35 +60,6 @@ export default async function BuyerGuidePage({
         ))}
       </div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl bg-sand-50 p-6 ring-1 ring-slate-200/70">
-          <h2 className="font-heading text-lg font-bold text-ink-900">
-            {isAr ? "نصائح مهمة" : "Important tips"}
-          </h2>
-          <ul className="mt-4 space-y-2">
-            {tips.map((tip, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-gold-500" />
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="rounded-2xl bg-sand-50 p-6 ring-1 ring-slate-200/70">
-          <h2 className="font-heading text-lg font-bold text-ink-900">
-            {isAr ? "تكاليف الشراء" : "Purchase costs"}
-          </h2>
-          <dl className="mt-4 space-y-2">
-            {costs.map((c) => (
-              <div key={c.item} className="flex items-center justify-between gap-3 text-sm">
-                <dt className="text-slate-600">{c.item}</dt>
-                <dd className="font-bold text-ink-900">{c.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
-
       <div className="mt-10 flex flex-wrap gap-3">
         <Link
           href={`/${locale}/properties`}
@@ -144,6 +82,7 @@ export default async function BuyerGuidePage({
           WhatsApp
         </a>
       </div>
+
     </section>
   )
 }

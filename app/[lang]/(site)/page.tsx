@@ -264,48 +264,6 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ========================== SERVICES ========================== */}
-      <section className="bg-white py-10 lg:py-12">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <SectionHead
-            title={locale === "ar" ? "خدماتنا" : "Our services"}
-            subtitle={
-              locale === "ar"
-                ? "حلول عقارية شاملة من الاستشارة إلى التسليم."
-                : "End-to-end real estate solutions from consultation to delivery."
-            }
-          />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {(locale === "ar"
-              ? [
-                  { icon: "🧭", t: "استشارات عقارية", d: "تحليل سوق، اختيار مناطق، تقييم عائد." },
-                  { icon: "📣", t: "تسويق عقاري", d: "عرض عقارك لشبكة واسعة من المشترين." },
-                  { icon: "🏢", t: "إدارة أملاك", d: "تأجير، صيانة، تحصيل إيجارات." },
-                  { icon: "🏗️", t: "تطوير عقاري", d: "شراكات تطوير ومشاريع حصرية." },
-                  { icon: "✈️", t: "جولات واستقبال", d: "استقبال مطار، جولات عقارية، ترتيبات إقامة." },
-                ]
-              : [
-                  { icon: "🧭", t: "Property consulting", d: "Market analysis, area selection, yield assessment." },
-                  { icon: "📣", t: "Property marketing", d: "Expose your listing to a wide buyer network." },
-                  { icon: "🏢", t: "Property management", d: "Renting, maintenance, rent collection." },
-                  { icon: "🏗️", t: "Property development", d: "Development partnerships and exclusive projects." },
-                  { icon: "✈️", t: "Tours & reception", d: "Airport pickup, property tours, accommodation." },
-                ]
-            ).map((s, i) => (
-              <Reveal key={i} delay={i * 0.04}>
-                <div className="group h-full rounded-2xl border border-slate-200/70 bg-sand-50 p-5 transition hover:-translate-y-0.5 hover:border-brand-300 hover:bg-white hover:shadow-md">
-                  <span className="text-2xl">{s.icon}</span>
-                  <h3 className="mt-3 font-heading text-base font-bold text-ink-900 group-hover:text-brand-700">
-                    {s.t}
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-5 text-slate-500">{s.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ========================== INVESTMENT OPPORTUNITIES ========================== */}
       <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -527,6 +485,69 @@ export default async function HomePage({
                   <p className="mt-1.5 text-sm leading-6 text-slate-500">{step.d}</p>
                 </div>
               </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================== TOOLS ========================== */}
+      <section className="bg-white py-10 lg:py-12">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <SectionHead
+            title={locale === "ar" ? "أدوات تساعدك على القرار" : "Tools to help you decide"}
+            subtitle={
+              locale === "ar"
+                ? "أدوات مجانية تحسب، تقارن، وتقترح — بدون تسجيل."
+                : "Free tools that calculate, compare and suggest — no sign-up."
+            }
+          />
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {[
+              {
+                href: `/${locale}/match`,
+                icon: "🎯",
+                t: locale === "ar" ? "لاقي عقارك" : "Find your match",
+                d:
+                  locale === "ar"
+                    ? "ثلاثة أسئلة سريعة تقترح العقارات المناسبة لميزانيتك."
+                    : "Three quick questions suggest properties that fit your budget.",
+              },
+              {
+                href: `/${locale}/calculator`,
+                icon: "🧮",
+                t: locale === "ar" ? "حاسبة الاستثمار" : "Investment calculator",
+                d:
+                  locale === "ar"
+                    ? "احسب الدفعة الشهرية، العائد الإيجاري، وفترة الاسترداد."
+                    : "Work out the monthly payment, rental yield and payback.",
+              },
+              {
+                href: `/${locale}/market`,
+                icon: "📊",
+                t: locale === "ar" ? "مؤشرات السوق" : "Market insights",
+                d:
+                  locale === "ar"
+                    ? "متوسط الأسعار وسعر المتر المربع حسب أحياء إسطنبول."
+                    : "Average prices and price per m² across Istanbul districts.",
+              },
+            ].map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="group flex items-start gap-4 rounded-2xl bg-sand-50 p-5 ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:bg-white hover:ring-brand-300 hover:shadow-md"
+              >
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-xl shadow-sm ring-1 ring-slate-200/70">
+                  {tool.icon}
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
+                    {tool.t}
+                  </span>
+                  <span className="mt-1 block text-xs leading-5 text-slate-500">
+                    {tool.d}
+                  </span>
+                </span>
+              </Link>
             ))}
           </div>
         </div>

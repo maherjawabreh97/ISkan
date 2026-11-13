@@ -34,6 +34,7 @@ export interface ListingsFilters {
   sort?: string
   minPrice?: string
   maxPrice?: string
+  minBeds?: string
   purpose?: string
   favorites?: string
   view?: string
@@ -67,6 +68,7 @@ export function ListingsView({
   const [sort, setSort] = useState(() => filters.sort ?? "newest")
   const [minPrice, setMinPrice] = useState(() => filters.minPrice ?? "")
   const [maxPrice, setMaxPrice] = useState(() => filters.maxPrice ?? "")
+  const [minBeds, setMinBeds] = useState(() => filters.minBeds ?? "all")
   const [tab, setTab] = useState<Tab>(initialTab)
   const [quickFilters, setQuickFilters] = useState<Set<string>>(() => new Set())
 
@@ -103,6 +105,7 @@ export function ListingsView({
       if (sort !== "newest") params.set("sort", sort)
       if (minPrice) params.set("minPrice", minPrice)
       if (maxPrice) params.set("maxPrice", maxPrice)
+      if (minBeds !== "all") params.set("minBeds", minBeds)
       if (tab === "favorites") params.set("favorites", "1")
       if (tab === "sale" || tab === "rent") params.set("purpose", tab)
       if (view === "list") params.set("view", "list")
@@ -120,7 +123,7 @@ export function ListingsView({
       router.replace(target, { scroll: false })
     }, 350)
     return () => clearTimeout(timer)
-  }, [q, city, type, sort, minPrice, maxPrice, tab, view, router, locale])
+  }, [q, city, type, sort, minPrice, maxPrice, minBeds, tab, view, router, locale])
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase()
@@ -158,6 +161,12 @@ export function ListingsView({
       const max = Number(maxPrice)
       if (Number.isFinite(max) && max > 0) list = list.filter((p) => p.price <= max)
     }
+    if (minBeds !== "all") {
+      const beds = Number(minBeds)
+      if (Number.isFinite(beds) && beds > 0) {
+        list = list.filter((p) => p.bedrooms >= beds)
+      }
+    }
     if (query) {
       list = list.filter((p) =>
         [
@@ -181,7 +190,7 @@ export function ListingsView({
           new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime(),
       )
     return sorted
-  }, [allProperties, favorites, q, city, type, sort, minPrice, maxPrice, tab, quickFilters, locale, dict])
+  }, [allProperties, favorites, q, city, type, sort, minPrice, maxPrice, minBeds, tab, quickFilters, locale, dict])
 
   const counts = useMemo(() => {
     const byPurpose = (purpose: string) =>
@@ -213,7 +222,7 @@ export function ListingsView({
 
   const hasActive =
     Boolean(q) || city !== "all" || type !== "all" || tab !== "all" ||
-    Boolean(minPrice) || Boolean(maxPrice) || quickFilters.size > 0
+    Boolean(minPrice) || Boolean(maxPrice) || minBeds !== "all" || quickFilters.size > 0
 
   const clearAll = () => {
     setQ("")
@@ -222,6 +231,7 @@ export function ListingsView({
     setSort("newest")
     setMinPrice("")
     setMaxPrice("")
+    setMinBeds("all")
     setTab("all")
     router.replace(`/${locale}/properties`, { scroll: false })
   }
@@ -419,6 +429,25 @@ export function ListingsView({
               placeholder="—"
               className={inputCls}
             />
+          </div>
+
+          <div>
+            <label className={labelCls} htmlFor="lv-beds">
+              {dict.common.beds}
+            </label>
+            <select
+              id="lv-beds"
+              value={minBeds}
+              onChange={(event) => setMinBeds(event.target.value)}
+              className={inputCls}
+            >
+              <option value="all">{dict.common.all}</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
           </div>
 
           <div>
