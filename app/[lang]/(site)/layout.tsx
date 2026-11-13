@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header"
 import { MobileTabBar } from "@/components/mobile-tab-bar"
 import { CompareBar } from "@/components/compare-bar"
 import { ScrollTop } from "@/components/scroll-top"
+import { CookieConsent } from "@/components/cookie-consent"
 import { getSignedInAccount } from "@/lib/account-auth"
 import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 
@@ -32,6 +33,7 @@ export default async function SiteLayout({
       <MobileTabBar locale={locale} dict={dict} signedIn={signedIn} />
       <ScrollTop />
       <CompareBar locale={locale} />
+      <CookieConsent locale={locale} />
     </>
   )
 }

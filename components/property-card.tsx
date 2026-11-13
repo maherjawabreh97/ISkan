@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import { useCurrency } from "@/lib/use-currency"
 import { formatDisplayPrice } from "@/lib/currency"
+import { useAreaUnit, convertArea } from "@/lib/use-area-unit"
 import type { Property } from "@/lib/properties"
 import { FavoriteButton } from "@/components/favorite-button"
 import { toggleCompare, useCompare } from "@/lib/use-compare"
@@ -36,6 +37,9 @@ export function PropertyCard({
     property.purpose === "rent" ? dict.common.forRent : dict.common.forSale
   const perMonth = property.pricePerMonth ? ` ${dict.common.perMonth}` : ""
 
+  const [displayCurrency] = useCurrency()
+  const [areaUnit] = useAreaUnit()
+
   const specs = [
     property.bedrooms > 0 && {
       icon: BedDouble,
@@ -54,8 +58,8 @@ export function PropertyCard({
     },
     property.area > 0 && {
       icon: Ruler,
-      value: property.area,
-      label: dict.common.sqm,
+      value: Math.round(convertArea(property.area, areaUnit)),
+      label: areaUnit === "ft2" ? "ft²" : dict.common.sqm,
     },
   ].filter(Boolean) as Array<{
     icon: typeof BedDouble
@@ -66,8 +70,6 @@ export function PropertyCard({
   const advertiser = property.advertiser
   const advertiserName = advertiser?.name[locale]
   const isOffice = advertiserName ? OFFICE_NAMES.test(advertiserName) : false
-
-  const [displayCurrency] = useCurrency()
 
   return (
     <Link

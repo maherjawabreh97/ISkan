@@ -199,7 +199,7 @@ export default async function HomePage({
             ))}
           </dl>
 
-          <div className="mt-10">
+          <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               href={`/${locale}/properties?purpose=rent`}
               className="btn-gold inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold"
@@ -207,6 +207,15 @@ export default async function HomePage({
               <Send className="size-4" />
               {dict.common.forRent}
             </Link>
+            <a
+              href="https://wa.me/905432466309?text=Verify%20with%20consultant"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20"
+            >
+              <ShieldCheck className="size-4 text-gold-300" />
+              {locale === "ar" ? "تحقق مع مستشار" : "Verify with consultant"}
+            </a>
           </div>
         </div>
       </section>
