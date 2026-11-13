@@ -36,7 +36,12 @@ export function useFavorites() {
   useEffect(() => {
     const handler = () => setFavorites(readFavorites())
     window.addEventListener(FAVORITES_EVENT, handler)
-    return () => window.removeEventListener(FAVORITES_EVENT, handler)
+    // Keep tabs in sync: a favourite toggled in another tab updates this one.
+    window.addEventListener("storage", handler)
+    return () => {
+      window.removeEventListener(FAVORITES_EVENT, handler)
+      window.removeEventListener("storage", handler)
+    }
   }, [])
 
   return favorites

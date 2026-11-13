@@ -47,8 +47,44 @@ export async function generateMetadata({ params }: PageProps) {
   const locale = hasLocale(lang) ? lang : "ar"
   const property = await getStoredProperty(slug)
   const dict = await getDictionary(locale)
+  if (!property) {
+    return { title: dict.meta.propertiesTitle }
+  }
+  const name = property.name[locale]
+  const description = property.description[locale].slice(0, 160)
+  const image = property.images[0]
   return {
-    title: property ? `${property.name[locale]} — ${dict.brand.name}` : dict.meta.propertiesTitle,
+    title: `${name} — ${dict.brand.name}`,
+    description,
+    keywords: [
+      name,
+      dict.cities[property.city],
+      dict.propertyTypes[property.type],
+      property.purpose === "rent" ? dict.common.forRent : dict.common.forSale,
+      "إسطنبول",
+      "Istanbul",
+      "iskantr.com",
+    ],
+    alternates: {
+      canonical: `https://iskantr.com/${locale}/properties/${slug}`,
+      languages: {
+        ar: `https://iskantr.com/ar/properties/${slug}`,
+        en: `https://iskantr.com/en/properties/${slug}`,
+      },
+    },
+    openGraph: {
+      title: name,
+      description,
+      url: `https://iskantr.com/${locale}/properties/${slug}`,
+      type: "article",
+      images: image ? [{ url: image, width: 1200, height: 630, alt: name }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: name,
+      description,
+      images: image ? [image] : [],
+    },
   }
 }
 
@@ -196,7 +232,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     description: property.description[locale],
     url: `https://iskantr.com/${locale}/properties/${property.slug}`,
     datePosted: property.dateAdded,
-    image: property.images[0],
+    image: property.images[0] ?? undefined,
     offers: {
       "@type": "Offer",
       price: property.price,

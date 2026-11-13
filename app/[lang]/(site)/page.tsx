@@ -100,7 +100,10 @@ export default async function HomePage({
     ? properties.filter((property) => property.featured).slice(0, 6)
     : byNewest.slice(0, 6)
 
-  const latest = byNewest.slice(0, 6)
+  const featuredSlugs = new Set(featured.map((property) => property.slug))
+  const latest = byNewest
+    .filter((property) => !featuredSlugs.has(property.slug))
+    .slice(0, 6)
 
   const typeCounts = properties.reduce<Record<string, number>>((acc, p) => {
     acc[p.type] = (acc[p.type] ?? 0) + 1
@@ -253,6 +256,7 @@ export default async function HomePage({
       </section>
 
       {/* ========================== LATEST ========================== */}
+      {latest.length > 0 && (
       <section className="bg-white py-14 lg:py-16">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <SectionHead
@@ -282,6 +286,7 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+      )}
 
       {/* ========================== TRUST ========================== */}
       <section className="bg-ink-950 py-14 text-white lg:py-16">
