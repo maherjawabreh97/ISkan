@@ -38,7 +38,7 @@ import type {
 } from "@/lib/dictionaries/types"
 import type { CurrencyKey } from "@/lib/format"
 import { hasLocale } from "@/lib/i18n"
-import { office, type Property } from "@/lib/properties"
+import { office, type Property, normalizePhone } from "@/lib/properties"
 import {
   getStoredProperty,
   removeProperty,
@@ -292,13 +292,17 @@ export async function savePropertyAction(formData: FormData): Promise<void> {
       const nameAr = text(formData, "advertiserNameAr")
       const nameEn = text(formData, "advertiserNameEn")
       const whatsapp = text(formData, "advertiserWhatsapp")
-      if (!nameAr && !nameEn && !whatsapp) return undefined
+      const phone = text(formData, "advertiserPhone")
+      const email = text(formData, "advertiserEmail")
+      if (!nameAr && !nameEn && !whatsapp && !phone && !email) return undefined
       return {
         name: {
           ar: nameAr || nameEn,
           en: nameEn || nameAr,
         },
-        whatsapp: whatsapp.replace(/\D/g, ""),
+        whatsapp: normalizePhone(whatsapp),
+        phone: normalizePhone(phone) || undefined,
+        email: email || undefined,
       }
     })(),
     location: (() => {
@@ -322,8 +326,16 @@ export async function savePropertyAction(formData: FormData): Promise<void> {
       ar: nameAr || nameEn,
     },
     address: {
-      en: text(formData, "addressEn"),
-      ar: text(formData, "addressAr"),
+      en:
+        text(formData, "addressEn") ||
+        existing?.address.en ||
+        nameEn ||
+        nameAr,
+      ar:
+        text(formData, "addressAr") ||
+        existing?.address.ar ||
+        nameAr ||
+        nameEn,
     },
     description: {
       en: text(formData, "descriptionEn"),
@@ -507,7 +519,9 @@ export async function approveSubmissionAction(formData: FormData): Promise<void>
         ar: submission.advertiserNameAr || submission.contactName,
         en: submission.advertiserNameEn || submission.contactName,
       },
-      whatsapp: submission.advertiserWhatsapp || submission.phone,
+      whatsapp: normalizePhone(submission.advertiserWhatsapp || submission.phone || ""),
+      phone: normalizePhone(submission.advertiserPhone || submission.phone || ""),
+      email: submission.advertiserEmail || submission.email,
     },
   }
 

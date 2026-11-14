@@ -10,6 +10,7 @@ import { isStoredVideoUrl } from "@/lib/videos"
 import type { CityKey, PropertyTypeKey, PurposeKey } from "@/lib/dictionaries/types"
 import type { CurrencyKey } from "@/lib/format"
 import { hasLocale } from "@/lib/i18n"
+import { normalizePhone } from "@/lib/properties"
 
 const MAX_SUBMISSIONS_PER_HOUR = 5
 
@@ -163,7 +164,9 @@ export async function submitListingAction(formData: FormData): Promise<void> {
       address: text(formData, "address"),
       advertiserNameAr: text(formData, "advertiserNameAr") || undefined,
       advertiserNameEn: text(formData, "advertiserNameEn") || undefined,
-      advertiserWhatsapp: text(formData, "advertiserWhatsapp") || undefined,
+      advertiserWhatsapp: normalizePhone(text(formData, "advertiserWhatsapp")) || undefined,
+      advertiserPhone: normalizePhone(text(formData, "advertiserPhone")) || undefined,
+      advertiserEmail: text(formData, "advertiserEmail") || undefined,
       description,
       images: formData.getAll("newImages").map(String).filter(Boolean),
       videos: formData

@@ -102,7 +102,7 @@ export default async function PropertiesPage({
               className="group rounded-2xl bg-white p-5 ring-1 ring-slate-200/70 transition hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-md"
             >
               <p className="font-heading text-sm font-bold text-ink-900 group-hover:text-brand-700">
-                {locale === "ar" ? "لاقي عقارك" : "Find your match"}
+                {locale === "ar" ? "ابحث عن عقار يناسبك" : "Find a property that suits you"}
               </p>
               <p className="mt-1 text-xs leading-5 text-slate-500">
                 {locale === "ar"

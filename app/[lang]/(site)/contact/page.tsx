@@ -62,7 +62,7 @@ export default async function ContactPage({
           href="mailto:Iskanrealestatetr@gmail.com"
           className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 transition hover:ring-brand-300"
         >
-          <span className="grid size-12 place-items-center rounded-xl bg-gold-100 text-gold-600">
+          <span className="grid size-12 place-items-center rounded-xl bg-gold-200/70 text-gold-600">
             <Mail className="size-6" />
           </span>
           <div>

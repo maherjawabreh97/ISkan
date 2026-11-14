@@ -7,7 +7,6 @@ import { cn } from "@/lib/cn"
 import { Bath, BedDouble, MapPin, Ruler, Sofa } from "lucide-react"
 import type { Dictionary } from "@/lib/dictionaries/types"
 import type { Locale } from "@/lib/i18n"
-import { formatPrice } from "@/lib/format"
 import { useCurrency } from "@/lib/use-currency"
 import { formatDisplayPrice } from "@/lib/currency"
 import { useAreaUnit, convertArea } from "@/lib/use-area-unit"
@@ -41,6 +40,7 @@ export function PropertyCard({
 
   const [displayCurrency] = useCurrency()
   const [areaUnit] = useAreaUnit()
+  const comparing = useCompare().some((entry) => entry.slug === property.slug)
 
   // A listing counts as "new" for two weeks. Decided after mount so the server
   // and client never disagree about the current time.
@@ -211,12 +211,26 @@ export function PropertyCard({
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                toggleCompare(property.slug)
+                toggleCompare({
+                  slug: property.slug,
+                  name: property.name,
+                  image: property.images[0],
+                  price: property.price,
+                  currency: property.currency,
+                  purpose: property.purpose,
+                  city: property.city,
+                  area: property.area,
+                  bedrooms: property.bedrooms,
+                })
               }}
               aria-label={locale === "ar" ? "أضف للمقارنة" : "Add to compare"}
+              aria-pressed={comparing}
+              title={locale === "ar" ? "أضف للمقارنة" : "Add to compare"}
               className={cn(
-                "grid size-8 place-items-center rounded-full bg-white/90 text-slate-500 ring-1 ring-slate-200 transition hover:text-brand-700",
-                "flex items-center justify-center gap-1.5"
+                "grid size-8 place-items-center rounded-full ring-1 transition",
+                comparing
+                  ? "bg-brand-600 text-white ring-brand-600"
+                  : "bg-white/90 text-slate-500 ring-slate-200 hover:text-brand-700",
               )}
             >
               <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2">

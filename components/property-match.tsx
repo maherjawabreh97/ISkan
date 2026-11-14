@@ -111,7 +111,7 @@ export function PropertyMatch({
         {step === 0 && (
           <div>
             <h2 className="font-heading text-lg font-bold text-ink-900">
-              {isAr ? "شنو هدفك؟" : "What is your goal?"}
+              {isAr ? "ما هدفك؟" : "What is your goal?"}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
               {isAr ? "اختر نوع العملية." : "Choose the transaction type."}
@@ -122,7 +122,7 @@ export function PropertyMatch({
                 onClick={() => setPurpose("sale")}
                 className={optionCls(purpose === "sale")}
               >
-                <span className="grid size-10 place-items-center rounded-xl bg-gold-100 text-gold-700">
+                <span className="grid size-10 place-items-center rounded-xl bg-gold-200/70 text-gold-600">
                   <Home className="size-5" />
                 </span>
                 <span>
@@ -158,7 +158,7 @@ export function PropertyMatch({
         {step === 1 && (
           <div>
             <h2 className="font-heading text-lg font-bold text-ink-900">
-              {isAr ? "أي نوع عقار؟" : "Which property type?"}
+              {isAr ? "ما نوع العقار؟" : "Which property type?"}
             </h2>
             <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
               <button
@@ -191,7 +191,7 @@ export function PropertyMatch({
         {step === 2 && (
           <div>
             <h2 className="font-heading text-lg font-bold text-ink-900">
-              {isAr ? "أي حي تفضل؟" : "Which district?"}
+              {isAr ? "ما الحي الذي تفضّله؟" : "Which district?"}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
               {isAr ? "اختر حياً أو اتركه مفتوحاً." : "Pick a district or leave it open."}
@@ -258,7 +258,7 @@ export function PropertyMatch({
           className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold text-slate-500 transition hover:text-ink-900 disabled:opacity-0"
         >
           <ArrowLeft className="size-4 rtl:-scale-x-100" />
-          {isAr ? "رجوع" : "Back"}
+          {isAr ? "السابق" : "Back"}
         </button>
 
         {step < 3 && (

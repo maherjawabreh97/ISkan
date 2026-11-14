@@ -37,7 +37,7 @@ import { getDictionary, hasLocale, type Locale } from "@/lib/i18n"
 import { formatPrice } from "@/lib/format"
 import { getListingOwner } from "@/lib/accounts"
 import { getProperties, getStoredProperty } from "@/lib/properties-store"
-import { defaultRentAdvertiser } from "@/lib/properties"
+import { defaultRentAdvertiser, normalizePhone } from "@/lib/properties"
 import { WhatsAppIcon } from "@/components/whatsapp-icon"
 
 export const dynamic = "force-dynamic"
@@ -118,7 +118,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
   const purposeChip =
     property.purpose === "rent"
       ? "border-brand-500/30 bg-brand-500/10 text-brand-700"
-      : "border-gold-500/40 bg-gold-500/10 text-gold-700"
+      : "border-gold-500/40 bg-gold-500/10 text-gold-600"
   const perMonth = property.pricePerMonth ? ` ${dict.common.perMonth}` : ""
   const pricePerM2 = property.area > 0 ? property.price / property.area : 0
 
@@ -200,19 +200,23 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     ? {
         name: advertiser.name[locale],
         label: dict.common.advertiser,
-        whatsapp: advertiser.whatsapp.replace(/\D/g, ""),
+        whatsapp: normalizePhone(advertiser.whatsapp),
+        phone: normalizePhone(advertiser.phone || advertiser.whatsapp),
+        email: advertiser.email,
         isOffice: isOfficeAdvertiser,
       }
     : {
         name: property.agent.name[locale],
         label: dict.common.agent,
-        whatsapp: property.agent.phone.replace(/\D/g, ""),
+        whatsapp: normalizePhone(property.agent.phone),
+        phone: normalizePhone(property.agent.phone),
+        email: property.agent.email,
         isOffice: true,
       }
 
   const whatsappHref = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
     locale === "ar"
-      ? `مرحباً إسكان! شفت الإعلان: ${name} — ${property.address[locale]}. بدي أعرف تفاصيل أكثر.`
+      ? `مرحباً إسكان، شاهدت الإعلان: ${name} — ${property.address[locale] || city}. وأرغب بمعرفة المزيد من التفاصيل.`
       : `Hello Iskan! I saw this listing: ${name} — ${property.address[locale]}. I'd like more details.`,
   )}`
 
@@ -337,15 +341,9 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               <h1 className="mt-3 font-heading text-[1.5rem] font-bold leading-[1.2] text-ink-900">
                 {name}
               </h1>
-              <p className="mt-2 flex items-start gap-2 text-sm font-medium leading-6 text-slate-500">
+              <p className="mt-2 flex items-center gap-2 text-sm font-medium leading-6 text-slate-500">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-brand-600" />
-                <span>
-                  {property.address[locale]}
-                  {property.address[locale] ? (
-                    <span className="text-slate-300"> · </span>
-                  ) : null}
-                  {city}
-                </span>
+                <span>{city}</span>
               </p>
               <p className="mt-4 font-heading text-[1.75rem] font-bold leading-none text-ink-900">
                 <PriceDisplay value={property.price} currency={property.currency} />
@@ -486,15 +484,9 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                   {name}
                 </p>
 
-                <p className="mt-3 flex items-start gap-2 text-sm font-medium leading-6 text-slate-500">
+                <p className="mt-3 flex items-center gap-2 text-sm font-medium leading-6 text-slate-500">
                   <MapPin className="mt-0.5 size-4 shrink-0 text-brand-600" />
-                  <span>
-                    {property.address[locale]}
-                    {property.address[locale] ? (
-                      <span className="text-slate-300"> · </span>
-                    ) : null}
-                    {city}
-                  </span>
+                  <span>{city}</span>
                 </p>
 
                 <div className="mt-5 rounded-2xl bg-ink-900 px-5 py-4 text-white">
@@ -634,19 +626,21 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
                 <div className="mt-4 space-y-0.5 border-t border-slate-100 pt-3">
                   <a
-                    href={`tel:${property.agent.phone}`}
+                    href={`tel:+${contact.phone}`}
                     className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-sm font-semibold text-ink-700 transition hover:bg-sand-50"
                   >
                     <Phone className="size-4 text-brand-600" />
-                    <span dir="ltr">{property.agent.phone}</span>
+                    <span dir="ltr">+{contact.phone}</span>
                   </a>
-                  <a
-                    href={`mailto:${property.agent.email}`}
-                    className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-sm font-semibold text-ink-700 transition hover:bg-sand-50"
-                  >
-                    <Mail className="size-4 text-brand-600" />
-                    <span className="truncate">{property.agent.email}</span>
-                  </a>
+                  {contact.email && (
+                    <a
+                      href={`mailto:${contact.email}`}
+                      className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-sm font-semibold text-ink-700 transition hover:bg-sand-50"
+                    >
+                      <Mail className="size-4 text-brand-600" />
+                      <span className="truncate">{contact.email}</span>
+                    </a>
+                  )}
                   {canReport && ownership && (
                     <Link
                       href={`/${locale}/report?user=${encodeURIComponent(ownership.ownerId)}`}

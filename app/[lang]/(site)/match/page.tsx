@@ -20,12 +20,12 @@ export default async function MatchPage({
     <section className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
       <span className="block h-px w-7 bg-gold-500" />
       <h1 className="mt-4 font-heading text-2xl font-bold text-ink-900 sm:text-3xl">
-        {isAr ? "لاقي عقارك خلال 30 ثانية" : "Find your property in 30 seconds"}
+        {isAr ? "ابحث عن عقار يناسبك" : "Find a property that suits you"}
       </h1>
       <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-600">
         {isAr
-          ? "أجب عن ثلاثة أسئلة سريعة وسنعرض لك العقارات المناسبة."
-          : "Answer three quick questions and we will show you the matching properties."}
+          ? "أجب عن ثلاثة أسئلة سريعة وسنعرض لك العقارات المناسبة خلال 30 ثانية."
+          : "Answer three quick questions and we will show you the matching properties in 30 seconds."}
       </p>
 
       <div className="mt-8">

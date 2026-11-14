@@ -338,28 +338,6 @@ export function PropertyForm({
               className={inputCls}
             />
           </div>
-          <div>
-            <label className={labelCls} htmlFor="pf-addressAr">
-              {t.form.addressAr}
-            </label>
-            <input
-              id="pf-addressAr"
-              name="addressAr"
-              defaultValue={property?.address.ar ?? ""}
-              className={inputCls}
-            />
-          </div>
-          <div>
-            <label className={labelCls} htmlFor="pf-addressEn">
-              {t.form.addressEn}
-            </label>
-            <input
-              id="pf-addressEn"
-              name="addressEn"
-              defaultValue={property?.address.en ?? ""}
-              className={inputCls}
-            />
-          </div>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -505,6 +483,35 @@ export function PropertyForm({
               defaultValue={property?.advertiser?.whatsapp ?? ""}
               className={inputCls}
               placeholder="+905XXXXXXXXX"
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="pf-advertiserPhone">
+              {t.form.advertiserPhone}
+            </label>
+            <input
+              id="pf-advertiserPhone"
+              name="advertiserPhone"
+              type="tel"
+              inputMode="tel"
+              dir="ltr"
+              defaultValue={property?.advertiser?.phone ?? ""}
+              className={inputCls}
+              placeholder="+905XXXXXXXXX"
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="pf-advertiserEmail">
+              {t.form.advertiserEmail}
+            </label>
+            <input
+              id="pf-advertiserEmail"
+              name="advertiserEmail"
+              type="email"
+              dir="ltr"
+              defaultValue={property?.advertiser?.email ?? ""}
+              className={inputCls}
+              placeholder="name@example.com"
             />
           </div>
         </div>

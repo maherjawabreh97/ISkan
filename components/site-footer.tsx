@@ -43,7 +43,7 @@ export function SiteFooter({
     { label: dict.nav.properties, href: `/${locale}/properties` },
     { label: dict.nav.submit, href: `/${locale}/submit` },
     { label: isAr ? "بع عقارك" : "Sell your property", href: `/${locale}/sell` },
-    { label: isAr ? "لاقي عقارك" : "Find your match", href: `/${locale}/match` },
+    { label: isAr ? "ابحث عن عقار يناسبك" : "Find a property that suits you", href: `/${locale}/match` },
     { label: isAr ? "حاسبة الاستثمار" : "Investment calculator", href: `/${locale}/calculator` },
     { label: isAr ? "مؤشرات السوق" : "Market insights", href: `/${locale}/market` },
     { label: isAr ? "دليل المشتري" : "Buyer's guide", href: `/${locale}/buyer-guide` },

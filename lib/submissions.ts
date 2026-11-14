@@ -31,6 +31,8 @@ export interface SubmissionInput {
   advertiserNameAr?: string
   advertiserNameEn?: string
   advertiserWhatsapp?: string
+  advertiserPhone?: string
+  advertiserEmail?: string
   images: string[]
   videos?: string[]
 }

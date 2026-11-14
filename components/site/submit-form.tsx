@@ -363,6 +363,33 @@ export function SubmitForm({
               {t.emailOptional}
             </p>
           </div>
+          <div>
+            <label className={labelCls} htmlFor="sf-advertiserPhone">
+              {t.advertiserPhone}
+            </label>
+            <input
+              id="sf-advertiserPhone"
+              name="advertiserPhone"
+              type="tel"
+              inputMode="tel"
+              dir="ltr"
+              placeholder="+905XXXXXXXXX"
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls} htmlFor="sf-advertiserEmail">
+              {t.advertiserEmail}
+            </label>
+            <input
+              id="sf-advertiserEmail"
+              name="advertiserEmail"
+              type="email"
+              dir="ltr"
+              placeholder="name@example.com"
+              className={inputCls}
+            />
+          </div>
         </div>
       </Section>
 

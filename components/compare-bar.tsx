@@ -1,72 +1,78 @@
 "use client"
 
-import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
-import { useCompare, clearCompare, toggleCompare } from "@/lib/use-compare"
-import { getProperties } from "@/lib/properties-store"
-import { cn } from "@/lib/cn"
-import { X, Heart, Eye, RefreshCcw } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { Trash2 } from "lucide-react"
+import { COMPARE_MAX } from "@/lib/compare"
+import { clearCompare, removeCompare, useCompare } from "@/lib/use-compare"
 import type { Locale } from "@/lib/i18n"
 
+/**
+ * Floating tray that follows the visitor around the site.
+ *
+ * Rendered as a vertical panel pinned to the left edge so the visitor can
+ * always see, add (via property cards), remove and compare selections.
+ * Hidden on the comparison page itself, where the table already offers the
+ * same controls.
+ */
 export function CompareBar({ locale }: { locale: Locale }) {
   const items = useCompare()
+  const pathname = usePathname()
+
   if (items.length === 0) return null
+  if (pathname === `/${locale}/compare`) return null
+
+  const t = (ar: string, en: string) => (locale === "ar" ? ar : en)
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur md:bottom-4 md:inset-x-auto md:start-1/2 md:-translate-x-1/2 md:rounded-2xl md:shadow-luxe">
-      <div className="mx-auto flex max-w-3xl items-center gap-3">
-        <span className="text-xs font-bold text-slate-500">
-          {locale === "ar" ? "مقارنة" : "Compare"} ({items.length})
-        </span>
+    <div
+      data-compare-bar="1"
+      className="fixed left-3 top-1/2 z-40 -translate-y-1/2"
+    >
+      <div className="flex w-14 flex-col items-center gap-1 rounded-2xl border border-slate-200/80 bg-white/95 p-1.5 shadow-luxe backdrop-blur-xl">
+        <div className="flex flex-col items-center gap-1">
+          <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-brand-600 text-[10px] font-bold text-white">
+            {items.length}/{COMPARE_MAX}
+          </span>
+          <button
+            type="button"
+            onClick={clearCompare}
+            aria-label={t("مسح الكل", "Clear all")}
+            className="grid size-7 shrink-0 place-items-center rounded-lg text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
+          >
+            <Trash2 className="size-3.5" />
+          </button>
+        </div>
 
-        <div className="flex flex-1 gap-2 overflow-x-auto">
-          {items.map((slug) => (
-            <span
-              key={slug}
-              className="shrink-0 rounded-full bg-sand-100 px-3 py-1 text-xs font-bold text-ink-800"
+        <div className="flex flex-col gap-1">
+          {items.map((entry) => (
+            <button
+              key={entry.slug}
+              type="button"
+              onClick={() => removeCompare(entry.slug)}
+              title={t("إزالة من المقارنة", "Remove from comparison")}
+              className="relative block size-8 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-200 transition hover:ring-2 hover:ring-rose-400"
             >
-              {slug}
-            </span>
+              {entry.image && (
+                <Image
+                  src={entry.image}
+                  alt={entry.name?.[locale] ?? entry.slug}
+                  fill
+                  sizes="32px"
+                  className="object-cover"
+                />
+              )}
+            </button>
           ))}
         </div>
 
         <Link
-          href={`/${locale}/compare?slugs=${items.join(",")}`}
-          className="shrink-0 rounded-full bg-brand-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-700"
-          aria-label={locale === "ar" ? "عرض المقارنة" : "View comparison"}
+          href={`/${locale}/compare`}
+          className="inline-flex w-full items-center justify-center rounded-xl bg-brand-600 px-1 py-1.5 text-[10px] font-bold text-white transition hover:bg-brand-700"
         >
-          {locale === "ar" ? "قارن" : "Compare"}
+          {t("قارن", "Compare")}
         </Link>
-
-        <button
-          type="button"
-          onClick={() => toggleCompare(items[items.length - 1])}
-          aria-label={locale === "ar" ? "حذف من المقارنة" : "Remove from comparison"}
-          className="grid size-8 shrink-0 place-items-center rounded-full bg-sand-100 text-slate-500 transition:hover:bg-slate-200"
-        >
-          <X className="size-4" />
-        </button>
-
-        {items.length < 4 && (
-          <button
-            type="button"
-            onClick={() => toggleCompare(items[items.length])}
-            aria-label={locale === "ar" ? "إضافة للمقارنة" : "Add to comparison"}
-            className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-100 px-2 py-1 text-xs font-bold text-brand-700 transition:hover:bg-brand-200"
-          >
-            <Eye className="size-3.5" />
-            +{4 - items.length}
-          </button>
-        )}
-
-        <button
-          type="button"
-          onClick={clearCompare}
-          aria-label="Clear all"
-          className="grid size-8 shrink-0 place-items-center rounded-full bg-sand-100 text-slate-500 transition:hover:bg-slate-200 ml-2"
-        >
-          <X className="size-4" />
-        </button>
       </div>
     </div>
   )

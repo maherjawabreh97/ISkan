@@ -244,6 +244,8 @@ export interface Dictionary {
     advertiserNameAr: string
     advertiserNameEn: string
     advertiserWhatsapp: string
+    advertiserPhone: string
+    advertiserEmail: string
     description: string
     descriptionPlaceholder: string
     photosSection: string

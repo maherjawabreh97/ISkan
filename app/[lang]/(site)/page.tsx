@@ -506,7 +506,7 @@ export default async function HomePage({
               {
                 href: `/${locale}/match`,
                 icon: "🎯",
-                t: locale === "ar" ? "لاقي عقارك" : "Find your match",
+                t: locale === "ar" ? "ابحث عن عقار يناسبك" : "Find a property that suits you",
                 d:
                   locale === "ar"
                     ? "ثلاثة أسئلة سريعة تقترح العقارات المناسبة لميزانيتك."

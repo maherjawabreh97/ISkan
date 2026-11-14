@@ -188,6 +188,8 @@ const en = {
     advertiserNameAr: "Advertiser name (Arabic)",
     advertiserNameEn: "Advertiser name (English)",
     advertiserWhatsapp: "Advertiser WhatsApp",
+    advertiserPhone: "Advertiser phone",
+    advertiserEmail: "Advertiser email",
     description: "Description",
     descriptionPlaceholder: "Mention the highlights, terms and availability…",
     photosSection: "Photos",

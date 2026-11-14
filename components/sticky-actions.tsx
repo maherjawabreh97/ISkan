@@ -36,7 +36,7 @@ export function StickyActions({
   const waNumber = (whatsapp ?? OFFICE_WHATSAPP).replace(/\D/g, "")
   const whatsappHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(
     locale === "ar"
-      ? `مرحباً إسكان! شفت الإعلان: ${name}. بدي أعرف تفاصيل أكثر.`
+      ? `مرحباً إسكان، شاهدت الإعلان: ${name}. وأرغب بمعرفة المزيد من التفاصيل.`
       : `Hello Iskan! I saw this listing: ${name}. I'd like more details.`,
   )}`
 

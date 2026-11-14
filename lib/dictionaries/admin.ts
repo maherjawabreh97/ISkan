@@ -134,6 +134,8 @@ export interface AdminDict {
     advertiserNameAr: string
     advertiserNameEn: string
     advertiserWhatsapp: string
+    advertiserPhone: string
+    advertiserEmail: string
     locationSection: string
     locationEnable: string
     locationHint: string
@@ -160,8 +162,6 @@ export interface AdminDict {
     featured: string
     nameAr: string
     nameEn: string
-    addressAr: string
-    addressEn: string
     descriptionAr: string
     descriptionEn: string
     requirementsAr: string
@@ -421,6 +421,8 @@ const ar: AdminDict = {
     advertiserNameAr: "اسم المعلن (عربي)",
     advertiserNameEn: "اسم المعلن (إنجليزي)",
     advertiserWhatsapp: "رقم واتساب المعلن",
+    advertiserPhone: "رقم هاتف المعلن",
+    advertiserEmail: "بريد المعلن",
     locationSection: "الموقع على الخريطة",
     locationEnable: "تحديد موقع العقار على الخريطة",
     locationHint: "اختياري — اضغط على الخريطة لتحديد الموقع بدقة، أو استخدم زر موقعي الحالي.",
@@ -445,10 +447,8 @@ const ar: AdminDict = {
     citizenshipEligible: "مناسب للجنسية",
     citizenshipHint: "يُستخدم عادةً لعقارات البيع فقط.",
     featured: "عقار مميّز",
-    nameAr: "الاسم (عربي)",
-    nameEn: "الاسم (إنجليزي)",
-    addressAr: "العنوان (عربي)",
-    addressEn: "العنوان (إنجليزي)",
+    nameAr: "العنوان (عربي)",
+    nameEn: "العنوان (إنجليزي)",
     descriptionAr: "الوصف (عربي)",
     descriptionEn: "الوصف (إنجليزي)",
     requirementsAr: "المتطلبات (عربي)",
@@ -563,14 +563,14 @@ const ar: AdminDict = {
     verificationOpen: "في كود تأكيد مفتوح",
     verificationSends: "رسالة التأكيد",
     revisionsTitle: "طلبات تعديل على إعلانات منشورة",
-    revisionsEmpty: "ما في طلبات تعديل مستنية.",
+    revisionsEmpty: "لا توجد طلبات تعديل معلّقة.",
     revisionsHint:
-      "الإعلان بضل ظاهر بحالته الحالية لحد ما تعتمد التعديل — ما منرح تنزل الإعلان وقت المراجعة.",
+      "يظل الإعلان ظاهراً بحالته الحالية حتى تعتمد التعديل — لن يُنزل الإعلان أثناء المراجعة.",
     approve: "اعتماد التعديل",
     reject: "رفض",
     proposed: "المقترح",
     reportsTitle: "بلاغات المستخدمين",
-    reportsEmpty: "ما في بلاغات مفتوحة.",
+    reportsEmpty: "لا توجد بلاغات مفتوحة.",
     reporter: "البلاغ عنه",
     reason: "السبب",
     details: "التفاصيل",
@@ -579,7 +579,7 @@ const ar: AdminDict = {
     listingsOwned: "إعلانات",
     erase: "حذف الحساب",
     eraseConfirm:
-      "حذف الحساب نهائياً؟ ما رح تنحذف إعلاناته المنشورة، بس بتنفك ارتباطها بالحساب.",
+      "حذف الحساب نهائياً؟ لن تُحذف إعلاناته المنشورة، لكن سيُلغى ارتباطها بالحساب.",
   },
   errors: {
     forbidden: "ليس لديك صلاحية للوصول إلى هذه الصفحة.",
@@ -729,6 +729,8 @@ const en: AdminDict = {
     advertiserNameAr: "Advertiser name (Arabic)",
     advertiserNameEn: "Advertiser name (English)",
     advertiserWhatsapp: "Advertiser WhatsApp",
+    advertiserPhone: "Advertiser phone",
+    advertiserEmail: "Advertiser email",
     locationSection: "Map location",
     locationEnable: "Pin this property on the map",
     locationHint:
@@ -754,10 +756,8 @@ const en: AdminDict = {
     citizenshipEligible: "Citizenship eligible",
     citizenshipHint: "Usually relevant for sale properties only.",
     featured: "Featured property",
-    nameAr: "Name (Arabic)",
-    nameEn: "Name (English)",
-    addressAr: "Address (Arabic)",
-    addressEn: "Address (English)",
+    nameAr: "Title (Arabic)",
+    nameEn: "Title (English)",
     descriptionAr: "Description (Arabic)",
     descriptionEn: "Description (English)",
     requirementsAr: "Requirements (Arabic)",

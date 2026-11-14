@@ -57,6 +57,8 @@ export interface Property {
   advertiser?: {
     name: LocalizedString
     whatsapp: string
+    phone?: string
+    email?: string
   }
   /** Optional exact position, picked on a map by the admin. */
   location?: {
@@ -66,10 +68,20 @@ export interface Property {
   }
 }
 
-/** Default advertiser for rent listings when no per-property advertiser is set. */
+/** Normalize a phone/WhatsApp input into an international digits-only form (TR). */
+export function normalizePhone(raw: string): string {
+  const digits = (raw || "").replace(/\D/g, "")
+  if (!digits) return ""
+  if (digits.startsWith("90")) return digits
+  if (digits.startsWith("0")) return "90" + digits.slice(1)
+  if (digits.length === 10) return "90" + digits
+  return digits
+}
 export const defaultRentAdvertiser = {
   name: { en: "Iskan Rentals", ar: "إسكان للإيجار" },
   whatsapp: "+905432466309",
+  phone: "+905432466309",
+  email: "Iskanrealestatetr@gmail.com",
 }
 
 const maveraImages = Array.from(
